@@ -85,7 +85,7 @@
 namespace shutterSystem
 {
 
-ZoomShutter::ZoomShutter(const int ID,const std::string& K,
+ZoomShutter::ZoomShutter(const size_t ID,const std::string& K,
 			 const std::string& ZK) :
   GeneralShutter(ID,K),zoomKey(ZK)
   /*!
