@@ -1,25 +1,4 @@
-/********************************************************************* 
-  CombLayer : MNCPX Input builder
- 
- * File:   Main/t1Upgrade.cxx
- *
- * Copyright (c) 2004-2014 by Stuart Ansell
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>. 
- *
- ****************************************************************************/
-#include <fstream>
+ #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <sstream>
@@ -43,64 +22,31 @@
 #include "OutputLog.h"
 #include "BaseVisit.h"
 #include "BaseModVisit.h"
-#include "surfRegister.h"
 #include "objectRegister.h"
 #include "InputControl.h"
 #include "MatrixBase.h"
 #include "Matrix.h"
-#include "Tensor.h"
 #include "Vec3D.h"
 #include "inputParam.h"
-#include "Triple.h"
-#include "NRange.h"
-#include "NList.h"
-#include "Tally.h"
-#include "TallyCreate.h"
-#include "Transform.h"
-#include "Quaternion.h"
-#include "localRotate.h"
-#include "masterRotate.h"
-#include "Surface.h"
-#include "Quadratic.h"
-#include "Plane.h"
-#include "Cylinder.h"
-#include "Line.h"
-#include "Rules.h"
 #include "surfIndex.h"
 #include "Code.h"
 #include "varList.h"
 #include "FuncDataBase.h"
-#include "HeadRule.h"
-#include "Object.h"
-#include "Qhull.h"
-#include "ModeCard.h"
-#include "PhysCard.h"
-#include "LSwitchCard.h"
-#include "PhysImp.h"
-#include "KGroup.h"
-#include "Source.h"
-#include "KCode.h"
-#include "PhysicsCards.h"
-#include "BasicWWE.h"
 #include "MainProcess.h"
 #include "SimProcess.h"
-#include "SurInter.h"
+#include "SimInput.h"
 #include "Simulation.h"
 #include "SimPHITS.h"
-#include "PointWeights.h"
-#include "ContainedComp.h"
-#include "ContainedGroup.h"
-#include "LinkUnit.h"
-#include "FixedComp.h"
-#include "LinearComp.h"
 #include "mainJobs.h"
 #include "Volumes.h"
 #include "DefPhysics.h"
 #include "variableSetup.h"
+#include "ImportControl.h"
+#include "SourceSelector.h"
+#include "TallySelector.h"
 #include "World.h"
 
-
-#include "makeT1Real.h"
+#include "makeSinbad.h"
 
 MTRand RNG(12345UL);
 
@@ -130,14 +76,14 @@ main(int argc,char* argv[])
   // PROCESS INPUT:
   InputControl::mainVector(argc,argv,Names);
   mainSystem::inputParam IParam;
-  createTS1Inputs(IParam);
+  createSinbadInputs(IParam);
 
   const int iteractive(IterVal.empty() ? 0 : 1);   
   Simulation* SimPtr=createSimulation(IParam,Names,Oname);
   if (!SimPtr) return -1;
 
   // The big variable setting
-  setVariable::TS1upgrade(SimPtr->getDataBase());
+  setVariable::SinbadVariables(SimPtr->getDataBase());
   InputModifications(SimPtr,IParam,Names);
   mainSystem::setVariables(*SimPtr,IParam,Names);
 
@@ -153,27 +99,26 @@ main(int argc,char* argv[])
 	      ELog::EM.setActive(4);    // write error only
 	      ELog::FM.setActive(4);    
 	      ELog::RN.setActive(0);    
-	      
-	      // if (iteractive)
-	      // 	mainSystem::incRunTimeVariable
-	      // 	  (SimPtr->getDataBase(),IterVal);
 	    }
 
 	  SimPtr->resetAll();
 
-	  ts1System::makeT1Upgrade T1Obj;
+	  sinbadSystem::makeSinbad SinbadObj("49");
 	  World::createOuterObjects(*SimPtr);
-	  T1Obj.build(SimPtr,IParam);
+
+	  SinbadObj.build(SimPtr,IParam);
 
 	  SDef::sourceSelection(*SimPtr,IParam);
 
 	  SimPtr->removeComplements();
+	  //  SimPtr->removeDeadCells();            // Generic
 	  SimPtr->removeDeadSurfaces(0);         
 
-	  SimPtr->removeOppositeSurfaces();
+	  //ALB SimPtr->removeOppositeSurfaces();
 
 	  ModelSupport::setDefaultPhysics(*SimPtr,IParam);
-
+	  const int renumCellWork=tallySelection(*SimPtr,IParam);
+	  SimPtr->masterRotation();
 	  if (createVTK(IParam,SimPtr,Oname))
 	    {
 	      delete SimPtr;
@@ -184,37 +129,15 @@ main(int argc,char* argv[])
 	    SimPtr->setENDF7();
 	  createMeshTally(IParam,SimPtr);
 
-	  // outer void to zero
-	  // RENUMBER:
-	  mainSystem::renumberCells(*SimPtr,IParam);
+	  SimProcess::importanceSim(*SimPtr,IParam);
+	  SimProcess::inputPatternSim(*SimPtr,IParam); // energy cut etc
 
-	  // WEIGHTS:
-	  if (IParam.flag("weight") || IParam.flag("tallyWeight"))
-	    SimPtr->calcAllVertex();
-
-	  if (IParam.flag("weight"))
-	    {
-	      Geometry::Vec3D AimPoint;
-	      if (IParam.flag("weightPt"))
-		AimPoint=IParam.getValue<Geometry::Vec3D>("weightPt");
-	      else 
-		tallySystem::getFarPoint(*SimPtr,AimPoint);
-
-	      WeightSystem::setPointWeights(*SimPtr,AimPoint,
-					  IParam.getValue<double>("weight"));
-	    }
-
-	  if (IParam.flag("tallyWeight"))
-	    {
-	      tallySystem::addPointPD(*SimPtr);
-	    }
+	  if (renumCellWork)
+	    tallyRenumberWork(*SimPtr,IParam);
+	  tallyModification(*SimPtr,IParam);
 
 	  if (IParam.flag("cinder"))
 	    SimPtr->setForCinder();
-
-	  // Cut energy tallies:
-	  if (IParam.flag("ECut"))
-	    SimPtr->setEnergy(IParam.getValue<double>("ECut"));
 
 	  // Ensure we done loop
 	  do

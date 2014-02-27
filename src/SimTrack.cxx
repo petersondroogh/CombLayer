@@ -39,6 +39,7 @@
 #include "OutputLog.h"
 #include "SimTrack.h"
 
+
 namespace ModelSupport
 {
 
@@ -122,7 +123,8 @@ SimTrack::curCell(const Simulation* SimPtr) const
   fcTYPE::key_type sInt=reinterpret_cast<fcTYPE::key_type>(SimPtr);
   fcTYPE::const_iterator mc=findCell.find(sInt);
   if (mc==findCell.end())
-    throw ColErr::InContainerError<fcTYPE::key_type>(sInt,"sInt");
+    throw ColErr::InContainerError<fcTYPE::key_type>
+      (sInt,"simluation<long Int>");
   return mc->second;
 }
 

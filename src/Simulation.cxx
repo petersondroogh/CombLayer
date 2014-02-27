@@ -154,6 +154,8 @@ Simulation::operator=(const Simulation& A)
     \return *this
   */
 {
+  ELog::RegMethod RegA("Simulation","operator=");
+
   if (this!=&A)
     {
       inputFile=A.inputFile;
@@ -190,11 +192,14 @@ Simulation::~Simulation()
     list
   */
 {
-  ModelSupport::SimTrack::Instance().clearSim(this);
+  ELog::RegMethod RegA("Simulation","delete operator");
+
   delete PhysPtr;
   delete OSMPtr;
   deleteObjects();
   deleteTally();
+  ModelSupport::SimTrack::Instance().clearSim(this);
+
 }
 
 void
@@ -222,6 +227,7 @@ Simulation::deleteObjects()
     Delete all the Objects 
   */
 {
+  ELog::RegMethod RegA("","del");
   ModelSupport::SimTrack::Instance().setCell(this,0);
   OTYPE::iterator mc;
   for(mc=OList.begin();mc!=OList.end();mc++)
