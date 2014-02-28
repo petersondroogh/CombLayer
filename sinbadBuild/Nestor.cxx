@@ -195,7 +195,7 @@ Nestor::populate(const FuncDataBase& Control)
 
   height=Control.EvalVar<double>(keyName+"Height");
   width=Control.EvalVar<double>(keyName+"Width");
-  radiusWindow=Control.EvalVar<double>(keyName+"AlWindowRadius");
+  radiusWindow=Control.EvalDefVar<double>(keyName+"AlWindowRadius",0.0);
 
   nSlab=Control.EvalVar<size_t>(keyName+"NSlab");
 

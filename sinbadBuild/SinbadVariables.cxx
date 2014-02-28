@@ -214,83 +214,46 @@ SinbadVariables(FuncDataBase& Control)
 
   // Fission Plate
 
-  // Control.addVariable("49FissionPlateOffSetX",94.0);  
- Control.addVariable("49FissionPlateOffSetX",2.5);  
+  Control.addVariable("49FissionPlateXStep",2.5);  
+  Control.addVariable("49FissionPlateYStep",-1.45);   
+  Control.addVariable("49FissionPlateZStep",-6.6);   
+  Control.addVariable("49FissionPlateHeight",102.1);  
+  Control.addVariable("49FissionPlateWidth",119.0);  
+  Control.addVariable("49FissionPlateNSlab",6);
 
-  Control.addVariable("49FissionPlateOffSetY",-1.45);   
- //Control.addVariable("49FissionPlateOffSetY",0.0);   
+  Control.addVariable("49FissionPlateThick0",1.2); 
+  Control.addVariable("49FissionPlateThick1",0.1); 
+  Control.addVariable("49FissionPlateThick2",0.1); 
+  Control.addVariable("49FissionPlateThick3",0.2); 
+  Control.addVariable("49FissionPlateThick4",0.1); 
+  Control.addVariable("49FissionPlateThick5",1.2); 
 
- // Control.addVariable("49FissionPlateOffSetZ",88.9);  
- Control.addVariable("49FissionPlateOffSetZ",-6.6);  
+  Control.addVariable("49FissionPlateMat0","sbadMildSteel");   
+  Control.addVariable("49FissionPlateMat1","Void");   
+  Control.addVariable("49FissionPlateMat2","sbadMildSteel");   
+  Control.addVariable("49FissionPlateMat3","Uranium");   
+  Control.addVariable("49FissionPlateMat4","Void");   
+  Control.addVariable("49FissionPlateMat5","sbadMildSteel");   
 
-
-  // Control.addVariable("49FissionPlateLengthSlab",180.0);   
-  // Control.addVariable("49FissionPlateHeightSlab",190.0);  
-  // Control.addVariable("49FissionPlateLength",180.0);   
-  // Control.addVariable("49FissionPlateHeight",190.0);  
-
- Control.addVariable("49FissionPlateLengthL",93.95);   
-  Control.addVariable("49FissionPlateLengthR",88.95);   
-
-  // correct but to avoid geom error it is the same as other slabs
-  // Control.addVariable("35FissionPlateLengthSlab",182.9);   
-   Control.addVariable("49FissionPlateHeightU",102.1);  
-   Control.addVariable("49FissionPlateHeightD",88.9);  
-
-  Control.addVariable("49FissionPlateTemperatureSlab",300.0); 
-
-  // Control.addVariable("49FissionPlateFrontSlabN",7);
-  // Control.addVariable("49FissionPlateWidthSlab0",1.2); 
-  // Control.addVariable("49FissionPlateMaterialSlab0","sbadMildSteel");   
-  // Control.addVariable("49FissionPlateWidthSlab1",0.1); 
-  // Control.addVariable("49FissionPlateMaterialSlab1","Void");  
-  // Control.addVariable("49FissionPlateWidthSlab2",0.1); 
-  // Control.addVariable("49FissionPlateMaterialSlab2","sbadMildSteel");  
-  // Control.addVariable("49FissionPlateWidthSlab3",0.1); 
-  // Control.addVariable("49FissionPlateMaterialSlab3",4);  
-  // Control.addVariable("49FissionPlateWidthSlab4",0.1); 
-  // Control.addVariable("49FissionPlateMaterialSlab4",4);  
-  // Control.addVariable("49FissionPlateWidthSlab5",0.1); 
-  // Control.addVariable("49FissionPlateMaterialSlab5","sbadMildSteel");  
-  // Control.addVariable("49FissionPlateWidthSlab6",1.2); 
-  // Control.addVariable("49FissionPlateMaterialSlab6","sbadMildSteel");  
-
-
-
-  Control.addVariable("49FissionPlateFrontSlabN",6);
-
-  Control.addVariable("49FissionPlateLengthSlab0",119.0);   
-  Control.addVariable("49FissionPlateHeightSlab0",142.0);  
-  Control.addVariable("49FissionPlateWidthSlab0",1.2); 
-  Control.addVariable("49FissionPlateMaterialSlab0","sbadMildSteel");   
-
-  Control.addVariable("49FissionPlateLengthSlab1",119.0);   
-  Control.addVariable("49FissionPlateHeightSlab1",142.0);  
-  Control.addVariable("49FissionPlateWidthSlab1",0.1); 
-  Control.addVariable("49FissionPlateMaterialSlab1","Void");  
-
-  Control.addVariable("49FissionPlateLengthSlab2",119.0);   
-  Control.addVariable("49FissionPlateHeightSlab2",142.0);  
-  Control.addVariable("49FissionPlateWidthSlab2",0.1); 
-  Control.addVariable("49FissionPlateMaterialSlab2","sbadMildSteel");
-
-  Control.addVariable("49FissionPlateLengthSlab3",104.5);   
-  Control.addVariable("49FissionPlateHeightSlab3",102.88);    
-  Control.addVariable("49FissionPlateWidthSlab3",0.2); 
-  Control.addVariable("49FissionPlateMaterialSlab3","Uranium");
+  Control.addVariable("49FissionPlateDivIndex0",3);   
+  Control.addVariable("49FissionPlateNXSpace",5);   
+  Control.addVariable("49FissionPlateNZSpace",5);   
   
-  // Control.addVariable("49FissionPlateWidthSlab4",0.1); 
-  // Control.addVariable("49FissionPlateMaterialSlab4",4);
- 
-  Control.addVariable("49FissionPlateLengthSlab4",119.0);   
-  Control.addVariable("49FissionPlateHeightSlab4",142.0);   
-  Control.addVariable("49FissionPlateWidthSlab4",0.1); 
-  Control.addVariable("49FissionPlateMaterialSlab4","sbadMildSteel");  
+  Control.addVariable("49FissionPlateXPt0",-30.0);   
+  Control.addVariable("49FissionPlateXPt1",-10.0);   
+  Control.addVariable("49FissionPlateXPt2",0.0);   
+  Control.addVariable("49FissionPlateXPt3",10.0);   
+  Control.addVariable("49FissionPlateXPt4",-30.0);
 
-  Control.addVariable("49FissionPlateLengthSlab5",119.0);   
-  Control.addVariable("49FissionPlateHeightSlab5",142.0);  
-  Control.addVariable("49FissionPlateWidthSlab5",1.2); 
-  Control.addVariable("49FissionPlateMaterialSlab5","sbadMildSteel");  
+  Control.addVariable("49FissionPlateZPt0",-30.0);   
+  Control.addVariable("49FissionPlateZPt1",-10.0);   
+  Control.addVariable("49FissionPlateZPt2",0.0);   
+  Control.addVariable("49FissionPlateZPt3",10.0);   
+  Control.addVariable("49FissionPlateZPt4",-30.0);
+
+  Control.addVariable("49FissionPlateMatL0","Uranium");   
+  Control.addVariable("49FissionPlateMatTempL0",300.0);   
+
 
 
   Control.addVariable("49Detector0Active1",1);   

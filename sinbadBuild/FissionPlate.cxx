@@ -121,12 +121,12 @@ FissionPlate::getXSurf(const long int Index) const
   */
 {
   ELog::RegMethod RegA("FissionPlate","getXSurf");
-  
-  const int SI(slabIndex+1000+static_cast<int>(Index)*10);
+
+  const int SI(slabIndex+1000+(static_cast<int>(Index)-1)*10);
   if (Index>0 && Index<static_cast<long int>(nXSpace)-1)
     return ModelSupport::getComposite(SMap,SI," 3 -13 ");
   if (Index==0)
-    return ModelSupport::getComposite(SMap,slabIndex,SI," 3 -3M ");
+    return ModelSupport::getComposite(SMap,slabIndex,SI," 3 -13M ");
   // right hand edge:
   return ModelSupport::getComposite(SMap,slabIndex,SI," 3M -4 ");
 }
@@ -142,11 +142,11 @@ FissionPlate::getZSurf(const long int Index) const
 {
   ELog::RegMethod RegA("FissionPlate","getZSurf");
   
-  const int SI(slabIndex+1000+static_cast<int>(Index)*10);
+  const int SI(slabIndex+1000+(static_cast<int>(Index)-1)*10);
   if (Index>0 && Index<static_cast<long int>(nZSpace)-1)
     return ModelSupport::getComposite(SMap,SI," 5 -15 ");
   if (Index==0)
-    return ModelSupport::getComposite(SMap,slabIndex,SI," 5 -5M ");
+    return ModelSupport::getComposite(SMap,slabIndex,SI," 5 -15M ");
   // top edge:
   return ModelSupport::getComposite(SMap,slabIndex,SI," 5M -6 ");
 }
@@ -246,28 +246,26 @@ FissionPlate::populate(const FuncDataBase& Control)
   // MASTER Loop for Mat/Mat Temp:
   //
   nDivide=DIndex.size();
-  matIndex=boost::multi_array<int,3>
-    (boost::extents
-     [static_cast<long int>(nDivide)]
-     [static_cast<long int>(nXSpace)]
-     [static_cast<long int>(nZSpace)]);
+  matIndex.resize(boost::extents
+		  [static_cast<long int>(nDivide)]
+		  [static_cast<long int>(nXSpace)]
+		  [static_cast<long int>(nZSpace)]);
+  matTemp.resize(boost::extents
+		 [static_cast<long int>(nDivide)]
+		 [static_cast<long int>(nXSpace)]
+		 [static_cast<long int>(nZSpace)]);
 
-  matTemp=boost::multi_array<double,3>
-    (boost::extents
-     [static_cast<long int>(nDivide)]
-     [static_cast<long int>(nXSpace)]
-     [static_cast<long int>(nZSpace)]);
-
-  for(long int dLayer=0;dLayer<static_cast<long int>(nDivide);dLayer++)
+  for(long int dLayer=0;dLayer < static_cast<long int>(nDivide);dLayer++)
     {
       for(long int i=0;i<static_cast<long int>(nXSpace);i++)
 	for(long int j=0;j<static_cast<long int>(nZSpace);j++)
 	  {
-	    matIndex[dLayer][i][j]=getXZ<int>(Control,"Mat",dLayer,i,j);
+	    const std::string matName=
+	      getXZ<std::string>(Control,"Mat",dLayer,i,j);
+	    matIndex[dLayer][i][j]=ModelSupport::EvalMatName(matName);
 	    matTemp[dLayer][i][j]=getXZ<double>(Control,"MatTemp",dLayer,i,j);
 	  }
     }
-
   return;
 }
 
@@ -285,9 +283,14 @@ FissionPlate::createSurfaces()
 
   int SI(slabIndex+1000);  
   std::vector<double>::const_iterator vc;
-  for(size_t i=0;i<XPts.size();i++)    // X/Z identical
+  for(size_t i=0;i<XPts.size();i++)    
     {
       ModelSupport::buildPlane(SMap,SI+3,Origin+X*XPts[i],X);
+      SI+=10;
+    }
+  SI=(slabIndex+1000);
+  for(size_t i=0;i<ZPts.size();i++)   
+    {
       ModelSupport::buildPlane(SMap,SI+5,Origin+Z*ZPts[i],Z);
       SI+=10;
     }
@@ -315,7 +318,7 @@ FissionPlate::createObjects(Simulation& System,
 
   for(size_t dLayer=0;dLayer<nDivide;dLayer++)
     {
-      const long int DI(static_cast<long int>(DIndex[dLayer]));
+      const long int DI(static_cast<long int>(dLayer));
 
       const int CIndex=getCellIndex(DIndex[dLayer]);
       System.removeCell(CIndex);

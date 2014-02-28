@@ -7,7 +7,7 @@ use strict;
 
 ## EXECUTABLES
 my @masterprog=("fullBuild","ess","muBeam","sinbad","bilbau",
-		"sns","t1Real","t1MarkII","testMain"); 
+		"sns","reactor","t1MarkII","testMain"); 
 
 
 my @noncompile=("bilbau","clayer","cuBuild","d4c","detectSim",
