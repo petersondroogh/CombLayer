@@ -18,7 +18,8 @@ class sbadDetector : public attachSystem::ContainedComp,
 {
  private:
   
-  const size_t detID;                ///< Index of Detector
+  const std::string baseName;     ///< Base name
+  const size_t detID;             ///< Index of Detector
   const int detIndex;             ///< Index of surface offset
   int cellIndex;                  ///< Cell index
 

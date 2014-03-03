@@ -16,7 +16,7 @@ namespace sinbadSystem
   Based on object from A. Milocco
 */
 
-class FissionPlate  : public Nestor
+class FissionPlate  : public LayerPlate
 {
  private:
 

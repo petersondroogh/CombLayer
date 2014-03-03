@@ -1,12 +1,12 @@
-#ifndef sinbadSystem_Nestor_h
-#define sinbadSystem_Nestor_h
+#ifndef sinbadSystem_LayerPlate_h
+#define sinbadSystem_LayerPlate_h
 
 class Simulation;
 
 namespace sinbadSystem
 {
 /*!
-  \class Nestor
+  \class LayerPlate
   \version 1.0
   \author A. Milocco
   \date Novenber 2013
@@ -14,7 +14,7 @@ namespace sinbadSystem
 \ build of shield array
 */
 
-class Nestor  : public attachSystem::ContainedComp,
+class LayerPlate  : public attachSystem::ContainedComp,
       public attachSystem::FixedComp
 {
  protected:
@@ -26,6 +26,10 @@ class Nestor  : public attachSystem::ContainedComp,
   double xStep;               ///< X Step distance 
   double yStep;               ///< Y Step distance
   double zStep;               ///< Z Step distance 
+  double xyAngle;             ///< xyAngle rotation
+  double zAngle;              ///< z angle rotation
+
+  bool frontShared;           ///< Front surface shared
 
   double width;               ///< Width of slab
   double height;              ///< Height of block
@@ -55,11 +59,11 @@ class Nestor  : public attachSystem::ContainedComp,
 
  public:
 
-  Nestor(const std::string&);
-  Nestor(const Nestor&);
-  Nestor& operator=(const Nestor&);
-  virtual Nestor* clone() const;
-  virtual ~Nestor();
+  LayerPlate(const std::string&);
+  LayerPlate(const LayerPlate&);
+  LayerPlate& operator=(const LayerPlate&);
+  virtual LayerPlate* clone() const;
+  virtual ~LayerPlate();
 
   virtual void createAll(Simulation&,
 			 const attachSystem::FixedComp&,

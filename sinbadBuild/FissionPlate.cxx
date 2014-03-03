@@ -47,14 +47,14 @@
 #include "FixedComp.h"
 #include "ContainedComp.h"
 
-#include "Nestor.h"
+#include "LayerPlate.h"
 #include "FissionPlate.h"
 
 namespace sinbadSystem
 {
 
 FissionPlate::FissionPlate(const std::string& Key) : 
-  Nestor(Key)
+  LayerPlate(Key)
   /*!
     Constructor BUT ALL variable are left unpopulated.
     \param Key :: Name for item in search
@@ -62,7 +62,7 @@ FissionPlate::FissionPlate(const std::string& Key) :
 {}
 
 FissionPlate::FissionPlate(const FissionPlate& A) : 
-  Nestor(A),
+  LayerPlate(A),
   DIndex(A.DIndex),nDivide(A.nDivide),nXSpace(A.nXSpace),
   nZSpace(A.nZSpace),XPts(A.XPts),ZPts(A.ZPts),
   matIndex(A.matIndex),matTemp(A.matTemp)
@@ -82,7 +82,7 @@ FissionPlate::operator=(const FissionPlate& A)
 {
   if (this!=&A)
     {
-      Nestor::operator=(A);
+      LayerPlate::operator=(A);
       DIndex=A.DIndex;
       nDivide=A.nDivide;
       nXSpace=A.nXSpace;
@@ -196,7 +196,7 @@ FissionPlate::populate(const FuncDataBase& Control)
 {
   ELog::RegMethod RegA("FissionPlate","populate");
 
-  Nestor::populate(Control);
+  LayerPlate::populate(Control);
 
   nDivide=0;
 
@@ -278,7 +278,7 @@ FissionPlate::createSurfaces()
   ELog::RegMethod RegA("FissionPlate","createSurface");
 
 
-  Nestor::createSurfaces();
+  LayerPlate::createSurfaces();
   if (!nDivide) return;
 
   int SI(slabIndex+1000);  
@@ -311,7 +311,7 @@ FissionPlate::createObjects(Simulation& System,
 {
   ELog::RegMethod RegA("FissionPlate","createObjects");
   
-  Nestor::createObjects(System,FC,sideIndex);
+  LayerPlate::createObjects(System,FC,sideIndex);
   // No work check
   if (nDivide==0)
     return;

@@ -47,38 +47,40 @@
 #include "FixedComp.h"
 #include "ContainedComp.h"
 
-#include "Nestor.h"
+#include "LayerPlate.h"
 
 namespace sinbadSystem
 {
 
-Nestor::Nestor(const std::string& Key) : 
+LayerPlate::LayerPlate(const std::string& Key) : 
   attachSystem::ContainedComp(),attachSystem::FixedComp(Key,6),
   slabIndex(ModelSupport::objectRegister::Instance().cell(Key)), 
-  cellIndex(slabIndex+1)
+  cellIndex(slabIndex+1),frontShared(1)
   /*!
     Constructor BUT ALL variable are left unpopulated.
     \param Key :: Name for item in search
   */
 {}
 
-Nestor::Nestor(const Nestor& A) : 
+LayerPlate::LayerPlate(const LayerPlate& A) : 
   attachSystem::ContainedComp(A),attachSystem::FixedComp(A),
   slabIndex(A.slabIndex),cellIndex(A.cellIndex),
-  xStep(A.xStep),yStep(A.yStep),zStep(A.zStep),width(A.width),
-  height(A.height),nSlab(A.nSlab),thick(A.thick),mat(A.mat),
-  matTemp(A.matTemp),radiusWindow(A.radiusWindow)
+  xStep(A.xStep),yStep(A.yStep),zStep(A.zStep),
+  xyAngle(A.xyAngle),zAngle(A.zAngle),frontShared(A.frontShared),
+  width(A.width),height(A.height),nSlab(A.nSlab),
+  thick(A.thick),mat(A.mat),matTemp(A.matTemp),
+  radiusWindow(A.radiusWindow)
   /*!
     Copy constructor
-    \param A :: Nestor to copy
+    \param A :: LayerPlate to copy
   */
 {}
 
-Nestor&
-Nestor::operator=(const Nestor& A)
+LayerPlate&
+LayerPlate::operator=(const LayerPlate& A)
   /*!
     Assignment operator
-    \param A :: Nestor to copy
+    \param A :: LayerPlate to copy
     \return *this
   */
 {
@@ -90,6 +92,9 @@ Nestor::operator=(const Nestor& A)
       xStep=A.xStep;
       yStep=A.yStep;
       zStep=A.zStep;
+      xyAngle=A.xyAngle;
+      zAngle=A.zAngle;
+      frontShared=A.frontShared;
       width=A.width;
       height=A.height;
       nSlab=A.nSlab;
@@ -101,31 +106,32 @@ Nestor::operator=(const Nestor& A)
   return *this;
 }
 
-Nestor*
-Nestor::clone() const
+
+LayerPlate*
+LayerPlate::clone() const
   /*!
     Virtual copy constructor
     \return new(this)
   */
 {
-  return new Nestor(*this);
+  return new LayerPlate(*this);
 }
 
-Nestor::~Nestor() 
+LayerPlate::~LayerPlate() 
   /*!
     Destructor
   */
 {}
 
 int
-Nestor::getCellIndex(const size_t lNumber) const
+LayerPlate::getCellIndex(const size_t lNumber) const
   /*!
     Determine the cell index based on lNumber
     \param lNumber :: Layer number
     \return cellNumber
   */
 {
-  ELog::RegMethod RegA("Nestor","getCellIndex");
+  ELog::RegMethod RegA("LayerPlate","getCellIndex");
 
   if (lNumber >= nSlab)
     throw ColErr::IndexError<size_t>
@@ -135,7 +141,7 @@ Nestor::getCellIndex(const size_t lNumber) const
 }
 
 std::string
-Nestor::getFrontSurface(const size_t layerIndex,
+LayerPlate::getFrontSurface(const size_t layerIndex,
 			const attachSystem::FixedComp& FC,
 			const long int sideIndex) const
   /*!
@@ -146,9 +152,9 @@ Nestor::getFrontSurface(const size_t layerIndex,
     \return surface string 
    */
 {
-  ELog::RegMethod RegA("Nestor","getFrontSurface");
+  ELog::RegMethod RegA("LayerPlate","getFrontSurface");
 
-  if (layerIndex>0 || !sideIndex)
+  if (layerIndex>0 || !sideIndex || !frontShared)
     {
       const int SI(slabIndex+static_cast<int>(layerIndex)*10);
       return ModelSupport::getComposite(SMap,SI," 1 ");
@@ -162,7 +168,7 @@ Nestor::getFrontSurface(const size_t layerIndex,
 }
 
 std::string
-Nestor::getBackSurface(const size_t layerIndex,
+LayerPlate::getBackSurface(const size_t layerIndex,
 		       const attachSystem::FixedComp&,
 		       const long int ) const
   /*!
@@ -173,7 +179,7 @@ Nestor::getBackSurface(const size_t layerIndex,
     \return surface string 
    */
 {
-  ELog::RegMethod RegA("Nestor","getBackSurface");
+  ELog::RegMethod RegA("LayerPlate","getBackSurface");
 
   const int SI(slabIndex+static_cast<int>(layerIndex)*10);
   return ModelSupport::getComposite(SMap,SI," -11 ");  
@@ -181,17 +187,19 @@ Nestor::getBackSurface(const size_t layerIndex,
 
 
 void
-Nestor::populate(const FuncDataBase& Control)
+LayerPlate::populate(const FuncDataBase& Control)
   /*!
     Populate all the variables
     \param Control :: Function data base to use
   */
 {
-  ELog::RegMethod RegA("Nestor","populate");
+  ELog::RegMethod RegA("LayerPlate","populate");
 
   xStep=Control.EvalVar<double>(keyName+"XStep");
   yStep=Control.EvalVar<double>(keyName+"YStep");
   zStep=Control.EvalVar<double>(keyName+"ZStep");
+  xyAngle=Control.EvalVar<double>(keyName+"XYAngle");
+  zAngle=Control.EvalVar<double>(keyName+"ZAngle");
 
   height=Control.EvalVar<double>(keyName+"Height");
   width=Control.EvalVar<double>(keyName+"Width");
@@ -219,7 +227,7 @@ Nestor::populate(const FuncDataBase& Control)
 
 
 void
-Nestor::createUnitVector(const attachSystem::FixedComp& FC,
+LayerPlate::createUnitVector(const attachSystem::FixedComp& FC,
 			 const long int sideIndex)
   /*!
     Create the unit vectors
@@ -227,21 +235,28 @@ Nestor::createUnitVector(const attachSystem::FixedComp& FC,
     \param sideIndex :: Connection point [signed for direction/ zero = centre]
   */
 {
-  ELog::RegMethod RegA("Nestor","createUnitVector");
+  ELog::RegMethod RegA("LayerPlate","createUnitVector");
 
   FixedComp::createUnitVector(FC,sideIndex);
   applyShift(xStep,yStep,zStep);
+  applyAngleRotate(xyAngle,zAngle);
+  if (fabs(yStep)>Geometry::zeroTol || 
+      fabs(xyAngle)>Geometry::zeroTol ||
+      fabs(zAngle)>Geometry::zeroTol)
+    frontShared=0;
+      
+      
   return;
 }
 
 
 void
-Nestor::createSurfaces()
+LayerPlate::createSurfaces()
   /*!
     Create All the surfaces
    */
 {
-  ELog::RegMethod RegA("Nestor","createSurface");
+  ELog::RegMethod RegA("LayerPlate","createSurface");
 
   // Special case for sideIndex 1
   //  
@@ -250,8 +265,9 @@ Nestor::createSurfaces()
   ModelSupport::buildPlane(SMap,slabIndex+4,Origin+X*(width/2.0),X);
   ModelSupport::buildPlane(SMap,slabIndex+5,Origin-Z*(height/2.0),Z);
   ModelSupport::buildPlane(SMap,slabIndex+6,Origin+Z*(height/2.0),Z);
-  // radius of widnow
-  ModelSupport::buildCylinder(SMap,slabIndex+7,Origin,Y,radiusWindow);
+
+  if (radiusWindow>Geometry::zeroTol)
+    ModelSupport::buildCylinder(SMap,slabIndex+7,Origin,Y,radiusWindow);
 
   
   int SI(slabIndex);
@@ -259,15 +275,22 @@ Nestor::createSurfaces()
   for(size_t i=0;i<=nSlab;i++)
    {
      ModelSupport::buildPlane(SMap,SI+1,Origin+Y*totalThick,Y);
-     totalThick+=thick[i];
-     SI+=10;
+     if (i!=nSlab)
+       {
+	 totalThick+=thick[i];
+	 SI+=10;
+       }
    }
+
+  FixedComp::setConnect(1,Origin+Y*totalThick,Y);
+  FixedComp::setLinkSurf(1,SMap.realSurf(SI+1));
+
   return;
 }
 
 
 void
-Nestor::createObjects(Simulation& System,
+LayerPlate::createObjects(Simulation& System,
 		      const attachSystem::FixedComp& FC,
 		      const long int sideIndex)
   /*!
@@ -277,7 +300,7 @@ Nestor::createObjects(Simulation& System,
     \param sideIndex :: SIGNED sideIndex offset by 1 [0 base origin]
   */
 {
-  ELog::RegMethod RegA("Nestor","createObjects");
+  ELog::RegMethod RegA("LayerPlate","createObjects");
   if (mat.empty()) return;
 
   const std::string FSurf=getFrontSurface(0,FC,sideIndex);
@@ -301,17 +324,31 @@ Nestor::createObjects(Simulation& System,
 }
 
 void
-Nestor::createLinks()
+LayerPlate::createLinks()
   /*!
     Create all the links
   */
 {
+  ELog::RegMethod RegA("LayerPlate","createLinks");
+
+  FixedComp::setConnect(0,Origin,-Y);
+  FixedComp::setLinkSurf(0,SMap.realSurf(slabIndex+1));
+  // Attacth 1 : provided by createSurfaces
+
+  FixedComp::setConnect(2,Origin-X*(width/2.0),-X);
+  FixedComp::setLinkSurf(2,-SMap.realSurf(slabIndex+3));
+  FixedComp::setConnect(3,Origin+X*(width/2.0),-X);
+  FixedComp::setLinkSurf(3,SMap.realSurf(slabIndex+4));
+  FixedComp::setConnect(4,Origin-Z*(height/2.0),-Z);
+  FixedComp::setLinkSurf(4,-SMap.realSurf(slabIndex+5));
+  FixedComp::setConnect(5,Origin+Z*(height/2.0),Z);
+  FixedComp::setLinkSurf(5,SMap.realSurf(slabIndex+6));
 
   return;
 }
 
 void
-Nestor::createAll(Simulation& System,
+LayerPlate::createAll(Simulation& System,
 		  const attachSystem::FixedComp& FC,
 		  const long int sideIndex)
   /*!
@@ -321,7 +358,7 @@ Nestor::createAll(Simulation& System,
     \param sideIndex :: Direction/type of side index [0 central origin]
   */
 {
-  ELog::RegMethod RegA("Nestor","createAll");
+  ELog::RegMethod RegA("LayerPlate","createAll");
 
   populate(System.getDataBase());
   createUnitVector(FC,sideIndex);
