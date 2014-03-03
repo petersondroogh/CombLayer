@@ -71,29 +71,29 @@ SinbadVariables(FuncDataBase& Control)
   Control.addVariable("49DetectorYStep9",32.94);  
   Control.addVariable("49DetectorYStep10",34.44);  
 
-  //Nestor side
+  //Primary side
 
-  Control.addVariable("NestorXStep",91.45);  
-  Control.addVariable("NestorYStep",-1.45);  
-  Control.addVariable("NestorZStep",95.5);  
+  Control.addVariable("PrimaryXStep",91.45);  
+  Control.addVariable("PrimaryYStep",-1.45);  
+  Control.addVariable("PrimaryZStep",95.5);  
 
-  Control.addVariable("NestorWidth",182.9);   
-  Control.addVariable("NestorHeight",191.0);  
+  Control.addVariable("PrimaryWidth",182.9);   
+  Control.addVariable("PrimaryHeight",191.0);  
 
-  Control.addVariable("NestorNSlab",6);
-  Control.addVariable("NestorThick0",0.70); 
-  Control.addVariable("NestorMat0","Void"); 
-  Control.addVariable("NestorThick1",15.0); 
-  Control.addVariable("NestorMat1","Graphite"); 
-  Control.addVariable("NestorThick2",0.60); 
-  Control.addVariable("NestorMat2","Void");  
-  Control.addVariable("NestorThick3",5.08); 
-  Control.addVariable("NestorMat3","sbadLead");  
-  Control.addVariable("NestorThick4",0.70); 
-  Control.addVariable("NestorMat4","Void");  
-  Control.addVariable("NestorThick5",3.18); 
-  Control.addVariable("NestorMat5","sbadMildSteel");  
-  Control.addVariable("NestorAlWindowRadius",56.06); 
+  Control.addVariable("PrimaryNSlab",6);
+  Control.addVariable("PrimaryThick0",0.70); 
+  Control.addVariable("PrimaryMat0","Void"); 
+  Control.addVariable("PrimaryThick1",15.0); 
+  Control.addVariable("PrimaryMat1","Graphite"); 
+  Control.addVariable("PrimaryThick2",0.60); 
+  Control.addVariable("PrimaryMat2","Void");  
+  Control.addVariable("PrimaryThick3",5.08); 
+  Control.addVariable("PrimaryMat3","sbadLead");  
+  Control.addVariable("PrimaryThick4",0.70); 
+  Control.addVariable("PrimaryMat4","Void");  
+  Control.addVariable("PrimaryThick5",3.18); 
+  Control.addVariable("PrimaryMat5","sbadMildSteel");  
+  Control.addVariable("PrimaryAlWindowRadius",56.06); 
 
 
 
@@ -187,29 +187,29 @@ SinbadVariables(FuncDataBase& Control)
   Control.addVariable("49ShieldWidthSlab25",15.24); 
   Control.addVariable("49ShieldMaterialSlab25","Concrete");  
 
-  //Nestor side
+  //Primary side
 
-  Control.addVariable("NestorXStep",91.45);  
-  Control.addVariable("NestorYStep",-1.45);  
-  Control.addVariable("NestorZStep",95.5);  
+  Control.addVariable("PrimaryXStep",91.45);  
+  Control.addVariable("PrimaryYStep",-1.45);  
+  Control.addVariable("PrimaryZStep",95.5);  
 
-  Control.addVariable("NestorWidth",182.9);   
-  Control.addVariable("NestorHeight",191.0);  
+  Control.addVariable("PrimaryWidth",182.9);   
+  Control.addVariable("PrimaryHeight",191.0);  
 
-  Control.addVariable("NestorNSlab",6);
-  Control.addVariable("NestorThick0",0.70); 
-  Control.addVariable("NestorMat0","Void"); 
-  Control.addVariable("NestorThick1",15.0); 
-  Control.addVariable("NestorMat1","Graphite"); 
-  Control.addVariable("NestorThick2",0.60); 
-  Control.addVariable("NestorMat2","Void");  
-  Control.addVariable("NestorThick3",5.08); 
-  Control.addVariable("NestorMat3","sbadLead");  
-  Control.addVariable("NestorThick4",0.70); 
-  Control.addVariable("NestorMat4","Void");  
-  Control.addVariable("NestorThick5",3.18); 
-  Control.addVariable("NestorMat5","sbadMildSteel");  
-  Control.addVariable("NestorAlWindowRadius",56.06); 
+  Control.addVariable("PrimaryNSlab",6);
+  Control.addVariable("PrimaryThick0",0.70); 
+  Control.addVariable("PrimaryMat0","Void"); 
+  Control.addVariable("PrimaryThick1",15.0); 
+  Control.addVariable("PrimaryMat1","Graphite"); 
+  Control.addVariable("PrimaryThick2",0.60); 
+  Control.addVariable("PrimaryMat2","Void");  
+  Control.addVariable("PrimaryThick3",5.08); 
+  Control.addVariable("PrimaryMat3","sbadLead");  
+  Control.addVariable("PrimaryThick4",0.70); 
+  Control.addVariable("PrimaryMat4","Void");  
+  Control.addVariable("PrimaryThick5",3.18); 
+  Control.addVariable("PrimaryMat5","sbadMildSteel");  
+  Control.addVariable("PrimaryAlWindowRadius",56.06); 
 
 
   // Fission Plate
@@ -481,27 +481,27 @@ SinbadVariables(FuncDataBase& Control)
   Control.addVariable("75ShieldMaterialSlab8","Uranium");  
 
 
-  //Nestor side
+  //Primary side
 
-  Control.addVariable("75NestorSideOffSetX",90.0);  
-  Control.addVariable("75NestorSideOffSetY",0.0);  
-  Control.addVariable("75NestorSideOffSetZ",90.0);  
+  Control.addVariable("75PrimarySideOffSetX",90.0);  
+  Control.addVariable("75PrimarySideOffSetY",0.0);  
+  Control.addVariable("75PrimarySideOffSetZ",90.0);  
 
-  Control.addVariable("75NestorSideLengthSlab",180.);   
-  Control.addVariable("75NestorSideHeightSlab",180.);  
-  Control.addVariable("75NestorSideTemperatureSlab",300.0); 
+  Control.addVariable("75PrimarySideLengthSlab",180.);   
+  Control.addVariable("75PrimarySideHeightSlab",180.);  
+  Control.addVariable("75PrimarySideTemperatureSlab",300.0); 
 
-  Control.addVariable("75NestorSideFrontSlabN",2);
+  Control.addVariable("75PrimarySideFrontSlabN",2);
   // attenzione: definire spessori a partire da origine verso l'indietro
-  Control.addVariable("75NestorSideWidthSlab0",2.0); 
-  Control.addVariable("75NestorSideMaterialSlab0","Void"); 
-  Control.addVariable("75NestorSideWidthSlab1",15.0); 
-  Control.addVariable("75NestorSideMaterialSlab1",1); 
+  Control.addVariable("75PrimarySideWidthSlab0",2.0); 
+  Control.addVariable("75PrimarySideMaterialSlab0","Void"); 
+  Control.addVariable("75PrimarySideWidthSlab1",15.0); 
+  Control.addVariable("75PrimarySideMaterialSlab1",1); 
 
 
   // Sinbad Cave
 
-  //Nestor side
+  //Primary side
 
   Control.addVariable("75CaveOffSetX",0.0);  
   Control.addVariable("75CaveOffSetY",0.0);  
