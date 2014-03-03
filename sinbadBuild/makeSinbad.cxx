@@ -54,7 +54,7 @@
 
 #include "Cave.h"
 #include "sinbadShield.h"
-#include "Nestor.h"
+#include "LayerPlate.h"
 #include "FissionPlate.h"
 #include "sbadDetector.h"
 #include "sinbadSource.h"
@@ -65,11 +65,10 @@
 namespace sinbadSystem 
 {
 
-  
 makeSinbad::makeSinbad(const std::string& pKey) :
   preName(pKey),
-  Primary(new Nestor("Nestor")),
-  Secondary(new Nestor(pKey+"Shield")),
+  Primary(new LayerPlate("FPlate")),
+  Secondary(new LayerPlate(pKey+"Shield")),
   fPlate(new FissionPlate(pKey+"FissionPlate"))
   /*!
     Constructor
@@ -82,15 +81,70 @@ makeSinbad::makeSinbad(const std::string& pKey) :
   OR.addObject(fPlate);
 } 
 
+makeSinbad::makeSinbad(const makeSinbad& A) : 
+  preName(A.preName),Surround(A.Surround),Primary(A.Primary),
+  Secondary(A.Secondary),fPlate(A.fPlate),detArray(A.detArray)
+  /*!
+    Copy constructor
+    \param A :: makeSinbad to copy
+  */
+{}
+
+makeSinbad&
+makeSinbad::operator=(const makeSinbad& A)
+  /*!
+    Assignment operator
+    \param A :: makeSinbad to copy
+    \return *this
+  */
+{
+  if (this!=&A)
+    {
+      Surround=A.Surround;
+      Primary=A.Primary;
+      Secondary=A.Secondary;
+      fPlate=A.fPlate;
+      detArray=A.detArray;
+    }
+  return *this;
+}
+
+
 makeSinbad::~makeSinbad()
   /*!
     Destructor
   */
 {}
 
+void
+makeSinbad::buildDetectors(Simulation& System)
+  /*!
+    Build detector units
+    \param System :: Simulation
+  */
+{
+  ELog::RegMethod RegA("makeSinbad","buildDetectors");
+
+  const FuncDataBase& Control=System.getDataBase();
+  
+  const std::string detKey=preName+"Detector";
+  const size_t detN=Control.EvalVar<size_t>(detKey+"PositionN");
+  for(size_t i=0;i<detN;i++)
+    { 
+      boost::shared_ptr<sbadDetector> detPtr
+	(new sbadDetector(preName+"Detector",i));
+      
+      detArray.push_back(detPtr);   
+      detArray.back()->createAll(System,*Secondary);
+      if (detArray.back()->isActive())
+	attachSystem::addToInsertSurfCtrl(System,*Secondary,*detPtr);
+    }
+  return;
+}
+
 void 
 makeSinbad::build(Simulation* SimPtr,
-           const mainSystem::inputParam& IParam)
+		  const mainSystem::inputParam& IParam)
   /*!
     Carry out the full build
     \param SimPtr :: Simulation system
@@ -103,36 +157,22 @@ makeSinbad::build(Simulation* SimPtr,
   ModelSupport::addSinbadMaterial();
   int voidCell(74123);
   
-  
-  //  Primary->addInsertCell(voidCell) ;
-  //  Primary->createAll(*SimPtr,World::masterOrigin(),0);
+  Primary->addInsertCell(voidCell) ;
+  Primary->createAll(*SimPtr,World::masterOrigin(),0);
 
-
-  // 75 fission plate inside void cell of nestor side
   fPlate->addInsertCell(voidCell);
-  fPlate->createAll(*SimPtr,World::masterOrigin(),0);
+  fPlate->createAll(*SimPtr,*Primary,2);
+
+  Secondary->addInsertCell(voidCell) ;
+  Secondary->createAll(*SimPtr,*fPlate,2);
+
+  buildDetectors(*SimPtr);
 
   //  ShieldArray->addInsertCell(voidCell) ;
   //  ShieldArray->createAll(*SimPtr,World::masterOrigin());
 
   ELog::EM<<"WARNING EARLY RETURN"<<ELog::endCrit;
    
-  return;
-
-  const FuncDataBase& Control=SimPtr->getDataBase();
-  
-  const std::string detKey=preName+"Detector";
-  const size_t detN=Control.EvalVar<size_t>(detKey+"PositionN");
-  for(size_t i=0;i<detN;i++)
-    { 
-      boost::shared_ptr<sbadDetector> detPtr
-	(new sbadDetector(preName+"Detector",i));
-      
-      detArray.push_back(detPtr);   
-      detArray.back()->createAll(*SimPtr,*Secondary);
-      if (detArray.back()->isActive())
-	attachSystem::addToInsertSurfCtrl(*SimPtr,*Secondary,*detPtr);
-    }
   return;
 }
   

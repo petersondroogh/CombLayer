@@ -424,14 +424,19 @@ createSinbadSource(const FuncDataBase& Control,Source& sourceCard)
   ELog::RegMethod RegA("SourceCreate","createSource");
  
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-     
-  // This data is horizontal : X [cm] and vertical : Z[cm]
-  const double XPts[]= 
-    { -49.75, -46.58, -43.32, -37.08, -33.92, -27.58, -11.75, -2.25,  7.25, 16.75, 32.58, 38.92, 42.08, 48.42, 51.58, 54.75 };
-  const double ZPts[]= 
-    {   51.44, 47.63, 40.64, 35.56, 31.75, 19.69, 15.88, 5.29, -5.29, -15.88,-19.69,-31.75, -35.56,-40.64, -47.63, -51.44};
 
-  const size_t NX(15),NZ(16);
+  const size_t NX(15),NZ(15);     
+  // This data is horizontal : X [cm] and vertical : Z[cm]
+  const double XPts[NX+1]= 
+    { -49.75, -46.58, -43.32, -37.08, -33.92, 
+      -27.58, -11.75, -2.25,  7.25, 16.75, 
+      32.58, 38.92, 42.08, 48.42, 51.58, 54.75 };
+  const double ZPts[NZ+1]= 
+    {   51.44, 47.63, 40.64, 35.56, 31.75, 
+	19.69, 15.88, 5.29, -5.29, -15.88,
+	-19.69,-31.75, -35.56, -40.64, -47.63, 
+	-51.44};
+
   const double sinbadSource[NZ][NX] = {
     {    0  ,    0  ,    0  ,    0  ,    0  ,    0  , 2.935, 2.967, 2.861,   0  ,   0  ,   0  ,   0  ,   0  ,   0   },
     {    0  ,    0  ,    0  ,    0  ,    0  ,  3.222, 3.529, 3.567, 3.446, 3.023,   0  ,   0  ,   0  ,   0  ,   0   },
@@ -448,7 +453,6 @@ createSinbadSource(const FuncDataBase& Control,Source& sourceCard)
     {    0  ,    0  ,    0  ,    0  ,  2.888,  3.359, 3.739, 3.841, 3.742, 3.244, 2.545,   0  ,   0  ,   0  ,   0   },
     {    0  ,    0  ,    0  ,    0  ,    0  ,  2.681, 3.036, 3.124, 3.032, 2.607,   0  ,   0  ,   0  ,   0  ,   0   },
     {    0  ,    0  ,    0  ,    0  ,    0  ,    0  , 2.399, 2.470, 2.382,   0  ,   0  ,   0  ,   0  ,   0  ,   0   },
-    {    0  ,    0  ,    0  ,    0  ,    0  ,    0  , 0    , 0    , 0    ,   0  ,   0  ,   0  ,   0  ,   0  ,   0   } 
  } ; 
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -458,6 +462,7 @@ createSinbadSource(const FuncDataBase& Control,Source& sourceCard)
   SDef::SrcData D1(1);
   SDef::SrcInfo SI1;
   SDef::SrcProb SP1;
+
   SI1.addData(-0.05);
   SI1.addData(0.15);
   SP1.addData(0);
@@ -466,21 +471,21 @@ createSinbadSource(const FuncDataBase& Control,Source& sourceCard)
   D1.addUnit(SP1);  
   sourceCard.setData("y",D1);  
 
+  // CARD 2 :: Z in reverse order !!
   SDef::SrcData D2(2);
   SDef::SrcInfo SI2;
   SDef::SrcProb SP2;
 
-
+  // Check 
   SP2.addData(0.0);  
-  for(size_t iz=0;iz<NZ;iz++) 
+  SI2.addData(ZPts[NZ]);   
+  for(size_t iz=NZ;iz--;)   
     {
+      SI2.addData(ZPts[iz]);   
       double hVal(0.0);
-      SI2.addData(sinbadSource[NZ-iz][0]);   // missing [0][0] deliberately
-
       for(size_t ix=1;ix<NX;ix++)
-	hVal+=sinbadSource[iz+1][ix]*(XPts[ix]-XPts[ix-1]);
-      if(iz!=NZ-1)
-	SP2.addData(hVal);   
+	hVal+=sinbadSource[iz][ix-1]*(XPts[ix+1]-XPts[ix]);
+      SP2.addData(hVal);   
    }  
 
   D2.addUnit(SI2);  

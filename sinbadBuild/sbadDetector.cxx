@@ -55,8 +55,9 @@ namespace sinbadSystem
 
 sbadDetector::sbadDetector(const std::string& Key,const size_t ID) :
   attachSystem::ContainedComp(),
-  attachSystem::FixedComp(StrFunc::makeString(Key),0),detID(ID),
-  detIndex(ModelSupport::objectRegister::Instance().cell(Key)),
+  attachSystem::FixedComp(Key+StrFunc::makeString(ID),0),
+  baseName(Key),detID(ID),
+  detIndex(ModelSupport::objectRegister::Instance().cell(keyName)),
   cellIndex(detIndex+1),active(0)
   /*!
     Constructor BUT ALL variable are left unpopulated.
@@ -64,12 +65,23 @@ sbadDetector::sbadDetector(const std::string& Key,const size_t ID) :
   */
 {}
 
+sbadDetector*
+sbadDetector::clone() const
+  /*!
+    Clone funciton
+    \return new(this)
+  */
+{
+  return new sbadDetector(*this);
+}
+
 sbadDetector::sbadDetector(const sbadDetector& A) : 
   attachSystem::ContainedComp(A),attachSystem::FixedComp(A),
-  detID(A.detID),detIndex(A.detIndex),cellIndex(A.cellIndex),
-  active(A.active),xStep(A.xStep),yStep(A.yStep),
-  zStep(A.zStep),xyAngle(A.xyAngle),zAngle(A.zAngle),
-  radius(A.radius),length(A.length),mat(A.mat)
+  baseName(A.baseName),detID(A.detID),detIndex(A.detIndex),
+  cellIndex(A.cellIndex),active(A.active),xStep(A.xStep),
+  yStep(A.yStep),zStep(A.zStep),xyAngle(A.xyAngle),
+  zAngle(A.zAngle),radius(A.radius),length(A.length),
+  mat(A.mat)
   /*!
     Copy constructor
     \param A :: sbadDetector to copy
@@ -102,15 +114,6 @@ sbadDetector::operator=(const sbadDetector& A)
   return *this;
 }
 
-sbadDetector*
-sbadDetector::clone() const
-  /*!
-    Clone funciton
-    \return new(this)
-  */
-{
-  return new sbadDetector(*this);
-}
 
 sbadDetector::~sbadDetector() 
   /*!
@@ -127,20 +130,18 @@ sbadDetector::populate(const FuncDataBase& Control)
 {
   ELog::RegMethod RegA("sbadDetector","populate");
 
+  active=Control.EvalVar<int>(keyName+"Active");
+  xStep=Control.EvalPair<double>(keyName,baseName,"XStep");
+  yStep=Control.EvalPair<double>(keyName,baseName,"YStep");
+  zStep=Control.EvalPair<double>(keyName,baseName,"ZStep");
+  xyAngle=Control.EvalPair<double>(keyName,baseName,"XYAngle");
+  zAngle=Control.EvalPair<double>(keyName,baseName,"ZAngle");
 
-  const std::string detName(keyName+StrFunc::makeString(detID));
+  radius=Control.EvalPair<double>(keyName,baseName,"Radius");
+  length=Control.EvalPair<double>(keyName,baseName,"Length");
+  radius=Control.EvalPair<double>(keyName,baseName,"Radius");
 
-  active=Control.EvalVar<int>(detName+"Active");
-  xStep=Control.EvalPair<double>(detName,keyName,"XStep");
-  yStep=Control.EvalPair<double>(detName,keyName,"YStep");
-  zStep=Control.EvalPair<double>(detName,keyName,"ZStep");
-  xyAngle=Control.EvalPair<double>(detName,keyName,"XYAngle");
-  zAngle=Control.EvalPair<double>(detName,keyName,"ZAngle");
-
-  radius=Control.EvalPair<double>(detName,keyName,"Radius");
-  length=Control.EvalPair<double>(detName,keyName,"Lenght");
-  mat=ModelSupport::EvalMat<int>(Control,detName+"Mat",keyName+"Mat");
-  radius=Control.EvalVar<double>(detName+"Radius");
+  mat=ModelSupport::EvalMat<int>(Control,keyName+"Mat",baseName+"Mat");
 
   return;
 }
