@@ -140,17 +140,24 @@ collInsertBlock::populate(const Simulation& System,
   const char* sndKey[Size]=
     {"FStep","CentX","CentZ","Len","Width","Height","Mat","HGap","VGap"};
   
+  const collInsertBlock* blkPtr=
+    dynamic_cast<const collInsertBlock*>(sndBase);
+
+
   for(size_t i=0;i<Size;i++)
     {
       const std::string KN=keyName+
 	StrFunc::makeString(blockIndex+1)+sndKey[i];
       if (Control.hasVariable(KN))
 	setVar(Control,i,KN);
+      else if (blkPtr)
+	setVar(i,blkPtr->getVar(i));
       else if (sndBase && i<=commonSize)
 	setVar(i,sndBase->getVar(i));	
       else 
 	{
 	  ELog::EM<<"sndBase == "<<sndBase->typeName()<<ELog::endCrit;
+	  ELog::EM<<"i == "<<i<<ELog::endCrit;
 	  ELog::EM<<"Failed to connect on first component:"
 		  <<KN<<ELog::endErr;
 	}

@@ -6,7 +6,7 @@ use getMake;
 use strict;
 
 ## EXECUTABLES
-my @masterprog=("fullBuild","ess","muBeam","sinbad","bilbau",
+my @masterprog=("fullBuild","ess","muBeam","sinbad","t1Real",
 		"sns","reactor","t1MarkII","testMain"); 
 
 

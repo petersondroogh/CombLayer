@@ -147,7 +147,7 @@ collInsertCyl::populate(const Simulation& System,
       else if (cylPtr)
 	setVar(i,cylPtr->getVar(i));	
       else if (sndBase && i<=commonSize)
-	setVar(i,sndBase->getVar(i));	
+	  setVar(i,sndBase->getVar(i));	
       else
 	{
 	  ELog::EM<<"sndBase == "<<
