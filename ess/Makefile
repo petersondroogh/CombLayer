@@ -1,4 +1,4 @@
-#CL=../
+CL=../
 
 INC=-I$(CL)/supportInc -I$(CL)/tallyInc -I$(CL)/logInc -I$(CL)/include -I$(CL)/inputInc -I$(CL)/globalInc -I$(CL)/monteInc -I$(CL)/processInc -I$(CL)/worldInc -I$(CL)/attachCompInc -I$(CL)/funcBaseInc -I$(CL)/geomInc -I$(CL)/buildInc -I$(CL)/chipInc -I$(CL)/physicsInc -I$(CL)/constructInc -I$(CL)/mersenneInc -I$(CL)/weightsInc -I$(CL)/sourceInc -I./src
 
