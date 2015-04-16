@@ -1,6 +1,8 @@
 #ifndef essSystem_BeRef_h
 #define essSystem_BeRef_h
 
+#include "CellMap.h"
+
 class Simulation;
 
 namespace essSystem
@@ -14,7 +16,7 @@ namespace essSystem
     \brief Reflector object 
   */
 
-  class BeRef : public attachSystem::ContainedComp, public attachSystem::FixedComp
+  class BeRef : public attachSystem::ContainedComp, public attachSystem::FixedComp, public attachSystem::CellMap
     {
     private:
 

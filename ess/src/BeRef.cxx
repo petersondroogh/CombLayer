@@ -66,6 +66,7 @@
 #include "LinkUnit.h"
 #include "FixedComp.h"
 #include "ContainedComp.h"
+#include "CellMap.h"
 #include "BeRef.h"
 
 
@@ -74,6 +75,7 @@ namespace essSystem
 
 BeRef::BeRef(const std::string& Key) :
   attachSystem::ContainedComp(),attachSystem::FixedComp(Key,6),
+  attachSystem::CellMap(),
   refIndex(ModelSupport::objectRegister::Instance().cell(Key)),
   cellIndex(refIndex+1)
   /*!
@@ -224,6 +226,8 @@ BeRef::createObjects(Simulation& System, const std::string &TargetSurfBoundary)
   
   // [2:1381] There are 2 types of cells: object cells (Monte Carlo objects = MC qhulls)
 
+  //  ELog::EM<<"SET CELL : "<<keyName<<ELog::endCrit;
+
   if (cellCooling) {
     int ringIndex(refIndex);
     //    int layerIndex(refIndex);
@@ -253,14 +257,17 @@ BeRef::createObjects(Simulation& System, const std::string &TargetSurfBoundary)
       ringIndex += 10;
     }
   } else { // no cell cooling
-    if (width<0) {
+    if (width<Geometry::zeroTol) {
       Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 ");
       System.addCell(MonteCarlo::Qhull(cellIndex++,refMat,0.0,Out));
-    } else if (width>0) {
+    } else {
       Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 111 -112 ");
       System.addCell(MonteCarlo::Qhull(cellIndex++,refMat,0.0,Out));
       Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 -121 ");
       System.addCell(MonteCarlo::Qhull(cellIndex++, refMat1, 0.0, Out));
+
+
+
       Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 122 ");
       System.addCell(MonteCarlo::Qhull(cellIndex++, refMat1, 0.0, Out));
 
@@ -275,6 +282,8 @@ BeRef::createObjects(Simulation& System, const std::string &TargetSurfBoundary)
   Out=ModelSupport::getComposite(SMap,refIndex," -17 -16 (7:6:-15)"); // " -17 5 -16 (7:-5:6)"
   Out += TargetSurfBoundary;
   System.addCell(MonteCarlo::Qhull(cellIndex++,wallMat,0.0,Out));
+
+  setCell(keyName+"Ring",1,cellIndex-1); // for TSupply Pipe - name this cell in order to remove it in makeESS: TopSupplyPipe->addInsertCell
 
   // clearance
   Out=ModelSupport::getComposite(SMap,refIndex," -18 -19 (17:16)");

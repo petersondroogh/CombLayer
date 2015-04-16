@@ -29,6 +29,7 @@
 namespace constructSystem
 {
   class ModBase;
+  class SupplyPipe;
 }
 
 namespace essSystem
@@ -41,7 +42,6 @@ namespace essSystem
   class essMod;
   class ConicModerator;
   class CylModerator;
-  class SupplyPipe;
   class WaterPipe;
   class CylPreMod;
   class BulkModule;
@@ -93,10 +93,10 @@ class makeESS
   std::shared_ptr<essSystem::FlightLine> LowAFL;  ///< Lower Mode FL
   std::shared_ptr<essSystem::FlightLine> LowBFL;  ///< Lower Mode FL
   std::shared_ptr<CylPreMod> LowPre;  ///< Upper Mod (Pre)
-  std::shared_ptr<SupplyPipe> LowSupplyPipe;  ///< Lower supply 
-  std::shared_ptr<SupplyPipe> LowReturnPipe;  ///< Lower return
-  std::shared_ptr<SupplyPipe> TopSupplyPipe;  ///< Upper supply 
-  std::shared_ptr<SupplyPipe> TopReturnPipe;  ///< Upper return 
+  std::shared_ptr<constructSystem::SupplyPipe> LowSupplyPipe;  ///< Lower supply 
+  std::shared_ptr<constructSystem::SupplyPipe> LowReturnPipe;  ///< Lower return
+  std::shared_ptr<constructSystem::SupplyPipe> TopSupplyPipe;  ///< Upper supply 
+  std::shared_ptr<constructSystem::SupplyPipe> TopReturnPipe;  ///< Upper return 
 
   std::shared_ptr<WaterPipe> TopPreAPipe;  ///< Upper pipe A of water premoderator
   std::shared_ptr<WaterPipe> TopPreBPipe;  ///< Upper pipe B of water premoderator

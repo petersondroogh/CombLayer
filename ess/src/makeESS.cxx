@@ -97,10 +97,10 @@ namespace essSystem
     LowAFL(new essSystem::FlightLine("LowAFlight")),
     LowBFL(new essSystem::FlightLine("LowBFlight")),
     LowPre(new CylPreMod("LowPre")),
-    LowSupplyPipe(new SupplyPipe("LSupply")),
-    LowReturnPipe(new SupplyPipe("LReturn")),
-    TopSupplyPipe(new SupplyPipe("TSupply")),
-    TopReturnPipe(new SupplyPipe("TReturn")),
+    LowSupplyPipe(new constructSystem::SupplyPipe("LSupply")),
+    LowReturnPipe(new constructSystem::SupplyPipe("LReturn")),
+    TopSupplyPipe(new constructSystem::SupplyPipe("TSupply")),
+    TopReturnPipe(new constructSystem::SupplyPipe("TReturn")),
 
     TopMod(new essSystem::CylModerator("TopMod")), // (new constructSytem::CylMod("TopMod")),
     TopAFL(new essSystem::FlightLine("TopAFlight")),
@@ -538,7 +538,10 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
       TopButterfly->createAll(*SimPtr, *TopReflector, *Bulk, -3);
 
       if (TopButterfly->getPipeType()==1) { // horisontal
+	TopSupplyPipe->addInsertCell(4, TopWaterDisc->getCell("TopWaterDiscRing",1)); // 4=pipe layer number, 1=ring number
+	TopSupplyPipe->addInsertCell(4, TopButterfly->getCell("TopButterflyWall", 1));
 	TopSupplyPipe->createAll(*SimPtr,*TopButterfly,0,2,1, *TopButterfly, 1);
+	
 	TopReturnPipe->createAll(*SimPtr,*TopButterfly,0,1,0, *TopButterfly, 0);
       } else if (TopButterfly->getPipeType()==2) { // vertical
 	TopSupplyPipe->createAll(*SimPtr,*TopButterfly,0,6,5, *TopButterfly, 5);

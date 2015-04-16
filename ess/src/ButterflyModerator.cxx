@@ -792,7 +792,7 @@ namespace essSystem
 
 	//	Out = ModelSupport::getComposite(SMap, SI, SI-50, " -65 6M (66 -67 78 -79 -80 81 ");
 	Out = ModelSupport::getComposite(SMap, SI, SI-50, " -65 75 (66 -67 ");
-	std::cout << Out << std::endl;
+	//	std::cout << Out << std::endl;
 
 	if (TopPreType==1) 
 	  Out += ModelSupport::getComposite(SMap, SI-50, SI, " 78M -79M -80M 81M 3 -4 : -9 : -19 : -29 : -39)"); // 
@@ -809,6 +809,12 @@ namespace essSystem
 	TopPreOuterSurface = Out;
 	Out += HR.display();
 	System.addCell(MonteCarlo::Qhull(cellIndex++, PreWallMat, PreWallTemp, Out));
+	setCell(keyName+"Wall",1,cellIndex-1); // for TSupply Pipe - name this cell in order to remove it in makeESS: TopSupplyPipe->addInsertCell
+	ELog::EM << "SET CELL : " << keyName << "Wall " << cellIndex-1 << " " << TopPreType << ELog::endCrit;
+
+	//setCell(keyName+"Ring",1,cellIndex-1); // for TSupply Pipe - name this cell in order to remove it in makeESS: TopSupplyPipe->addInsertCell
+
+
 	HR.procString(TopPreOuterSurface);
 	HR.makeComplement();
 	TopPreOuterSurface = HR.display();
