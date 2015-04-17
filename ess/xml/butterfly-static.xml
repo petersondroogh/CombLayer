@@ -150,11 +150,11 @@ c supply/return pipes
     <variable name="LowButterflyXYangle" type="double">0</variable>
     <variable name="LowButterflyNLayers" type="double">4</variable>
     <variable name="LowButterflyHeight" type="double">6</variable>
-    <variable name="LowButterflyLength" type="double">32</variable>
+    <variable name="LowButterflyLength" type="double">28.4</variable>
     <variable name="LowButterflyWidth" type="double">21.16</variable>
     <variable name="LowButterflyWingLength" type="double">13.77</variable>
     <variable name="LowButterflyWingCurvatureSideRadius" type="double">2.506</variable>
-    <variable name="LowButterflyWingCurvatureCentralRadius" type="double">1</variable>
+    <variable name="LowButterflyWingCurvatureCentralRadius" type="double">5</variable>
     <variable name="LowButterflyModMat" type="int">1001</variable>
     <variable name="LowButterflyTemp" type="double">20</variable>
     <variable name="LowButterflyMat1" type="int">13001</variable>
@@ -203,11 +203,11 @@ c supply/return pipes
     <variable name="TopButterflyXYangle" type="double">0</variable>
     <variable name="TopButterflyNLayers" type="double">4</variable>
     <variable name="TopButterflyHeight" type="double">3</variable>
-    <variable name="TopButterflyLength" type="double">32</variable>
+    <variable name="TopButterflyLength" type="double">28.4</variable>
     <variable name="TopButterflyWidth" type="double">21.16</variable>
     <variable name="TopButterflyWingLength" type="double">13.77</variable>
     <variable name="TopButterflyWingCurvatureSideRadius" type="double">2.506</variable>
-    <variable name="TopButterflyWingCurvatureCentralRadius" type="double">1</variable>
+    <variable name="TopButterflyWingCurvatureCentralRadius" type="double">5</variable>
     <variable name="TopButterflyModMat" type="int">1001</variable>
     <variable name="TopButterflyTemp" type="double">20</variable>
     <variable name="TopButterflyMat1" type="int">13001</variable>
@@ -273,10 +273,10 @@ c supply/return pipes
 
     <variable name="F5Length" type="double">700</variable>
     <variable name="F5XB" type="double">10.58</variable>
-    <variable name="F5YB" type="double">-16</variable>
+    <variable name="F5YB" type="double">-14.2</variable>
     <variable name="F5ZB" type="double">12.7</variable>
     <variable name="F5XC" type="double">10.0570655435141</variable>
-    <variable name="F5YC" type="double">-10.0228318114495</variable>
+    <variable name="F5YC" type="double">-8.22283181144953</variable>
     <variable name="F5ZC" type="double">12.7</variable>
     <variable name="F5ZG" type="double">9.7</variable>
     <variable name="F5X" type="double">996.194698091746</variable>
@@ -285,10 +285,10 @@ c supply/return pipes
 
     <variable name="F15Length" type="double">700</variable>
     <variable name="F15XB" type="double">5.04491470389141</variable>
-    <variable name="F15YB" type="double">16</variable>
+    <variable name="F15YB" type="double">14.2</variable>
     <variable name="F15ZB" type="double">12.7</variable>
     <variable name="F15XC" type="double">9.95982696962536</variable>
-    <variable name="F15YC" type="double">12.5585413818937</variable>
+    <variable name="F15YC" type="double">10.7585413818937</variable>
     <variable name="F15ZC" type="double">12.7</variable>
     <variable name="F15ZG" type="double">9.7</variable>
     <variable name="F15X" type="double">573.576436351046</variable>
@@ -297,10 +297,10 @@ c supply/return pipes
 
     <variable name="F25Length" type="double">700</variable>
     <variable name="F25XB" type="double">5.04491470389141</variable>
-    <variable name="F25YB" type="double">-16</variable>
+    <variable name="F25YB" type="double">-14.2</variable>
     <variable name="F25ZB" type="double">12.7</variable>
     <variable name="F25XC" type="double">9.64118136260528</variable>
-    <variable name="F25YC" type="double">-12.1432743418808</variable>
+    <variable name="F25YC" type="double">-10.3432743418808</variable>
     <variable name="F25ZC" type="double">12.7</variable>
     <variable name="F25ZG" type="double">9.7</variable>
     <variable name="F25X" type="double">642.787609686539</variable>
@@ -321,10 +321,10 @@ c supply/return pipes
 
     <variable name="F45Length" type="double">700</variable>
     <variable name="F45XB" type="double">18.6122146769794</variable>
-    <variable name="F45YB" type="double">13.494</variable>
+    <variable name="F45YB" type="double">11.694</variable>
     <variable name="F45ZB" type="double">12.7</variable>
     <variable name="F45XC" type="double">14.0159480182655</variable>
-    <variable name="F45YC" type="double">13.494</variable>
+    <variable name="F45YC" type="double">11.694</variable>
     <variable name="F45ZC" type="double">12.7</variable>
     <variable name="F45ZG" type="double">9.7</variable>
     <variable name="F45X" type="double">642.787609686539</variable>
@@ -333,10 +333,10 @@ c supply/return pipes
 
     <variable name="F55Length" type="double">700</variable>
     <variable name="F55XB" type="double">18.8377643133716</variable>
-    <variable name="F55YB" type="double">-13.494</variable>
+    <variable name="F55YB" type="double">-11.694</variable>
     <variable name="F55ZB" type="double">12.7</variable>
     <variable name="F55XC" type="double">13.9228520476376</variable>
-    <variable name="F55YC" type="double">-13.494</variable>
+    <variable name="F55YC" type="double">-11.694</variable>
     <variable name="F55ZC" type="double">12.7</variable>
     <variable name="F55ZG" type="double">9.7</variable>
     <variable name="F55X" type="double">573.576436351046</variable>
@@ -844,9 +844,9 @@ c supply/return pipes
     <variable name="TSupplyMat5" type="std::string">13000</variable>
     <variable name="TSupplyNRadii" type="int">6</variable>
     <variable name="TSupplyNSegIn" type="int">1</variable>
-    <variable name="TSupplyPPt0" type="Geometry::Vec3D">0 -0.5 0</variable>
-    <variable name="TSupplyPPt1" type="Geometry::Vec3D">0 19 0</variable>
-    <variable name="TSupplyPPt2" type="Geometry::Vec3D">0 19 25</variable>
+    <variable name="TSupplyPPt0" type="Geometry::Vec3D">0 -1 0</variable>
+    <variable name="TSupplyPPt1" type="Geometry::Vec3D">0 14 0</variable>
+    <variable name="TSupplyPPt2" type="Geometry::Vec3D">0 14 25</variable>
     <variable name="TSupplyRadius0" type="double">0.8</variable>
     <variable name="TSupplyRadius1" type="double">1.1</variable>
     <variable name="TSupplyRadius2" type="double">1.5</variable>
