@@ -542,6 +542,8 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
 	TopSupplyPipe->addInsertCell(4, TopButterfly->getCell("TopButterflyWall", 1));
 	TopSupplyPipe->createAll(*SimPtr,*TopButterfly,0,2,1, *TopButterfly, 1);
 	
+	TopReturnPipe->addInsertCell(4, TopWaterDisc->getCell("TopWaterDiscRing",1)); // 4=pipe layer number, 1=ring number
+	TopReturnPipe->addInsertCell(4, TopButterfly->getCell("TopButterflyWall", 1));
 	TopReturnPipe->createAll(*SimPtr,*TopButterfly,0,1,0, *TopButterfly, 0);
       } else if (TopButterfly->getPipeType()==2) { // vertical
 	TopSupplyPipe->createAll(*SimPtr,*TopButterfly,0,6,5, *TopButterfly, 5);
