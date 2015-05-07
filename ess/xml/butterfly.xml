@@ -463,7 +463,7 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="F5Y" type="double">F5y</variable>
     <variable name="F5Z" type="double">F5z</variable>
 
-    <variable name="F15Length" type="double">700</variable>
+    <variable name="F15Length" type="double">980</variable>
     <variable name="F15XB" type="double">F15xb</variable>
     <variable name="F15YB" type="double">F15yb</variable>
     <variable name="F15ZB" type="double">F5zb</variable>

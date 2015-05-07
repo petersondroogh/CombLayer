@@ -294,6 +294,7 @@ EssVariables(FuncDataBase& Control)
   Control.addVariable("LowWaterDiscRefMat",    1011); 
   Control.addVariable("LowWaterDiscRefMat1",    0); 
   Control.addVariable("LowWaterDiscWidth",    -1); 
+  Control.addVariable("LowWaterDiscLength",    -1); 
   Control.addVariable("LowWaterDiscWallMat",   13000);
   Control.addVariable("LowWaterDiscVoidThick", 0.0);
 
@@ -308,8 +309,11 @@ EssVariables(FuncDataBase& Control)
   Control.addVariable("TopWaterDiscRefMat",    1011); 
   Control.addVariable("TopWaterDiscRefMat1",    0); 
   Control.addVariable("TopWaterDiscWidth",    -1); 
+  Control.addVariable("TopWaterDiscLength",    -1); 
   Control.addVariable("TopWaterDiscWallMat",   13000);
   Control.addVariable("TopWaterDiscVoidThick", 0.0);
+  Control.addVariable("TopWaterDiscVoidCellMat", 0);
+  Control.addVariable("TopWaterDiscVoidCellHeight", 0.0);
 
   // onion cooling
   Control.addVariable("OnionXStep", 0);

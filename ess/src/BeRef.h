@@ -51,6 +51,9 @@ namespace essSystem
       double length;                  ///< reflector length in the case we wish to limit it by planes. Has no effect if < 0
       int    refMat1;                 ///< material inside the reflector cylinder and outside width/length - e.g. in the area complementing refMat. used only if width>0 || length>0
 
+      double VoidCellHeight;             ///< height (thickness) of void layer between target and reflector (WaterDisc)
+      int VoidCellMat;             ///< material of (void by default) layer between target and reflector (WaterDisc)
+
       // Functions:
 
       void populate(const FuncDataBase&);

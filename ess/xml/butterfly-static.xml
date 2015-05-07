@@ -1079,7 +1079,7 @@ c supply/return pipes
     <variable name="WheelWMat" type="std::string">74000</variable>
     <variable name="WheelXStep" type="double">0</variable>
     <variable name="WheelXYangle" type="double">0</variable>
-    <variable name="WheelYStep" type="double">111</variable>
+    <variable name="WheelYStep" type="double">113</variable>
     <variable name="WheelZStep" type="double">0</variable>
     <variable name="WheelZangle" type="double">0</variable>
     <variable name="OnionModGateLength1" type="int">2</variable>

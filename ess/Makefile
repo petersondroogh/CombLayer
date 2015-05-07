@@ -1,4 +1,5 @@
 #CL=../
+CL=$(CLSYS)
 
 INC=-I$(CL)/supportInc -I$(CL)/tallyInc -I$(CL)/logInc -I$(CL)/include -I$(CL)/inputInc -I$(CL)/globalInc -I$(CL)/monteInc -I$(CL)/processInc -I$(CL)/worldInc -I$(CL)/attachCompInc -I$(CL)/funcBaseInc -I$(CL)/geomInc -I$(CL)/buildInc -I$(CL)/chipInc -I$(CL)/physicsInc -I$(CL)/constructInc -I$(CL)/mersenneInc -I$(CL)/weightsInc -I$(CL)/sourceInc -I./src
 
@@ -40,7 +41,7 @@ cleandata:
 
 
 butterfly: ess
-	./ess -r -lowMod Butterfly -topMod Butterfly -nF5 6  -topModCooling None  -lowWaterDisc On -topWaterDisc On  -topPreCooling None -x flat.xml -T surface object Bulk 3 -TMod energy 1 "5E-9 20E-9"  butterfly
+	./ess -r -lowMod Butterfly -topMod Butterfly -nF5 6  -topModCooling None  -lowWaterDisc On -topWaterDisc On  -topPreCooling None -x xml/butterfly-static.xml -T surface object Bulk 3 -TMod energy 1 "5E-9 20E-9"  butterfly
 	sed -i -n '/^sdef/{p;:a;N;/prdmp/!ba;s/.*\n/si1 h -7 7\nsp1 0 1\nsi2 h -1.6 1.6\nsp2 0 1\n/};p' butterfly1.x
 	sed -i -e "s/fq1   f d u s m e t c/*c1:n 90 5 0/" butterfly1.x
 #	remove-weights butterfly1.x
@@ -53,6 +54,14 @@ butterfly-pstudy: ess
 	sed -i -n '/^sdef/{p;:a;N;/prdmp/!ba;s/.*\n/si1 h -7 7\nsp1 0 1\nsi2 h -1.6 1.6\nsp2 0 1\n/};p' butterfly1.x
 	sed -i -e "s/fq1   f d u s m e t c/*c1:n 90 5 0/" butterfly1.x
 #	remove-weights butterfly1.x
+
+butterflyVTK: ess
+	pstudy-nowrap -i xml/butterfly.xml -setup
+	/bin/mv -f case001/inp flat.xml  && rm -fr case001
+	@rm -f flat1.x
+	./ess -r -lowMod Butterfly -topMod Butterfly -nF5 6  -topModCooling None  -lowWaterDisc On -topWaterDisc On  -topPreCooling None -x flat.xml  -vtk -M -MA -15 -20 -15 -MB 15 20 -7  -MN 500 500 160 butterfly.vtk && du -hsc butterfly.vtk && /bin/mv -f butterfly.vtk ~/Downloads/butterfly.vtk
+
+
 
 
 

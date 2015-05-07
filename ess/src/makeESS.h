@@ -133,6 +133,8 @@ class makeESS
   //  void buildConicMod(Simulation&);
   void makeTarget(Simulation&,const mainSystem::inputParam&);
 
+  void dumpMaterialMesh(Simulation& SimPtr, const Geometry::Vec3D &startPt, const Geometry::Vec3D &endPt, const size_t nX, const size_t nY, const size_t nZ, const char *fname);
+
  public:
   
   makeESS();

@@ -145,6 +145,9 @@ main(int argc,char* argv[])
 
   IParam.regFlag("rotate", "rotate");
   IParam.setDesc("rotate","Rotate to the Alan's coordinate system");
+
+  IParam.regFlag("matmesh", "matmesh");
+  IParam.setDesc("matmesh","Generate material mesh (to compare two geometries)");
   
   const int iteractive(IterVal.empty() ? 0 : 1);   
   Simulation* SimPtr=createSimulation(IParam,Names,Oname);
