@@ -54,7 +54,7 @@ namespace essSystem
   class RecModerator;
   class ButterflyModerator;
   class ThermalModerator;
-  class OnionCooling;
+  class FlowGuide;
   class Grooving;
 
   /*!
@@ -80,9 +80,9 @@ class makeESS
   std::shared_ptr<ButterflyModerator> LowButterfly;  ///< low Butterfly Modeartor
   std::shared_ptr<ButterflyModerator> TopButterfly;  ///< top Butterfly Modeartor
 
-  std::shared_ptr<OnionCooling> OnionModPipe;   ///< onion-like cooling pipes for the flat moderator
-  std::shared_ptr<OnionCooling> OnionPrePipe;   ///< onion-like cooling pipes for Premoderator
-  std::shared_ptr<OnionCooling> LowModOnion;   ///< onion-like cooling pipes for the low moderator
+  std::shared_ptr<FlowGuide> OnionModPipe;   ///< onion-like cooling pipes for the flat moderator
+  std::shared_ptr<FlowGuide> OnionPrePipe;   ///< onion-like cooling pipes for Premoderator
+  std::shared_ptr<FlowGuide> LowModOnion;   ///< onion-like cooling pipes for the low moderator
   std::shared_ptr<essSystem::ProtonVoid> PBeam;  ///< Proton Void
   std::shared_ptr<essSystem::ProtonBeamWindow> PBW;  ///< Proton beam window
 

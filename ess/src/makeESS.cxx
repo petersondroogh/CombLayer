@@ -61,7 +61,7 @@
 #include "BeRef.h"
 #include "CylinderCell.h"
 #include "Grooving.h"
-#include "OnionCooling.h"
+#include "FlowGuide.h"
 #include "F5Calc.h"
 #include "F5Collimator.h"
 #include "CellMap.h"
@@ -96,8 +96,8 @@ namespace essSystem
   makeESS::makeESS() :
     TopReflector(new BeRef("TopBeRef")),
     LowReflector(new BeRef("LowBeRef")),
-    OnionModPipe(new OnionCooling("OnionMod")),
-    OnionPrePipe(new OnionCooling("OnionPre")),
+    OnionModPipe(new FlowGuide("OnionMod")),
+    OnionPrePipe(new FlowGuide("OnionPre")),
     PBeam(new essSystem::ProtonVoid("ProtonBeam")),
     PBW(new essSystem::ProtonBeamWindow("ProtonBeamWindow")),
     LowAFL(new essSystem::FlightLine("LowAFlight")),
@@ -534,7 +534,7 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
       LowButterfly->createAll(*SimPtr, *LowReflector, *Bulk, -3); // -3
 
       if ((LowButterfly->IsTopPreCoolingChannels()) && (LowButterfly->getTopPreType()==2)) { // cooling channels implemented for TopPreType==2 only
-	LowModOnion = std::shared_ptr<OnionCooling>(new OnionCooling("LowModOnion"));
+	LowModOnion = std::shared_ptr<FlowGuide>(new FlowGuide("LowModOnion"));
 	OR.addObject(LowModOnion);
 	LowModOnion->setUpperSurface(*LowButterfly, -9);
 	LowModOnion->setBottomSurface(*LowButterfly, 5);

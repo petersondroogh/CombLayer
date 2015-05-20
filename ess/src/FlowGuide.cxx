@@ -45,13 +45,13 @@
 #include "LinkUnit.h"
 #include "FixedComp.h"
 #include "ContainedComp.h"
-#include "OnionCooling.h"
+#include "FlowGuide.h"
 
 
 namespace essSystem
 {
 
-OnionCooling::OnionCooling(const std::string& Key) :
+FlowGuide::FlowGuide(const std::string& Key) :
   attachSystem::ContainedComp(),attachSystem::FixedComp(Key,3),
   onionIndex(ModelSupport::objectRegister::Instance().cell(Key)),
   cellIndex(onionIndex+1)
@@ -63,20 +63,20 @@ OnionCooling::OnionCooling(const std::string& Key) :
 }
 
 
-OnionCooling::~OnionCooling()
+FlowGuide::~FlowGuide()
   /*!
     Destructor
    */
 {}
 
 void
-OnionCooling::populate(const FuncDataBase& Control)
+FlowGuide::populate(const FuncDataBase& Control)
   /*!
     Populate all the variables
     \param Control :: Variable table to use
   */
 {
-  ELog::RegMethod RegA("OnionCooling","populate");
+  ELog::RegMethod RegA("FlowGuide","populate");
 
 
     // Master values
@@ -101,13 +101,13 @@ OnionCooling::populate(const FuncDataBase& Control)
 }
 
 void
-OnionCooling::createUnitVector(const attachSystem::FixedComp& FC)
+FlowGuide::createUnitVector(const attachSystem::FixedComp& FC)
   /*!
     Create the unit vectors
     \param FC :: Fixed Component
   */
 {
-  ELog::RegMethod RegA("OnionCooling","createUnitVector");
+  ELog::RegMethod RegA("FlowGuide","createUnitVector");
   attachSystem::FixedComp::createUnitVector(FC);
   applyShift(xStep,yStep,zStep);
   applyAngleRotate(xyAngle,zAngle);
@@ -116,12 +116,12 @@ OnionCooling::createUnitVector(const attachSystem::FixedComp& FC)
 }
 
 void
-OnionCooling::createSurfaces()
+FlowGuide::createSurfaces()
   /*!
     Create Surfaces for the Be
   */
 {
-  ELog::RegMethod RegA("OnionCooling","createSurfaces");
+  ELog::RegMethod RegA("FlowGuide","createSurfaces");
       
   //  ModelSupport::buildPlane(SMap,onionIndex+1, Origin-Z*(height/2.0), Z);
   //  ModelSupport::buildPlane(SMap,onionIndex+2, Origin+Z*(height/2.0), Z);
@@ -150,13 +150,13 @@ OnionCooling::createSurfaces()
 }
 
 
-void OnionCooling::createObjects(Simulation& System)
+void FlowGuide::createObjects(Simulation& System)
   /*!
     Create the onion piping
     \param System :: Simulation to add results
    */
 {
-  ELog::RegMethod RegA("OnionCooling","createObjects");
+  ELog::RegMethod RegA("FlowGuide","createObjects");
 
   std::string Out;
   
@@ -183,7 +183,7 @@ void OnionCooling::createObjects(Simulation& System)
 
 }
 
-void OnionCooling::addToInsertChain(attachSystem::ContainedComp& CC) const
+void FlowGuide::addToInsertChain(attachSystem::ContainedComp& CC) const
   /*!
     Adds this object to the containedComp to be inserted.
     \param CC :: ContainedComp object to add to this
@@ -197,7 +197,7 @@ void OnionCooling::addToInsertChain(attachSystem::ContainedComp& CC) const
 
 
 void
-OnionCooling::createLinks()
+FlowGuide::createLinks()
   /*!
     Creates a full attachment set
     Links/directions going outwards true.
@@ -208,7 +208,7 @@ OnionCooling::createLinks()
 }
 
 
-void OnionCooling::createAll(Simulation& System, const attachSystem::FixedComp& FC)
+void FlowGuide::createAll(Simulation& System, const attachSystem::FixedComp& FC)
 {
   /*!
     Extrenal build everything
@@ -220,7 +220,7 @@ void OnionCooling::createAll(Simulation& System, const attachSystem::FixedComp& 
     which does not mean that the reflector and the object have the same origin, that's just the way you start and then you add the next bits.
    */
 
-  ELog::RegMethod RegA("OnionCooling","createAll");
+  ELog::RegMethod RegA("FlowGuide","createAll");
   // the order matters:
 
   populate(System.getDataBase()); // populate variables
@@ -233,13 +233,13 @@ void OnionCooling::createAll(Simulation& System, const attachSystem::FixedComp& 
   return;
 }
 
-  void OnionCooling::setBottomSurface(const attachSystem::FixedComp& FC, const long int link)
+  void FlowGuide::setBottomSurface(const attachSystem::FixedComp& FC, const long int link)
   {
     BottomSurface  = (link<0) ? FC.getLinkComplement(static_cast<size_t>(-(link+1))) : FC.getLinkString(static_cast<size_t>(link));
     std::cout << "BottomSurface: " << BottomSurface << std::endl;
   }
 
-  void OnionCooling::setUpperSurface(const attachSystem::FixedComp& FC, const long int link)
+  void FlowGuide::setUpperSurface(const attachSystem::FixedComp& FC, const long int link)
   {
     UpperSurface  = (link<0) ? FC.getLinkComplement(static_cast<size_t>(-(link+1))) : FC.getLinkString(static_cast<size_t>(link));
     std::cout << "UpperSurface: " << UpperSurface << std::endl;

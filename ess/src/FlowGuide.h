@@ -1,5 +1,5 @@
-#ifndef essSystem_OnionCooling_h
-#define essSystem_OnionCooling_h
+#ifndef essSystem_FlowGuide_h
+#define essSystem_FlowGuide_h
 
 class Simulation;
 
@@ -7,12 +7,12 @@ namespace essSystem
 {
 
 /*!
-  \class OnionCooling
-  \date March 2014
-  \brief Onion cooling pipes
+  \class FlowGuide
+  \date May 2015
+  \brief Flow guide structures
 */
 
-class OnionCooling : public attachSystem::ContainedComp,
+class FlowGuide : public attachSystem::ContainedComp,
     public attachSystem::FixedComp
 {
  private:
@@ -50,10 +50,10 @@ class OnionCooling : public attachSystem::ContainedComp,
 
  public:
 
-  OnionCooling(const std::string&);
-  OnionCooling(const OnionCooling&);
-  OnionCooling& operator=(const OnionCooling&);
-  virtual ~OnionCooling();
+  FlowGuide(const std::string&);
+  FlowGuide(const FlowGuide&);
+  FlowGuide& operator=(const FlowGuide&);
+  virtual ~FlowGuide();
 
   void setBottomSurface(const attachSystem::FixedComp& FC, const long int link);
   void setUpperSurface(const attachSystem::FixedComp& FC, const long int link);
