@@ -1,10 +1,14 @@
 <!--
+c @@@ TOPTMDISTANCE = 12.9
+c @@@ LOWTMDISTANCE = 14.4
+c @@@ TWDVCHEIGHT = (TOPTMDISTANCE-11.2-1-0.05)
+c @@@ LWDVCHEIGHT = (LOWTMDISTANCE-11.2-1-0.05-1.2-0.3)
 c @@@ WHEELTARGETHEIGHT = 8
 c @@@ WHEELCASETHICK = 0.5
 c @@@ WHEELCOOLANTTHICKIN = 0.65
 c @@@ WHEELCOOLANTTHICKOUT = (WHEELCOOLANTTHICKIN-0.5)
 c @@@ WHEELVOIDTHICK = 1
-c @@@ WHEELYSTEP = 111
+c @@@ WHEELYSTEP = 113
 c @@@ WHEELFULLHEIGHT = (WHEELTARGETHEIGHT + 2*(WHEELCASETHICK + WHEELCOOLANTTHICKIN  + WHEELVOIDTHICK))
 c @@@ BEREFHEIGHT = 32.1
 c @@@ TOPBEREFZ = (WHEELTARGETHEIGHT / 2 + WHEELCASETHICK + WHEELCOOLANTTHICKIN + WHEELVOIDTHICK)
@@ -84,37 +88,33 @@ c @@@ THERMALMODWALLTHICK = 0.3
 c @@@ THERMALMODZ = (6.65+THERMALMODH2OTHICK+LOWBEREFZ+THERMALMODH/2.0+THERMALMODWALLTHICK)
 c @@@ THERMALFLIGHTLINETILT = ( THERMALMODH<FLHAT2M ? atan((FLHAT2M-THERMALMODH-THERMALMODWALLTHICK*2)/2/(200.0-THERMALMODW/2-THERMALMODWALLTHICK)) * 180/pi : 0.0 )
 c @@@ WATERCYLWALLH = 0.3
-c @@@ WATERCYLH = ( 3.0 + WATERCYLWALLH )
 c @@@ THERMALCYLH = 6
 c @@@ THERMALCYLR = 6
-c @@@ LOWMODH = 6
-c @@@ LOWMODR = 3
-c @@@ LOWMODRADGAP1 = 0.1
-c @@@ LOWMODRADGAP2 = 0.1
-c @@@ LOWMODRADGAP3 = 0.1
-c @@@ LOWMODHGAP1 = 0.1
-c @@@ LOWMODHGAP2 = 0.1
-c @@@ LOWMODHGAP3 = 0.1
-c @@@ LOWPREDEPTH1 = 0.1
-c @@@ LOWPREDEPTH2 = 1
-c @@@ LOWPREDEPTH3 = 0.5
-c @@@ LOWPREHEIGHT2 = 0.1
-c @@@ LOWPRETHICK1 = 0.3
-c @@@ LOWPRETHICK2 = 0.2
-C @@@ LOWPRETHICK3 = 0.3
+c @@@ LOWMODH = 3
+c @@@ LOWMODR = 10
+c @@@ LOWMODRADGAP1 = 0.3
+c @@@ LOWMODRADGAP2 = 0.5
+c @@@ LOWMODRADGAP3 = 0.2
+c @@@ LOWMODHGAP1 = 0.3
+c @@@ LOWMODHGAP2 = 0.5
+c @@@ LOWMODHGAP3 = 0.3
+c @@@ LOWPREDEPTH1 = 0
+c @@@ LOWPREDEPTH2 = 2.99
+c @@@ LOWPREDEPTH3 = 0.4
+c @@@ LOWPREHEIGHT2 = 1
+c @@@ LOWPRETHICK1 = 0
+c @@@ LOWPRETHICK2 = 23.3
+C @@@ LOWPRETHICK3 = 0
 C @@@ LOWMODFULLR = (LOWMODR+LOWMODRADGAP1+LOWMODRADGAP2+LOWMODRADGAP3)
 c @@@ LOWPRER = (LOWMODFULLR+LOWPRETHICK1+LOWPRETHICK2+LOWPRETHICK3)
-c @@@ THERMALCYLZ = ((THERMALCYLH/2 + WATERCYLH +  WATERCYLWALLH - 0.09 + 1))
 c @@@ LOWMODX = 0
 c @@@ LOWMODY = 0
-c @@@ LOWMODZ = ( - (WATERCYLH + WATERCYLWALLH - LOWBEREFZ + LOWMODH/2 + LOWMODHGAP1+LOWMODHGAP2+LOWMODHGAP3+LOWPREDEPTH1+LOWPREDEPTH2+LOWPREDEPTH3))
-c @@@ LOWFLIGHTLINEHALFOPENING = (60/2)
-c @@@ LOWFLIGHTH = ( LOWMODH  + LOWMODHGAP1 + LOWMODHGAP2 + LOWMODHGAP3 + LOWPREDEPTH1 + LOWPREDEPTH2 )
+c @@@ LOWFLIGHTLINEHALFOPENING = (60)
+c @@@ LOWFLIGHTH = 3
 c @@@ LOWFLIGHTZ = ((LOWMODH-LOWFLIGHTH)/2.0)
-c @@@ BTTOPPREHEIGHT = 1
 c @@@ BTH = 3
-c @@@ BTZTOP = (5.05 + (BTH-3)/2)
-c @@@ BTZLOW = (5.05 + (BTH-3)/2 + 1.5)
+c @@@ BTZTOP = (TOPTMDISTANCE-6.15 + (BTH-3)/2)
+c @@@ BTZLOW = (LOWTMDISTANCE-6.15 + (BTH-3)/2)
 c @@@ BTZCENTER = (1*(6.15+BTZTOP))
 c @@@ BTLENGTH = 28.4
 c @@@ BTWIDTH = 21.16
@@ -133,14 +133,14 @@ c @@@ BTWATERBASETHICK = 3.2
 c @@@ BTWATERHEIGHTBELOW = 0.9
 c @@@ BTFLIGHTXOFFSET = 6
 c @@@ LOWAFLIGHTMASTERXY = 0
-c @@@ LOWBFLIGHTMASTERXY = -60
-c @@@ LOWMODXYANGLE = -120
+c @@@ LOWBFLIGHTMASTERXY = 0
+c @@@ LOWMODXYANGLE = 90
 c @@@ F5RAD = 1000
 c @@@ F35zg = (BTZCENTER - BTH/2)
 c @@@ F35zb = (F35zg+BTH)
 c @@@ FCOLDWIDTH = 6
 c @@@ FTHERMALWIDTH  = 6
-c @@@ F35theta = (deg2rad(5))
+c @@@ F35theta = (deg2rad(1))
 c @@@ F35x = (F5RAD*cos(F35theta))
 c @@@ F35y = (F5RAD*sin(F35theta))
 c @@@ F35z  = BTZCENTER
@@ -164,7 +164,7 @@ c @@@ F55xc = (BTWIDTH/2+(BTTHICK1+BTTHICK2+BTTHICK3)/abs(sin(F55theta))+2)
 c @@@ F55yc = (-1*BTLENGTH/2+BTWINGRAD)
 c @@@ F55xb = ( F55xc+FTHERMALWIDTH*abs(sin(F55theta)) )
 c @@@ F55yb = (F55yc)
-c @@@ F5theta = deg2rad(-5)
+c @@@ F5theta = deg2rad(-1)
 c @@@ F5x = (F5RAD*cos(F5theta))
 c @@@ F5y = (F5RAD*sin(F5theta))
 c @@@ F5z = BTZCENTER
@@ -174,7 +174,7 @@ c @@@ F5xc = ( F5xb + FCOLDWIDTH*sin(F5theta) )
 c @@@ F5yc = ( F5yb + FCOLDWIDTH*cos(F5theta) )
 c @@@ F5zg = F35zg
 c @@@ F5zb = F35zb
-c @@@ F15theta = (deg2rad(55))
+c @@@ F15theta = (deg2rad(2))
 c @@@ F15x = (F5RAD*cos(F15theta))
 c @@@ F15y = (F5RAD*sin(F15theta))
 c @@@ F15z = F35z
@@ -195,16 +195,22 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <metadata_entry>
   <Variables>
-    <variable name="LowWaterDiscHeight" type="double">WATERCYLH</variable>
+    <variable name="LowWaterDiscHeight" type="function">3+0.95</variable>
     <variable name="LowWaterDiscWallThick" type="double">WATERCYLWALLH</variable>
-    <variable name="LowWaterDiscRadius" type="double">BEREFRADIUS</variable>
+    <variable name="LowWaterDiscRadius" type="function">BEREFRADIUS+0.2</variable>
     <variable name="LowWaterDiscWidth" type="double">-10</variable>
-    <variable name="TopWaterDiscRefMat1" type="double">26010</variable>
-    <variable name="TopWaterDiscHeight" type="double">WATERCYLH</variable>
+    <variable name="LowWaterDiscRefMat1" type="int">26010</variable>
+    <variable name="LowWaterDiscVoidCellHeight" type="double">LWDVCHEIGHT</variable>
+    <variable name="LowWaterDiscVoidCellMat" type="int">0</variable>
+    
+    <variable name="TopWaterDiscHeight" type="function">3+0.95</variable>
     <variable name="TopWaterDiscWallThick" type="double">WATERCYLWALLH</variable>
-    <variable name="TopWaterDiscRadius" type="double">BEREFRADIUS</variable>
+    <variable name="TopWaterDiscRadius" type="function">BEREFRADIUS+0.1</variable>
     <variable name="TopWaterDiscWidth" type="double">-10</variable>
-    <variable name="TopWaterDiscRefMat1" type="double">26010</variable>
+    <variable name="TopWaterDiscRefMat1" type="int">26010</variable>
+    <variable name="TopWaterDiscVoidCellHeight" type="double">TWDVCHEIGHT</variable>
+    <variable name="TopWaterDiscVoidCellMat" type="int">0</variable>
+
     <variable name="BulkDepth1" type="double">75</variable>
     <variable name="BulkDepth2" type="double">76</variable>
     <variable name="BulkDepth3" type="double">200</variable>
@@ -286,18 +292,6 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
 
     <variable name="TubeModWaterCylinderRadius" type="double">30</variable>
 
-    <variable name="ThermalCylModHeight" type="double">THERMALCYLH</variable>
-    <variable name="ThermalCylModRadius" type="double">THERMALCYLR</variable>
-    <variable name="ThermalCylModRefMat" type="std::string">1011</variable>
-    <variable name="ThermalCylModWallMat" type="int">13000</variable>
-    <variable name="ThermalCylModWallThick" type="double">0.5</variable>
-    <variable name="ThermalCylModVoidThick" type="double">0.1</variable>
-    <variable name="ThermalCylModXStep" type="double">0</variable>
-    <variable name="ThermalCylModXYangle" type="double">0</variable>
-    <variable name="ThermalCylModYStep" type="double">0</variable>
-    <variable name="ThermalCylModZStep" type="double">THERMALCYLZ</variable>
-    <variable name="ThermalCylModZangle" type="double">0</variable>
-
     <variable name="ThermalRecModXStep" type="double">0</variable>
     <variable name="ThermalRecModYStep" type="double">0</variable>
     <variable name="ThermalRecModZStep" type="double">THERMALMODZ</variable>
@@ -335,7 +329,7 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="LowButterflyWingLength" type="double">BTWL</variable>
     <variable name="LowButterflyWingCurvatureSideRadius" type="double">BTWINGRAD</variable>
     <variable name="LowButterflyWingCurvatureCentralRadius" type="double">BTWINGCENTRALRAD</variable>
-    <variable name="LowButterflyModMat" type="int">1001</variable>
+    <variable name="LowButterflyModMat" type="int">1003</variable>
     <variable name="LowButterflyTemp" type="double">20</variable>
     <variable name="LowButterflyMat1" type="int">13001</variable>
     <variable name="LowButterflyTemp1" type="double">20</variable>
@@ -372,7 +366,7 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="LowButterflyPreTopHeight" type="double">BTWATERHEIGHTBELOW</variable>
     <variable name="LowButterflyPreBottomHeight" type="double">0</variable>
     <variable name="LowButterflyTopPreType" type="int">2</variable>
-    <variable name="LowButterflyTopPreHeight" type="double">BTTOPPREHEIGHT</variable>
+    <variable name="LowButterflyTopPreHeight" type="double">1</variable>
     <variable name="LowButterflyTopPreWidth" type="double">40</variable>
     <variable name="LowButterflyPipeType" type="int">1</variable>
 
@@ -388,7 +382,7 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="TopButterflyWingLength" type="double">BTWL</variable>
     <variable name="TopButterflyWingCurvatureSideRadius" type="double">BTWINGRAD</variable>
     <variable name="TopButterflyWingCurvatureCentralRadius" type="double">BTWINGCENTRALRAD</variable>
-    <variable name="TopButterflyModMat" type="int">1001</variable>
+    <variable name="TopButterflyModMat" type="int">1003</variable>
     <variable name="TopButterflyTemp" type="double">20</variable>
     <variable name="TopButterflyMat1" type="int">13001</variable>
     <variable name="TopButterflyTemp1" type="double">20</variable>
@@ -424,10 +418,11 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="TopButterflyPreWallTemp" type="double">300</variable>
     <variable name="TopButterflyPreTopHeight" type="double">BTWATERHEIGHTBELOW</variable>
     <variable name="TopButterflyPreBottomHeight" type="double">0</variable>
-    <variable name="TopButterflyTopPreType" type="int">2</variable>
-    <variable name="TopButterflyTopPreHeight" type="double">BTTOPPREHEIGHT</variable>
+    <variable name="TopButterflyTopPreType" type="int">1</variable>
+    <variable name="TopButterflyTopPreHeight" type="double">1</variable>
     <variable name="TopButterflyTopPreWidth" type="double">40</variable>
     <variable name="TopButterflyPipeType" type="int">1</variable>
+    <variable name="TopButterflyMaterialInBeRef" type="int">1011</variable>
 
     <variable name="LowModOnionGateLength1" type="int">2</variable>
     <variable name="LowModOnionGateLength2" type="int">2</variable>
@@ -463,7 +458,7 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="F5Y" type="double">F5y</variable>
     <variable name="F5Z" type="double">F5z</variable>
 
-    <variable name="F15Length" type="double">980</variable>
+    <variable name="F15Length" type="double">700</variable>
     <variable name="F15XB" type="double">F15xb</variable>
     <variable name="F15YB" type="double">F15yb</variable>
     <variable name="F15ZB" type="double">F5zb</variable>
@@ -476,52 +471,16 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="F15Z" type="double">F15z</variable>
 
     <variable name="F25Length" type="double">700</variable>
-    <variable name="F25XB" type="double">F25xb</variable>
-    <variable name="F25YB" type="double">F25yb</variable>
-    <variable name="F25ZB" type="double">F5zb</variable>
-    <variable name="F25XC" type="double">F25xc</variable>
-    <variable name="F25YC" type="double">F25yc</variable>
-    <variable name="F25ZC" type="double">F5zb</variable>
-    <variable name="F25ZG" type="double">F5zg</variable>
-    <variable name="F25X" type="double">F25x</variable>
-    <variable name="F25Y" type="double">F25y</variable>
-    <variable name="F25Z" type="double">F25z</variable>
-
-    <variable name="F35Length" type="double">700</variable>
-    <variable name="F35XB" type="double">F35xb</variable>
-    <variable name="F35YB" type="double">F35yb</variable>
-    <variable name="F35ZB" type="double">F35zb</variable>
-    <variable name="F35XC" type="double">F35xc</variable>
-    <variable name="F35YC" type="double">F35yc</variable>
-    <variable name="F35ZC" type="double">F35zb</variable>
-    <variable name="F35ZG" type="double">F35zg</variable>
-    <variable name="F35X" type="double">F35x</variable>
-    <variable name="F35Y" type="double">F35y</variable>
-    <variable name="F35Z" type="double">F35z</variable>
-
-    <variable name="F45Length" type="double">700</variable>
-    <variable name="F45XB" type="double">F45xb</variable>
-    <variable name="F45YB" type="double">F45yb</variable>
-    <variable name="F45ZB" type="double">F35zb</variable>
-    <variable name="F45XC" type="double">F45xc</variable>
-    <variable name="F45YC" type="double">F45yc</variable>
-    <variable name="F45ZC" type="double">F35zb</variable>
-    <variable name="F45ZG" type="double">F35zg</variable>
-    <variable name="F45X" type="double">F45x</variable>
-    <variable name="F45Y" type="double">F45y</variable>
-    <variable name="F45Z" type="double">F45z</variable>
-
-    <variable name="F55Length" type="double">700</variable>
-    <variable name="F55XB" type="double">F55xb</variable>
-    <variable name="F55YB" type="double">F55yb</variable>
-    <variable name="F55ZB" type="double">F35zb</variable>
-    <variable name="F55XC" type="double">F55xc</variable>
-    <variable name="F55YC" type="double">F55yc</variable>
-    <variable name="F55ZC" type="double">F35zb</variable>
-    <variable name="F55ZG" type="double">F35zg</variable>
-    <variable name="F55X" type="double">F55x</variable>
-    <variable name="F55Y" type="double">F55y</variable>
-    <variable name="F55Z" type="double">F55z</variable>
+    <variable name="F25XB" type="double">F35xb</variable>
+    <variable name="F25YB" type="double">F35yb</variable>
+    <variable name="F25ZB" type="double">F35zb</variable>
+    <variable name="F25XC" type="double">F35xc</variable>
+    <variable name="F25YC" type="double">F35yc</variable>
+    <variable name="F25ZC" type="double">F35zb</variable>
+    <variable name="F25ZG" type="double">F35zg</variable>
+    <variable name="F25X" type="double">F35x</variable>
+    <variable name="F25Y" type="double">F35y</variable>
+    <variable name="F25Z" type="double">F35z</variable>
 
     <variable name="G1BLine10XYangle" type="double">-17.5</variable>
     <variable name="G2BLine10XYangle" type="double">-17.5</variable>
@@ -675,9 +634,9 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="LSupplyActive1" type="int">15</variable>
     <variable name="LSupplyActive2" type="int">63</variable>
     <variable name="LSupplyActive3" type="int">255</variable>
-    <variable name="LSupplyMat0" type="std::string">1001</variable>
+    <variable name="LSupplyMat0" type="std::string">1003</variable>
     <variable name="LSupplyMat1" type="std::string">13001</variable>
-    <variable name="LSupplyMat2" type="std::string">1001</variable>
+    <variable name="LSupplyMat2" type="std::string">1003</variable>
     <variable name="LSupplyMat3" type="std::string">13001</variable>
     <variable name="LSupplyMat4" type="std::string">0</variable>
     <variable name="LSupplyMat5" type="std::string">13000</variable>
@@ -705,9 +664,9 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="LReturnActive2" type="int">63</variable>
     <variable name="LReturnActive3" type="int">255</variable>
     <!-- variable name="LReturnActive4" type="int">63</variable -->
-    <variable name="LReturnMat0" type="std::string">1001</variable>
+    <variable name="LReturnMat0" type="std::string">1003</variable>
     <variable name="LReturnMat1" type="std::string">13001</variable>
-    <variable name="LReturnMat2" type="std::string">1001</variable>
+    <variable name="LReturnMat2" type="std::string">1003</variable>
     <variable name="LReturnMat3" type="std::string">13001</variable>
     <variable name="LReturnMat4" type="std::string">0</variable>
     <variable name="LReturnMat5" type="std::string">13000</variable>
@@ -729,17 +688,17 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="LReturnTemp4" type="double">0</variable>
     <variable name="LReturnTemp5" type="double">0</variable>
 
-    <variable name="LowAFlightAngleXY1" type="double">LOWFLIGHTLINEHALFOPENING</variable>
-    <variable name="LowAFlightAngleXY2" type="double">LOWFLIGHTLINEHALFOPENING</variable>
+    <variable name="LowAFlightAngleXY1" type="double">60</variable>
+    <variable name="LowAFlightAngleXY2" type="double">60</variable>
     <variable name="LowAFlightAngleZBase" type="double">LOWCYLFLIGHTLINETILT</variable>
     <variable name="LowAFlightAngleZTop" type="double">LOWCYLFLIGHTLINETILT</variable>
     <variable name="LowAFlightHeight" type="double">LOWFLIGHTH</variable>
     <variable name="LowAFlightLinerMat1" type="int">0</variable>
     <variable name="LowAFlightLinerThick1" type="double">0.01</variable>
-    <variable name="LowAFlightLinerHeight1" type="double">0.01</variable>
+    <variable name="LowAFlightLinerHeight1" type="double">0.3</variable>
     <variable name="LowAFlightMasterXY" type="double">LOWAFLIGHTMASTERXY</variable>
     <variable name="LowAFlightNLiner" type="int">1</variable>
-    <variable name="LowAFlightWidth" type="double">7</variable>
+    <variable name="LowAFlightWidth" type="double">105</variable>
     <variable name="LowAFlightXStep" type="double">0</variable>
     <variable name="LowAFlightZStep" type="double">LOWFLIGHTZ</variable>
     <variable name="LowBFlightAngleXY1" type="double">LOWFLIGHTLINEHALFOPENING</variable>
@@ -752,12 +711,12 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="LowBFlightLinerHeight1" type="double">0.01</variable> 
     <variable name="LowBFlightMasterXY" type="double">LOWBFLIGHTMASTERXY</variable>
     <variable name="LowBFlightNLiner" type="int">1</variable>
-    <variable name="LowBFlightWidth" type="double">7</variable>
+    <variable name="LowBFlightWidth" type="double">105</variable>
     <variable name="LowBFlightXStep" type="double">0</variable>
     <variable name="LowBFlightZStep" type="double">LOWFLIGHTZ</variable>
     <variable name="LowBeRefHeight" type="double">BEREFHEIGHT</variable>
     <variable name="LowBeRefRadius" type="double">BEREFRADIUS</variable>
-    <variable name="LowBeRefRefMat" type="std::string">4010</variable>
+    <variable name="LowBeRefRefMat" type="std::string">4005</variable>
     <variable name="LowBeRefWallMat" type="int">13000</variable>
     <variable name="LowBeRefWallThick" type="double">0.5</variable>
     <variable name="LowBeRefCellCooling" type="int">0</variable>
@@ -832,7 +791,7 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="LowModXStep" type="int">LOWMODX</variable>
     <variable name="LowModXYangle" type="double">LOWMODXYANGLE</variable>
     <variable name="LowModYStep" type="int">LOWMODY</variable>
-    <variable name="LowModZStep" type="double">LOWMODZ</variable>
+    <variable name="LowModZStep" type="double">-12.15</variable>
     <variable name="LowModZangle" type="double">0</variable>
     <variable name="LowPreABlockActive" type="int">0</variable>
     <variable name="LowPreBBlockActive" type="int">0</variable>
@@ -841,9 +800,9 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="LowPreDepth3" type="double">LOWPREDEPTH3</variable>
     <variable name="LowPreHeight1" type="double">LOWPREDEPTH1</variable>
     <variable name="LowPreHeight2" type="double">LOWPREHEIGHT2</variable>
-    <variable name="LowPreHeight3" type="double">LOWPREDEPTH3</variable>
+    <variable name="LowPreHeight3" type="double">0.3</variable>
     <variable name="LowPreMaterial1" type="int">13000</variable>
-    <variable name="LowPreMaterial2" type="int">1011</variable>
+    <variable name="LowPreMaterial2" type="int">4010</variable>
     <variable name="LowPreMaterial3" type="int">13000</variable>
     <variable name="LowPreNLayers" type="int">3</variable>
     <variable name="LowPreNView" type="int">2</variable>
@@ -851,13 +810,13 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="LowPreThick2" type="double">LOWPRETHICK2</variable>
     <variable name="LowPreThick3" type="double">LOWPRETHICK3</variable>
     <variable name="LowPreViewAngle1" type="int">0</variable>
-    <variable name="LowPreViewAngle2" type="double">120</variable>
+    <variable name="LowPreViewAngle2" type="double">180</variable>
     <variable name="LowPreViewHeight1" type="double">LOWMODH</variable>
     <variable name="LowPreViewHeight2" type="double">LOWMODH</variable>
-    <variable name="LowPreViewOpenAngle1" type="double">30</variable>
-    <variable name="LowPreViewOpenAngle2" type="double">30</variable>
-    <variable name="LowPreViewWidth1" type="double">6</variable>
-    <variable name="LowPreViewWidth2" type="double">6</variable>
+    <variable name="LowPreViewOpenAngle1" type="double">60</variable>
+    <variable name="LowPreViewOpenAngle2" type="double">60</variable>
+    <variable name="LowPreViewWidth1" type="double">25</variable>
+    <variable name="LowPreViewWidth2" type="double">25</variable>
     <variable name="LowPreXStep" type="int">0</variable>
     <variable name="LowPreXYangle" type="int">0</variable>
     <variable name="ProtonBeamLength1" type="int">235</variable>
@@ -989,9 +948,9 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="TReturnActive1" type="int">15</variable>
     <variable name="TReturnActive2" type="int">63</variable>
     <variable name="TReturnActive3" type="int">255</variable>
-    <variable name="TReturnMat0" type="std::string">1001</variable>
+    <variable name="TReturnMat0" type="std::string">1003</variable>
     <variable name="TReturnMat1" type="std::string">13001</variable>
-    <variable name="TReturnMat2" type="std::string">1001</variable>
+    <variable name="TReturnMat2" type="std::string">1003</variable>
     <variable name="TReturnMat3" type="std::string">13001</variable>
     <variable name="TReturnMat4" type="std::string">0</variable>
     <variable name="TReturnMat5" type="std::string">13000</variable>
@@ -1016,17 +975,17 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="TSupplyActive1" type="int">15</variable>
     <variable name="TSupplyActive2" type="int">63</variable>
     <variable name="TSupplyActive3" type="int">255</variable>
-    <variable name="TSupplyMat0" type="std::string">1001</variable>
+    <variable name="TSupplyMat0" type="std::string">1003</variable>
     <variable name="TSupplyMat1" type="std::string">13001</variable>
-    <variable name="TSupplyMat2" type="std::string">1001</variable>
+    <variable name="TSupplyMat2" type="std::string">1003</variable>
     <variable name="TSupplyMat3" type="std::string">13001</variable>
     <variable name="TSupplyMat4" type="std::string">0</variable>
     <variable name="TSupplyMat5" type="std::string">13000</variable>
     <variable name="TSupplyNRadii" type="int">6</variable>
     <variable name="TSupplyNSegIn" type="int">1</variable>
     <variable name="TSupplyPPt0" type="Geometry::Vec3D">0 -1 0</variable>
-    <variable name="TSupplyPPt1" type="Geometry::Vec3D">0 14 0</variable>
-    <variable name="TSupplyPPt2" type="Geometry::Vec3D">0 14 25</variable>
+    <variable name="TSupplyPPt1" type="Geometry::Vec3D">0 19 0</variable>
+    <variable name="TSupplyPPt2" type="Geometry::Vec3D">0 19 25</variable>
     <variable name="TSupplyRadius0" type="double">0.8</variable>
     <variable name="TSupplyRadius1" type="double">1.1</variable>
     <variable name="TSupplyRadius2" type="double">1.5</variable>
@@ -1114,10 +1073,10 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="TopBFlightZStep" type="double">0</variable>
     <variable name="TopBeRefHeight" type="double">BEREFHEIGHT</variable>
     <variable name="TopBeRefRadius" type="double">BEREFRADIUS</variable>
-    <variable name="TopBeRefRefMat" type="std::string">4010</variable>
+    <variable name="TopBeRefRefMat" type="std::string">4005</variable>
     <variable name="TopBeRefWallMat" type="int">13000</variable>
     <variable name="TopBeRefWallThick" type="double">0.4</variable>
-    <variable name="TopBeRefVoidThick" type="double">1.0</variable>
+    <variable name="TopBeRefVoidThick" type="double">0</variable>
     <variable name="TopBeRefCellCooling" type="int">0</variable>
     <variable name="TopBeRefXStep" type="double">0</variable>
     <variable name="TopBeRefXYangle" type="double">0</variable>

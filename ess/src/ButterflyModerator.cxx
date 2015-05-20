@@ -607,8 +607,8 @@ namespace essSystem
 
     Geometry::Vec3D zDirc(Z);
     Geometry::Quaternion::calcQRotDeg(-AFlightAngleZBase, Y).rotate(zDirc);
-    ModelSupport::buildPlane(SMap, SI+105, Origin-Z*(Height[0]/2.0), zDirc);
-    ModelSupport::buildPlane(SMap, SI+115, Origin-Z*(Height[0]/2.0 + FlightLineWallThick), zDirc);
+    ModelSupport::buildPlane(SMap, SI+105, Origin-Z*(Height[nLayers-2]/2.0), zDirc); // here
+    ModelSupport::buildPlane(SMap, SI+115, Origin-Z*(Height[nLayers-2]/2.0 + FlightLineWallThick), zDirc);
     zDirc = Z;
     Geometry::Quaternion::calcQRotDeg(AFlightAngleZTop, Y).rotate(zDirc);
 
@@ -638,8 +638,8 @@ namespace essSystem
 
     zDirc = Z;
     Geometry::Quaternion::calcQRotDeg(BFlightAngleZBase, Y).rotate(zDirc);
-    ModelSupport::buildPlane(SMap, SI+125, Origin-Z*(Height[0]/2.0), zDirc);
-    ModelSupport::buildPlane(SMap, SI+135, Origin-Z*(Height[0]/2.0 + FlightLineWallThick), zDirc);
+    ModelSupport::buildPlane(SMap, SI+125, Origin-Z*(Height[nLayers-2]/2.0), zDirc); // here
+    ModelSupport::buildPlane(SMap, SI+135, Origin-Z*(Height[nLayers-2]/2.0 + FlightLineWallThick), zDirc);
     zDirc = Z;
     Geometry::Quaternion::calcQRotDeg(-BFlightAngleZTop, Y).rotate(zDirc);
 
