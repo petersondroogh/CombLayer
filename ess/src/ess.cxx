@@ -122,11 +122,11 @@ main(int argc,char* argv[])
   // IParam.regDefItem<std::string>("topMod","topMod",1,std::string("topMod"));
   // IParam.setDesc("topMod","Type of top modeartor");
 
-  IParam.regDefItem<std::string>("topModCooling","topModCooling",1,std::string("topModCooling"));
-  IParam.setDesc("topModCooling","Type of top moderator cooling (Onion|Standard|None)");
+  IParam.regDefItem<std::string>("topModFlowGuide","topModFlowGuide",1,std::string("topModFlowGuide"));
+  IParam.setDesc("topModFlowGuide","Type of top moderator cooling (Onion|Standard|None)");
 
-  IParam.regDefItem<std::string>("lowModCooling","lowModCooling",1,std::string("lowModCooling"));
-  IParam.setDesc("lowModCooling","Type of low moderator cooling (Onion|Standard|None)");
+  IParam.regDefItem<std::string>("lowModFlowGuide","lowModFlowGuide",1,std::string("lowModFlowGuide"));
+  IParam.setDesc("lowModFlowGuide","Type of low moderator cooling (Onion|Standard|None)");
 
   IParam.regDefItem<std::string>("topPreCooling","topPreCooling",1,std::string("topPreCooling"));
   IParam.setDesc("topPreCooling","Type of top premoderator cooling (Onion|None)");

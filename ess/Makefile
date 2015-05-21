@@ -41,7 +41,7 @@ cleandata:
 
 
 butterfly: ess
-	./ess -r -lowMod Butterfly -topMod Butterfly -nF5 3  -topModCooling On  -lowWaterDisc On -topWaterDisc On  -topPreCooling None -x xml/butterfly-static.xml -T surface object Bulk 3 -TMod energy 1 "5E-9 20E-9"  butterfly
+	./ess -r -lowMod Butterfly -topMod Butterfly -nF5 3  -lowModFlowGuide On -topModFlowGuide On  -lowWaterDisc On -topWaterDisc On  -topPreCooling None -x xml/butterfly-static.xml -T surface object Bulk 3 -TMod energy 1 "5E-9 20E-9"  butterfly
 	sed -i -n '/^sdef/{p;:a;N;/prdmp/!ba;s/.*\n/si1 h -7 7\nsp1 0 1\nsi2 h -1.6 1.6\nsp2 0 1\n/};p' butterfly1.x
 	sed -i -e "s/fq1   f d u s m e t c/*c1:n 90 5 0/" butterfly1.x
 #	remove-weights butterfly1.x
@@ -50,7 +50,7 @@ butterfly-pstudy: ess
 	pstudy-nowrap -i xml/butterfly.xml -setup
 	/bin/mv -f case001/inp flat.xml  && rm -fr case001
 	@rm -fv flat1.x
-	./ess -r -lowMod Butterfly -topMod Butterfly -nF5 3  -topModCooling On  -lowWaterDisc On -topWaterDisc On  -topPreCooling None -x flat.xml -T surface object Bulk 3 -TMod energy 1 "5E-9 20E-9"  butterfly
+	./ess -r -lowMod Butterfly -topMod Butterfly -nF5 3  -lowModFlowGuide On -topModFlowGuide On  -lowWaterDisc On -topWaterDisc On  -topPreCooling None -x flat.xml -T surface object Bulk 3 -TMod energy 1 "5E-9 20E-9"  butterfly
 	sed -i -n '/^sdef/{p;:a;N;/prdmp/!ba;s/.*\n/si1 h -7 7\nsp1 0 1\nsi2 h -1.6 1.6\nsp2 0 1\n/};p' butterfly1.x
 	sed -i -e "s/fq1   f d u s m e t c/*c1:n 90 5 0/" butterfly1.x
 #	remove-weights butterfly1.x
@@ -59,11 +59,11 @@ butterflyVTK: ess
 	pstudy-nowrap -i xml/butterfly.xml -setup
 	/bin/mv -f case001/inp flat.xml  && rm -fr case001
 	@rm -f flat1.x
-	./ess -r -lowMod Butterfly -topMod Butterfly -nF5 6  -topModCooling None  -lowWaterDisc On -topWaterDisc On  -topPreCooling None -x flat.xml  -vtk -M -MA -15 -20 -15 -MB 15 20 -7  -MN 500 500 160 butterfly.vtk && du -hsc butterfly.vtk && /bin/mv -f butterfly.vtk ~/Downloads/butterfly.vtk
+	./ess -r -lowMod Butterfly -topMod Butterfly -nF5 6  -topModFlowGuide None  -lowWaterDisc On -topWaterDisc On  -topPreCooling None -x flat.xml  -vtk -M -MA -15 -20 -15 -MB 15 20 -7  -MN 500 500 160 butterfly.vtk && du -hsc butterfly.vtk && /bin/mv -f butterfly.vtk ~/Downloads/butterfly.vtk
 
 
 butterfly1: ess
-	./ess -r -lowMod Butterfly -topMod Butterfly -nF5 6  -topModCooling None  -lowWaterDisc On -topWaterDisc On  -topPreCooling None -v LowButterflyBFlightAngleZTop 2 -v LowButterflyAFlightAngleZTop 2 -v LowButterflyTopPreType 0 -x xml/butterfly-static.xml  butterfly
+	./ess -r -lowMod Butterfly -topMod Butterfly -nF5 6  -topModFlowGuide None  -lowWaterDisc On -topWaterDisc On  -topPreCooling None -v LowButterflyBFlightAngleZTop 2 -v LowButterflyAFlightAngleZTop 2 -v LowButterflyTopPreType 0 -x xml/butterfly-static.xml  butterfly
 	sed -i -n '/^sdef/{p;:a;N;/prdmp/!ba;s/.*\n/si1 h -7 7\nsp1 0 1\nsi2 h -1.6 1.6\nsp2 0 1\n/};p' butterfly1.x
 	sed -i -e "s/fq1   f d u s m e t c/*c1:n 90 5 0/" butterfly1.x
 
@@ -76,26 +76,26 @@ test: ess testButterfly
 	@rm -f pipe3011.x
 	@pstudy-nowrap -i xml/flat-master-PIPE301.xml -setup > /dev/null
 	@/bin/mv -f case001/inp pipe301.xml && rm -fr case001 > /dev/null
-	@./ess -r -lowMod None -topModCooling Onion -x pipe301.xml  --validCheck 10000 pipe301 > /dev/null && echo "PIPE301 test passed"
+	@./ess -r -lowMod None -topModFlowGuide Onion -x pipe301.xml  --validCheck 10000 pipe301 > /dev/null && echo "PIPE301 test passed"
 	@rm -f flat1.x
 	@pstudy-nowrap -i xml/flat-master.xml -setup > /dev/null
 	@/bin/mv -f case001/inp flat.xml && rm -fr case001
-	@./ess -r -topModCooling Onion -x flat.xml  --validCheck 10000 flat > /dev/null && echo "flat test passed"
+	@./ess -r -topModFlowGuide Onion -x flat.xml  --validCheck 10000 flat > /dev/null && echo "flat test passed"
 	@pstudy-nowrap -i xml/flat-master.xml -setup > /dev/null
 	@/bin/mv -f case001/inp flatpipeTube.xml  && rm -fr case001 > /dev/null
 	@rm -f flatpipeTube1.x
-	@./ess -r -lowMod Tube -v LowBeRefWallMat 13000 -v LowBeRefRefMat 4000 -v LowBeRefVoidThick 1 -topModCooling Onion -topPreCooling Onion -x flatpipeTube.xml --validCheck 10000 flatpipeTube > /dev/null && echo "flatpipeTube test passed"
+	@./ess -r -lowMod Tube -v LowBeRefWallMat 13000 -v LowBeRefRefMat 4000 -v LowBeRefVoidThick 1 -topModFlowGuide Onion -topPreCooling Onion -x flatpipeTube.xml --validCheck 10000 flatpipeTube > /dev/null && echo "flatpipeTube test passed"
 	@rm -f flatpipeTube1.x
 
 testButterfly: ess
 	@pstudy-nowrap -i xml/butterfly.xml -setup > /dev/null
 	@/bin/mv -f case001/inp flat.xml  && rm -fr case001 > /dev/null
-	@./ess -r -nF5 6 -topMod M3A -topModCooling Onion -lowMod Butterfly -waterCylinder On  -topPreCooling None -x flat.xml -v LowButterflyFlightLineType 0 -v LowButterflyTopPreType 0 --validCheck 10000 butterfly > /dev/null && echo "Butterfly00 test passed"
-	@./ess -r -nF5 6 -topMod M3A -topModCooling Onion -lowMod Butterfly -waterCylinder On  -topPreCooling None -x flat.xml -v LowButterflyFlightLineType 0 -v LowButterflyTopPreType 1 --validCheck 10000 butterfly > /dev/null && echo "Butterfly01 test passed"
-	@./ess -r -nF5 6 -topMod M3A -topModCooling Onion -lowMod Butterfly -waterCylinder On  -topPreCooling None -x flat.xml -v LowButterflyFlightLineType 0 -v LowButterflyTopPreType 2 --validCheck 10000  butterfly > /dev/null && echo "Butterfly02 test passed"
-	@./ess -r -nF5 6 -topMod M3A -topModCooling Onion -lowMod Butterfly -waterCylinder On  -topPreCooling None -x flat.xml -v LowButterflyFlightLineType 1 -v LowButterflyTopPreType 0 --validCheck 10000  butterfly > /dev/null && echo "Butterfly10 test passed"
-	@./ess -r -nF5 6 -topMod M3A -topModCooling Onion -lowMod Butterfly -waterCylinder On  -topPreCooling None -x flat.xml -v LowButterflyFlightLineType 1 -v LowButterflyTopPreType 1 --validCheck 10000  butterfly > /dev/null && echo "Butterfly11 test passed"
-	@./ess -r -nF5 6 -topMod M3A -topModCooling Onion -lowMod Butterfly -waterCylinder On  -topPreCooling None -x flat.xml -v LowButterflyFlightLineType 1 -v LowButterflyTopPreType 2 --validCheck 10000  butterfly > /dev/null && echo "Butterfly12 test passed"
+	@./ess -r -nF5 6 -topMod M3A -topModFlowGuide Onion -lowMod Butterfly -waterCylinder On  -topPreCooling None -x flat.xml -v LowButterflyFlightLineType 0 -v LowButterflyTopPreType 0 --validCheck 10000 butterfly > /dev/null && echo "Butterfly00 test passed"
+	@./ess -r -nF5 6 -topMod M3A -topModFlowGuide Onion -lowMod Butterfly -waterCylinder On  -topPreCooling None -x flat.xml -v LowButterflyFlightLineType 0 -v LowButterflyTopPreType 1 --validCheck 10000 butterfly > /dev/null && echo "Butterfly01 test passed"
+	@./ess -r -nF5 6 -topMod M3A -topModFlowGuide Onion -lowMod Butterfly -waterCylinder On  -topPreCooling None -x flat.xml -v LowButterflyFlightLineType 0 -v LowButterflyTopPreType 2 --validCheck 10000  butterfly > /dev/null && echo "Butterfly02 test passed"
+	@./ess -r -nF5 6 -topMod M3A -topModFlowGuide Onion -lowMod Butterfly -waterCylinder On  -topPreCooling None -x flat.xml -v LowButterflyFlightLineType 1 -v LowButterflyTopPreType 0 --validCheck 10000  butterfly > /dev/null && echo "Butterfly10 test passed"
+	@./ess -r -nF5 6 -topMod M3A -topModFlowGuide Onion -lowMod Butterfly -waterCylinder On  -topPreCooling None -x flat.xml -v LowButterflyFlightLineType 1 -v LowButterflyTopPreType 1 --validCheck 10000  butterfly > /dev/null && echo "Butterfly11 test passed"
+	@./ess -r -nF5 6 -topMod M3A -topModFlowGuide Onion -lowMod Butterfly -waterCylinder On  -topPreCooling None -x flat.xml -v LowButterflyFlightLineType 1 -v LowButterflyTopPreType 2 --validCheck 10000  butterfly > /dev/null && echo "Butterfly12 test passed"
 	@rm -f butterfly1.x
 
 

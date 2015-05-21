@@ -462,8 +462,8 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
     const std::string lowModType=IParam.getValue<std::string>("lowMod"); // -lowMod
     const std::string topModType=IParam.getValue<std::string>("topMod");
 
-    const std::string topModCooling=IParam.getValue<std::string>("topModCooling");
-    const std::string lowModCooling=IParam.getValue<std::string>("lowModCooling");
+    const std::string topModFlowGuide=IParam.getValue<std::string>("topModFlowGuide");
+    const std::string lowModFlowGuide=IParam.getValue<std::string>("lowModFlowGuide");
     const std::string topPreCooling=IParam.getValue<std::string>("topPreCooling");
     const std::string isLowWaterDisc=IParam.getValue<std::string>("lowWaterDisc");
     const std::string isTopWaterDisc=IParam.getValue<std::string>("topWaterDisc");
@@ -533,7 +533,7 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
       LowButterfly->setReflectorSurfaces(*LowReflector, -2, -4); // -2 -4
       LowButterfly->createAll(*SimPtr, *LowReflector, *Bulk, -3); // -3
 
-      if (topModCooling != "Off") {
+      if (lowModFlowGuide == "On") {
 	LowModLFlowGuide = std::shared_ptr<FlowGuide>(new FlowGuide("LowModLFlowGuide"));
 	OR.addObject(LowModLFlowGuide);
 	LowModLFlowGuide->setUpperSurface(*LowButterfly, -8); // 7 -> -8
@@ -614,7 +614,7 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
       TopButterfly->setReflectorSurfaces(*TopReflector, -2, -4);
       TopButterfly->createAll(*SimPtr, *TopReflector, *Bulk, -3);
 
-      if (topModCooling != "Off") {
+      if (topModFlowGuide == "On") {
 	TopModLFlowGuide = std::shared_ptr<FlowGuide>(new FlowGuide("TopModLFlowGuide"));
 	OR.addObject(TopModLFlowGuide);
 	TopModLFlowGuide->setUpperSurface(*TopButterfly, -8); // 7 -> -8
@@ -681,7 +681,7 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
 
   
  
-    if (topModCooling == "Onion") {
+    if (topModFlowGuide == "Onion") {
       TopMod->addToInsertChain(*OnionModPipe);
       OnionModPipe->setUpperSurface(*TopMod, -8);
       OnionModPipe->setBottomSurface(*TopMod, -7);
@@ -697,12 +697,12 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
 	TopReturnPipe->createAll(*SimPtr,*TopMod,0,3,2, *TopPre,4); // works: 0,3,2 4
       }
 
-    } else if (topModCooling=="Standard") {
+    } else if (topModFlowGuide=="Standard") {
       TopSupplyPipe->createAll(*SimPtr,*TopMod,0,6,4, *TopPre,4); // 0644 is ok for vertical
       //TopReturnPipe->createAll(*SimPtr,*TopMod,0,3,2, *TopPre,4);
     }
 
-    if (lowModCooling=="Standard") {
+    if (lowModFlowGuide=="Standard") {
       LowSupplyPipe->createAll(*SimPtr,*LowMod,0,6,4, *LowPre,2);
     }
 
