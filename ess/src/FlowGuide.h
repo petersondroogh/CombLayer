@@ -26,11 +26,13 @@ class FlowGuide : public attachSystem::ContainedComp,
   double xyAngle;                 ///< XY Angle
   double zAngle;                  ///< Z Angle
 
-  //  double height;                  ///< Height
   double wallThick;               ///< Wall thickness
   int wallMat;                        ///< material
   double wallTemp;  ///< wall temperature
 
+  std::string Type; /// Flow guide type (Onion, Star)
+
+  // variables for type 'Onion'
   size_t nRings;
   std::vector<double> radius;                  ///< Radius of the rings
   std::vector<double> gateWidth;                  ///< full width of spacing in the corresponding ring
@@ -38,6 +40,28 @@ class FlowGuide : public attachSystem::ContainedComp,
 
   std::string BottomSurface; ///< bottom surface number
   std::string UpperSurface;  ///< upper surface number
+
+  // variables for type 'Star'
+  /*
+ base  side
+   |   /        forearm
+   |  /         /
+   ------- arm /
+   |  \
+   |   \
+ base   side
+  */
+  double BaseYShift;
+  double BaseLength;
+  double BaseArmDist;
+  double ArmYShift;
+  double ArmLength; // length of one half
+  double ForeArmLength;
+  double ForeArmAngle;
+  double SideXShift;
+  double SideYShift;
+  double SideLength;
+  double SideAngle;
 
   // Functions:
 

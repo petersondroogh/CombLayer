@@ -533,6 +533,23 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
       LowButterfly->setReflectorSurfaces(*LowReflector, -2, -4); // -2 -4
       LowButterfly->createAll(*SimPtr, *LowReflector, *Bulk, -3); // -3
 
+      if (topModCooling != "Off") {
+	LowModLFlowGuide = std::shared_ptr<FlowGuide>(new FlowGuide("LowModLFlowGuide"));
+	OR.addObject(LowModLFlowGuide);
+	LowModLFlowGuide->setUpperSurface(*LowButterfly, -8); // 7 -> -8
+	LowModLFlowGuide->setBottomSurface(*LowButterfly, -7); // 6 -> -7
+	LowButterfly->addToInsertChain(*LowModLFlowGuide);
+	LowModLFlowGuide->createAll(*SimPtr, *LowButterfly);
+
+	LowModRFlowGuide = std::shared_ptr<FlowGuide>(new FlowGuide("LowModRFlowGuide"));
+	OR.addObject(LowModRFlowGuide);
+	LowModRFlowGuide->setUpperSurface(*LowButterfly, -8); // 7 -> -8
+	LowModRFlowGuide->setBottomSurface(*LowButterfly, -7); // 6 -> -7
+	LowButterfly->addToInsertChain(*LowModRFlowGuide);
+	LowModRFlowGuide->createAll(*SimPtr, *LowButterfly);
+      }
+
+
       if ((LowButterfly->IsTopPreCoolingChannels()) && (LowButterfly->getTopPreType()==2)) { // cooling channels implemented for TopPreType==2 only
 	LowModOnion = std::shared_ptr<FlowGuide>(new FlowGuide("LowModOnion"));
 	OR.addObject(LowModOnion);
@@ -596,6 +613,22 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
 
       TopButterfly->setReflectorSurfaces(*TopReflector, -2, -4);
       TopButterfly->createAll(*SimPtr, *TopReflector, *Bulk, -3);
+
+      if (topModCooling != "Off") {
+	TopModLFlowGuide = std::shared_ptr<FlowGuide>(new FlowGuide("TopModLFlowGuide"));
+	OR.addObject(TopModLFlowGuide);
+	TopModLFlowGuide->setUpperSurface(*TopButterfly, -8); // 7 -> -8
+	TopModLFlowGuide->setBottomSurface(*TopButterfly, -7); // 6 -> -7
+	TopButterfly->addToInsertChain(*TopModLFlowGuide);
+	TopModLFlowGuide->createAll(*SimPtr, *TopButterfly);
+
+	TopModRFlowGuide = std::shared_ptr<FlowGuide>(new FlowGuide("TopModRFlowGuide"));
+	OR.addObject(TopModRFlowGuide);
+	TopModRFlowGuide->setUpperSurface(*TopButterfly, -8); // 7 -> -8
+	TopModRFlowGuide->setBottomSurface(*TopButterfly, -7); // 6 -> -7
+	TopButterfly->addToInsertChain(*TopModRFlowGuide);
+	TopModRFlowGuide->createAll(*SimPtr, *TopButterfly);
+      }
 
       if (TopButterfly->getPipeType()==1) { // horisontal
 	TopSupplyPipe->addInsertCell(4, TopWaterDisc->getCell("TopWaterDiscRing",1)); // 4=pipe layer number, 1=ring number

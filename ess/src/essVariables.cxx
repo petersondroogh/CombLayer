@@ -282,6 +282,11 @@ EssVariables(FuncDataBase& Control)
   Control.addVariable("zero",0.0);     // Zero
   Control.addVariable("one",1.0);      // one
 
+
+  Control.addVariable("LowModOnionType", "Onion");
+
+  Control.addVariable("TopModFlowGuideType", "Star");
+
   // water cylinder
   Control.addVariable("LowWaterDiscXStep", 0.0);
   Control.addVariable("LowWaterDiscYStep", 0.0);  

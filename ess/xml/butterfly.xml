@@ -211,6 +211,26 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="TopWaterDiscVoidCellHeight" type="double">TWDVCHEIGHT</variable>
     <variable name="TopWaterDiscVoidCellMat" type="int">0</variable>
 
+    <variable name="LowModLFlowGuideXYangle" type="double">0</variable>
+    <variable name="LowModLFlowGuideType" type="std::string">Star</variable>
+    <variable name="LowModLFlowGuideWallMat" type="int">13001</variable>
+    <variable name="LowModLFlowGuideWallTemp" type="double">20</variable>
+
+    <variable name="LowModRFlowGuideXYangle" type="double">180</variable>
+    <variable name="LowModRFlowGuideType" type="std::string">Star</variable>
+    <variable name="LowModRFlowGuideWallMat" type="int">13001</variable>
+    <variable name="LowModRFlowGuideWallTemp" type="double">20</variable>
+
+    <variable name="TopModLFlowGuideXYangle" type="double">0</variable>
+    <variable name="TopModLFlowGuideType" type="std::string">Star</variable>
+    <variable name="TopModLFlowGuideWallMat" type="int">13001</variable>
+    <variable name="TopModLFlowGuideWallTemp" type="double">20</variable>
+
+    <variable name="TopModRFlowGuideXYangle" type="double">180</variable>
+    <variable name="TopModRFlowGuideType" type="std::string">Star</variable>
+    <variable name="TopModRFlowGuideWallMat" type="int">13001</variable>
+    <variable name="TopModRFlowGuideWallTemp" type="double">20</variable>
+
     <variable name="BulkDepth1" type="double">75</variable>
     <variable name="BulkDepth2" type="double">76</variable>
     <variable name="BulkDepth3" type="double">200</variable>
