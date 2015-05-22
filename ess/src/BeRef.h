@@ -29,23 +29,13 @@ namespace essSystem
       double xyAngle;                 ///< XY Angle
       double zAngle;                  ///< Z Angle
 
-      double radius;                  ///< Radius
+      double radius;                  ///< total Radius
       double height;                  ///< Height
       double wallThick;               ///< Wall thickness
       double voidThick;               ///< Void clearance thickness
 
-      int refMat;                     ///< reflector material - lower half
-      //  int refMatTop;                     ///< reflector material - upper half
+      int refMat;                     ///< reflector material
       int wallMat;                    ///< wall Material
-
-      // cell cooling structure
-      int cellCooling;                ///< flag to enable/disable cell cooling
-      int nRings;                     ///< number of cell rings
-      int nLayers;                    ///< number of cell layers
-      double cellWallThick;           ///< cell wall thickness
-      int    cellWallMat;             ///< cell wall material
-      double cellCoolThick;           ///< cell wall thickness
-      int    cellCoolMat;             ///< cell wall material
 
       double width;                   ///< reflector width in the case we wish to limit it by planes. Has no effect if < 0
       double length;                  ///< reflector length in the case we wish to limit it by planes. Has no effect if < 0

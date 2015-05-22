@@ -116,14 +116,6 @@ BeRef::populate(const FuncDataBase& Control)
   //  refMatTop=ModelSupport::EvalMat<int>(Control,keyName+"RefMatTop");
   wallMat=ModelSupport::EvalMat<int>(Control,keyName+"WallMat");   
 
-  cellCooling = Control.EvalDefVar<int>(keyName+"CellCooling", 0);
-  nRings = Control.EvalDefVar<int>(keyName+"NRings", 4);
-  nLayers = Control.EvalDefVar<int>(keyName+"NLayers", 4.0);
-  cellWallThick = Control.EvalDefVar<double>(keyName+"CellWallThick", 0.3);
-  cellWallMat = ModelSupport::EvalDefMat<int>(Control,keyName+"CellWallMat", 13000);
-  cellCoolThick = Control.EvalDefVar<double>(keyName+"CellCoolThick", 0.5);
-  cellCoolMat = ModelSupport::EvalDefMat<int>(Control,keyName+"CellCoolMat", 1011);   
-
   width  = Control.EvalDefVar<double>(keyName+"Width",  -1);
   length = Control.EvalDefVar<double>(keyName+"Length", -1);
   refMat1=ModelSupport::EvalDefMat<int>(Control,keyName+"RefMat1", 0);
@@ -181,32 +173,6 @@ BeRef::createSurfaces()
     ModelSupport::buildPlane(SMap, refIndex+222, Origin+Y*(length/2.0+wallThick), Y);
   }
 
-  if (!(cellCooling)) return;
-
-  double rRing; // ring radius
-  int ringIndex(refIndex);
-  for (int i=0; i<nRings; i++) {
-    rRing = radius*(i+1)/(nRings+1);
-    //    std::cout << "ring radius: " << rRing << std::endl;
-    ModelSupport::buildCylinder(SMap, ringIndex+21, Origin, Z, rRing);
-    ModelSupport::buildCylinder(SMap, ringIndex+22, Origin, Z, rRing+cellWallThick);
-    ModelSupport::buildCylinder(SMap, ringIndex+23, Origin, Z, rRing-cellCoolThick);
-    ModelSupport::buildCylinder(SMap, ringIndex+24, Origin, Z, rRing+cellWallThick+cellCoolThick);
-    ringIndex += 10;
-  }
-  
-  double hLayer = height/nLayers; // layer height
-  double zLayer; // layer z-coordinate
-  int layerIndex(refIndex);
-  for (int i=0; i<nLayers-1; i++) {
-    zLayer = hLayer*(i+1);
-    std::cout << "layer: " << zLayer << std::endl;
-    ModelSupport::buildPlane(SMap,layerIndex+25, Origin+Z*zLayer, Z);  
-    ModelSupport::buildPlane(SMap,layerIndex+26, Origin+Z*(zLayer+cellWallThick), Z);  
-    layerIndex += 10;
-  }
-
-
   return; 
 }
 
@@ -226,10 +192,10 @@ BeRef::addToInsertChain(attachSystem::ContainedComp& CC) const
 
 void
 BeRef::createObjects(Simulation& System, const std::string &TargetSurfBoundary)
-  /*!
-    Create the vaned moderator
-    \param System :: Simulation to add results
-   */
+/*!
+  Create the vaned moderator
+  \param System :: Simulation to add results
+*/
 {
   ELog::RegMethod RegA("BeRef","createObjects");
 
@@ -239,82 +205,53 @@ BeRef::createObjects(Simulation& System, const std::string &TargetSurfBoundary)
 
   //  ELog::EM<<"SET CELL : "<<keyName<<ELog::endCrit;
 
-  if (cellCooling) {
-    int ringIndex(refIndex);
-    //    int layerIndex(refIndex);
-    for (int i=0; i<=nRings; i++) {
-      //      std::cout << "ring" << i << std::endl;
-      if (i==(nRings)) {
-	Out=ModelSupport::getComposite(SMap,refIndex, ringIndex, " -7 -6 15 14M");
-	System.addCell(MonteCarlo::Qhull(cellIndex++,refMat,0.0,Out));
-      } else if (i==0) {
-	Out=ModelSupport::getComposite(SMap,refIndex, ringIndex, " -6 15 -23M");
-	System.addCell(MonteCarlo::Qhull(cellIndex++,refMat,0.0,Out));
-      } else {
-	Out=ModelSupport::getComposite(SMap,refIndex, ringIndex, " -6 15 14M -23M");
-	System.addCell(MonteCarlo::Qhull(cellIndex++,refMat,0.0,Out));
-      }
+  if ((width<Geometry::zeroTol) && (length<Geometry::zeroTol)) {
+    Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 ");
+    System.addCell(MonteCarlo::Qhull(cellIndex++,refMat,0.0,Out));
 
-      if (i!=(nRings)) {
-	Out=ModelSupport::getComposite(SMap,refIndex, ringIndex, " -6 15 23M -21M");
-	System.addCell(MonteCarlo::Qhull(cellIndex++, cellCoolMat, 0.0,Out));
+  } else {
+    if (length<Geometry::zeroTol) { // width>0
+      Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 111 -112 ");
+      System.addCell(MonteCarlo::Qhull(cellIndex++,refMat,0.0,Out));
+      Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 -121 ");
+      System.addCell(MonteCarlo::Qhull(cellIndex++, refMat1, 0.0, Out));
 
-	Out=ModelSupport::getComposite(SMap,refIndex, ringIndex, " -6 15 21M -22M");
-	System.addCell(MonteCarlo::Qhull(cellIndex++, cellWallMat, 0.0,Out));
+      Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 122 ");
+      System.addCell(MonteCarlo::Qhull(cellIndex++, refMat1, 0.0, Out));
 
-	Out=ModelSupport::getComposite(SMap,refIndex, ringIndex, " -6 15 22M -24M");
-	System.addCell(MonteCarlo::Qhull(cellIndex++, cellCoolMat, 0.0,Out));
-      }
-      ringIndex += 10;
-    }
-  } else { // no cell cooling
-    if ((width<Geometry::zeroTol) && (length<Geometry::zeroTol)) {
-      Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 ");
+      Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 -111 +121 ");
+      System.addCell(MonteCarlo::Qhull(cellIndex++, wallMat, 0.0, Out));
+      Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 -122 +112 ");
+      System.addCell(MonteCarlo::Qhull(cellIndex++, wallMat, 0.0, Out));
+    } else if (width<Geometry::zeroTol) {
+      Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 211 -212 ");
+      System.addCell(MonteCarlo::Qhull(cellIndex++,refMat,0.0,Out));
+      Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 -221 ");
+      System.addCell(MonteCarlo::Qhull(cellIndex++, refMat1, 0.0, Out));
+
+      Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 222 ");
+      System.addCell(MonteCarlo::Qhull(cellIndex++, refMat1, 0.0, Out));
+
+      Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 -211 +221 ");
+      System.addCell(MonteCarlo::Qhull(cellIndex++, wallMat, 0.0, Out));
+      Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 -222 +212 ");
+      System.addCell(MonteCarlo::Qhull(cellIndex++, wallMat, 0.0, Out));
+    } else { // both length and width > 0
+      Out=ModelSupport::getComposite(SMap,refIndex," -7 111 -112 -6 15 211 -212 ");
       System.addCell(MonteCarlo::Qhull(cellIndex++,refMat,0.0,Out));
 
-    } else {
-      if (length<Geometry::zeroTol) { // width>0
-	Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 111 -112 ");
-	System.addCell(MonteCarlo::Qhull(cellIndex++,refMat,0.0,Out));
-	Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 -121 ");
-	System.addCell(MonteCarlo::Qhull(cellIndex++, refMat1, 0.0, Out));
+      Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 (-121:122:-221:222) ");
+      System.addCell(MonteCarlo::Qhull(cellIndex++, refMat1, 0.0, Out));
 
-	Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 122 ");
-	System.addCell(MonteCarlo::Qhull(cellIndex++, refMat1, 0.0, Out));
-
-	Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 -111 +121 ");
-	System.addCell(MonteCarlo::Qhull(cellIndex++, wallMat, 0.0, Out));
-	Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 -122 +112 ");
-	System.addCell(MonteCarlo::Qhull(cellIndex++, wallMat, 0.0, Out));
-      } else if (width<Geometry::zeroTol) {
-	Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 211 -212 ");
-	System.addCell(MonteCarlo::Qhull(cellIndex++,refMat,0.0,Out));
-	Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 -221 ");
-	System.addCell(MonteCarlo::Qhull(cellIndex++, refMat1, 0.0, Out));
-
-	Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 222 ");
-	System.addCell(MonteCarlo::Qhull(cellIndex++, refMat1, 0.0, Out));
-
-	Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 -211 +221 ");
-	System.addCell(MonteCarlo::Qhull(cellIndex++, wallMat, 0.0, Out));
-	Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 -222 +212 ");
-	System.addCell(MonteCarlo::Qhull(cellIndex++, wallMat, 0.0, Out));
-      } else { // both length and width > 0
-	Out=ModelSupport::getComposite(SMap,refIndex," -7 111 -112 -6 15 211 -212 ");
-	System.addCell(MonteCarlo::Qhull(cellIndex++,refMat,0.0,Out));
-
-	Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 (-121:122:-221:222) ");
-	System.addCell(MonteCarlo::Qhull(cellIndex++, refMat1, 0.0, Out));
-
-	Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 121 -122 221 -222 (-111:112:-211:212)");
-	System.addCell(MonteCarlo::Qhull(cellIndex++, wallMat, 0.0, Out));
-      }
-    }
-    if (VoidCellHeight>Geometry::zeroTol) {
-      Out=ModelSupport::getComposite(SMap,refIndex," -17 -115 "); Out += TargetSurfBoundary;
-      System.addCell(MonteCarlo::Qhull(cellIndex++,VoidCellMat,0.0,Out));
+      Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 121 -122 221 -222 (-111:112:-211:212)");
+      System.addCell(MonteCarlo::Qhull(cellIndex++, wallMat, 0.0, Out));
     }
   }
+  if (VoidCellHeight>Geometry::zeroTol) {
+    Out=ModelSupport::getComposite(SMap,refIndex," -17 -115 "); Out += TargetSurfBoundary;
+    System.addCell(MonteCarlo::Qhull(cellIndex++,VoidCellMat,0.0,Out));
+  }
+
   
   // reflector wall:
   if (VoidCellHeight>Geometry::zeroTol) {
