@@ -272,10 +272,6 @@ BeRef::createObjects(Simulation& System, const std::string &TargetSurfBoundary)
       Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 ");
       System.addCell(MonteCarlo::Qhull(cellIndex++,refMat,0.0,Out));
 
-      if (VoidCellHeight>Geometry::zeroTol) {
-	Out=ModelSupport::getComposite(SMap,refIndex," -17 -115 "); Out += TargetSurfBoundary;
-	System.addCell(MonteCarlo::Qhull(cellIndex++,VoidCellMat,0.0,Out));
-      }
     } else {
       if (length<Geometry::zeroTol) { // width>0
 	Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 111 -112 ");
@@ -313,6 +309,10 @@ BeRef::createObjects(Simulation& System, const std::string &TargetSurfBoundary)
 	Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 121 -122 221 -222 (-111:112:-211:212)");
 	System.addCell(MonteCarlo::Qhull(cellIndex++, wallMat, 0.0, Out));
       }
+    }
+    if (VoidCellHeight>Geometry::zeroTol) {
+      Out=ModelSupport::getComposite(SMap,refIndex," -17 -115 "); Out += TargetSurfBoundary;
+      System.addCell(MonteCarlo::Qhull(cellIndex++,VoidCellMat,0.0,Out));
     }
   }
   
