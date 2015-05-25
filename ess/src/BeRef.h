@@ -37,6 +37,13 @@ namespace essSystem
       int refMat;                     ///< reflector material
       int wallMat;                    ///< wall Material
 
+      double innerRadius;               ///< radius of the inner reflector part
+      double innerHeight;               ///< height of the inner reflector part
+      double innerWallThick;          ///< inner wall thickness
+      int    innerRefMat;             ///< material of the inner reflector part (if i  
+      int    innerWallMat;              ///< inner wall material
+
+
       double width;                   ///< reflector width in the case we wish to limit it by planes. Has no effect if < 0
       double length;                  ///< reflector length in the case we wish to limit it by planes. Has no effect if < 0
       int    refMat1;                 ///< material inside the reflector cylinder and outside width/length - e.g. in the area complementing refMat. used only if width>0 || length>0

@@ -107,14 +107,21 @@ BeRef::populate(const FuncDataBase& Control)
   zStep=Control.EvalVar<double>(keyName+"ZStep");
   xyAngle=Control.EvalVar<double>(keyName+"XYangle");
   zAngle=Control.EvalVar<double>(keyName+"Zangle");
+
   radius=Control.EvalVar<double>(keyName+"Radius");   
   height=Control.EvalVar<double>(keyName+"Height");   
   wallThick=Control.EvalVar<double>(keyName+"WallThick");   
   voidThick=Control.EvalVar<double>(keyName+"VoidThick");   
 
   refMat=ModelSupport::EvalMat<int>(Control,keyName+"RefMat");
-  //  refMatTop=ModelSupport::EvalMat<int>(Control,keyName+"RefMatTop");
   wallMat=ModelSupport::EvalMat<int>(Control,keyName+"WallMat");   
+
+  innerRadius=Control.EvalDefVar<double>(keyName+"InnerRadius", 0);
+  innerHeight=Control.EvalDefVar<double>(keyName+"InnerHeight", 0);
+  innerWallThick=Control.EvalDefVar<double>(keyName+"InnerWallThick", 0);
+  innerRefMat=ModelSupport::EvalDefMat<int>(Control, keyName+"InnerRefMat", 0);
+  innerWallMat=ModelSupport::EvalDefMat<int>(Control, keyName+"InnerWallMat", 0);
+
 
   width  = Control.EvalDefVar<double>(keyName+"Width",  -1);
   length = Control.EvalDefVar<double>(keyName+"Length", -1);
@@ -159,14 +166,21 @@ BeRef::createSurfaces()
   ModelSupport::buildPlane(SMap,refIndex+16, Origin+Z*(height+wallThick),Z);  
   ModelSupport::buildPlane(SMap,refIndex+19, Origin+Z*(height+wallThick+voidThick),Z);  
 
-  if (width>0) {
+  if (innerRadius*innerHeight>Geometry::zeroTol) {
+    ModelSupport::buildCylinder(SMap, refIndex+37, Origin, Z, innerRadius);
+    ModelSupport::buildCylinder(SMap, refIndex+47, Origin, Z, innerRadius+innerWallThick);
+    ModelSupport::buildPlane(SMap, refIndex+36, Origin+Z*(innerHeight), Z);
+    ModelSupport::buildPlane(SMap, refIndex+46, Origin+Z*(innerHeight+innerWallThick), Z);
+  }
+
+  if (width>Geometry::zeroTol) {
     ModelSupport::buildPlane(SMap, refIndex+111, Origin-X*(width/2.0), X);
     ModelSupport::buildPlane(SMap, refIndex+112, Origin+X*(width/2.0), X);
     ModelSupport::buildPlane(SMap, refIndex+121, Origin-X*(width/2.0+wallThick), X);
     ModelSupport::buildPlane(SMap, refIndex+122, Origin+X*(width/2.0+wallThick), X);
   }
 
-  if (length>0) {
+  if (length>Geometry::zeroTol) {
     ModelSupport::buildPlane(SMap, refIndex+211, Origin-Y*(length/2.0), Y);
     ModelSupport::buildPlane(SMap, refIndex+212, Origin+Y*(length/2.0), Y);
     ModelSupport::buildPlane(SMap, refIndex+221, Origin-Y*(length/2.0+wallThick), Y);
@@ -206,8 +220,21 @@ BeRef::createObjects(Simulation& System, const std::string &TargetSurfBoundary)
   //  ELog::EM<<"SET CELL : "<<keyName<<ELog::endCrit;
 
   if ((width<Geometry::zeroTol) && (length<Geometry::zeroTol)) {
-    Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 ");
-    System.addCell(MonteCarlo::Qhull(cellIndex++,refMat,0.0,Out));
+    if (innerRadius*innerHeight>Geometry::zeroTol) {
+      // inner part
+      Out=ModelSupport::getComposite(SMap,refIndex," -37 -36 15 ");
+      System.addCell(MonteCarlo::Qhull(cellIndex++,innerRefMat,0.0,Out));
+      // inner part wall
+      Out=ModelSupport::getComposite(SMap,refIndex," -47 -46 15 (37:36:-15)");
+      System.addCell(MonteCarlo::Qhull(cellIndex++,innerWallMat,0.0,Out));
+      // outer part
+      Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 (47:46:-15)");
+      System.addCell(MonteCarlo::Qhull(cellIndex++,refMat,0.0,Out));
+    } else {
+      // outer part
+      Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 ");
+      System.addCell(MonteCarlo::Qhull(cellIndex++,refMat,0.0,Out));
+    }
 
   } else {
     if (length<Geometry::zeroTol) { // width>0
@@ -255,14 +282,16 @@ BeRef::createObjects(Simulation& System, const std::string &TargetSurfBoundary)
   
   // reflector wall:
   if (VoidCellHeight>Geometry::zeroTol) {
-    Out=ModelSupport::getComposite(SMap,refIndex," -17 -16 115 (7:6:-15)"); // " -17 5 -16 (7:-5:6)"
-    System.addCell(MonteCarlo::Qhull(cellIndex++,wallMat,0.0,Out));
+    Out=ModelSupport::getComposite(SMap,refIndex," 115 ");
   } else {
-    Out=ModelSupport::getComposite(SMap,refIndex," -17 -16 (7:6:-15)"); // " -17 5 -16 (7:-5:6)"
-    Out += TargetSurfBoundary;
-    System.addCell(MonteCarlo::Qhull(cellIndex++,wallMat,0.0,Out));
+    Out = TargetSurfBoundary;
   }
-
+  Out+=ModelSupport::getComposite(SMap,refIndex," -17 -16 (7:6:-15)");
+  if (innerRadius*innerHeight>Geometry::zeroTol)
+    Out+=ModelSupport::getComposite(SMap,refIndex," (47:46:-15) ");
+    
+  System.addCell(MonteCarlo::Qhull(cellIndex++,wallMat,0.0,Out));
+  
   setCell(keyName+"Ring",1,cellIndex-1); // for TSupply Pipe - name this cell in order to remove it in makeESS: TopSupplyPipe->addInsertCell
 
   // void clearance outside Al

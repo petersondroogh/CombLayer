@@ -61,11 +61,11 @@ butterflyVTK: ess
 	@rm -f flat1.x
 	./ess -r -lowMod Butterfly -topMod Butterfly -nF5 6  -topModFlowGuide None  -lowWaterDisc On -topWaterDisc On  -topPreCooling None -x flat.xml  -vtk -M -MA -15 -20 -15 -MB 15 20 -7  -MN 500 500 160 butterfly.vtk && du -hsc butterfly.vtk && /bin/mv -f butterfly.vtk ~/Downloads/butterfly.vtk
 
-
 butterfly1: ess
-	./ess -r -lowMod Butterfly -topMod Butterfly -nF5 6  -topModFlowGuide None  -lowWaterDisc On -topWaterDisc On  -topPreCooling None -v LowButterflyBFlightAngleZTop 2 -v LowButterflyAFlightAngleZTop 2 -v LowButterflyTopPreType 0 -x xml/butterfly-static.xml  butterfly
-	sed -i -n '/^sdef/{p;:a;N;/prdmp/!ba;s/.*\n/si1 h -7 7\nsp1 0 1\nsi2 h -1.6 1.6\nsp2 0 1\n/};p' butterfly1.x
-	sed -i -e "s/fq1   f d u s m e t c/*c1:n 90 5 0/" butterfly1.x
+	pstudy-nowrap -i xml/butterfly.xml -setup
+	/bin/mv -f case001/inp flat.xml  && rm -fr case001
+	@rm -fv flat1.x
+	./ess -r  -lowMod Butterfly -topMod Butterfly -nF5 3  -lowModFlowGuide Off -topModFlowGuide Off  -lowWaterDisc On -topWaterDisc On  -topPreCooling None -x flat.xml butterfly
 
 
 
