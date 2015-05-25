@@ -129,6 +129,10 @@ BeRef::populate(const FuncDataBase& Control)
 
   VoidCellHeight = Control.EvalDefVar<double>(keyName+"VoidCellHeight", 0.0);
   VoidCellMat=ModelSupport::EvalDefMat<int>(Control,keyName+"VoidCellMat", 0);
+
+  topWaterHeight = Control.EvalDefVar<double>(keyName+"TopWaterHeight", 0.0);
+  topWaterMat=ModelSupport::EvalDefMat<int>(Control,keyName+"TopWaterMat", 0);
+  topWaterWallThick=Control.EvalDefVar<double>(keyName+"TopWaterWallThick", 0.3);
  
   return;
 }
@@ -165,6 +169,9 @@ BeRef::createSurfaces()
   ModelSupport::buildPlane(SMap,refIndex+115, Origin+Z*(VoidCellHeight),Z); // upper/lower plane of bottom Al container (other plane is the target upper/lower surface)
   ModelSupport::buildPlane(SMap,refIndex+16, Origin+Z*(height+wallThick),Z);  
   ModelSupport::buildPlane(SMap,refIndex+19, Origin+Z*(height+wallThick+voidThick),Z);  
+
+  ModelSupport::buildPlane(SMap,refIndex+26, Origin+Z*(height-topWaterHeight),Z);
+  ModelSupport::buildPlane(SMap,refIndex+27, Origin+Z*(height-topWaterHeight-topWaterWallThick),Z);
 
   if (innerRadius*innerHeight>Geometry::zeroTol) {
     ModelSupport::buildCylinder(SMap, refIndex+37, Origin, Z, innerRadius);
@@ -228,12 +235,35 @@ BeRef::createObjects(Simulation& System, const std::string &TargetSurfBoundary)
       Out=ModelSupport::getComposite(SMap,refIndex," -47 -46 15 (37:36:-15)");
       System.addCell(MonteCarlo::Qhull(cellIndex++,innerWallMat,0.0,Out));
       // outer part
-      Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 (47:46:-15)");
-      System.addCell(MonteCarlo::Qhull(cellIndex++,refMat,0.0,Out));
+      if (topWaterHeight>Geometry::zeroTol) {
+	Out=ModelSupport::getComposite(SMap,refIndex," -7 -27 15 (47:46:-15)");
+	System.addCell(MonteCarlo::Qhull(cellIndex++,refMat,0.0,Out));
+
+	Out=ModelSupport::getComposite(SMap,refIndex," -7 -26 27 (47:46:-15)");
+	System.addCell(MonteCarlo::Qhull(cellIndex++,wallMat,0.0,Out));
+
+	Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 26 (47:46:-15)");
+	System.addCell(MonteCarlo::Qhull(cellIndex++,topWaterMat,0.0,Out));
+      } else {
+	Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 (47:46:-15)");
+	System.addCell(MonteCarlo::Qhull(cellIndex++,refMat,0.0,Out));
+      }
     } else {
       // outer part
-      Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 ");
-      System.addCell(MonteCarlo::Qhull(cellIndex++,refMat,0.0,Out));
+      if (topWaterHeight>Geometry::zeroTol) {
+	Out=ModelSupport::getComposite(SMap,refIndex," -7 -27 15 ");
+	System.addCell(MonteCarlo::Qhull(cellIndex++,refMat,0.0,Out));
+
+	Out=ModelSupport::getComposite(SMap,refIndex," -7 -26 27 ");
+	System.addCell(MonteCarlo::Qhull(cellIndex++,wallMat,0.0,Out));
+
+	Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 26 ");
+	System.addCell(MonteCarlo::Qhull(cellIndex++,topWaterMat,0.0,Out));
+      } else {
+	Out=ModelSupport::getComposite(SMap,refIndex," -7 -6 15 ");
+	System.addCell(MonteCarlo::Qhull(cellIndex++,refMat,0.0,Out));
+      }
+
     }
 
   } else {

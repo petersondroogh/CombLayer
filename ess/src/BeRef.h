@@ -43,6 +43,9 @@ namespace essSystem
       int    innerRefMat;             ///< material of the inner reflector part (if i  
       int    innerWallMat;              ///< inner wall material
 
+      double topWaterHeight;          ///< height of top water layer
+      int    topWaterMat;            ///< material of top water layer
+      double    topWaterWallThick;   ///< Al wall thickness between Water and Be
 
       double width;                   ///< reflector width in the case we wish to limit it by planes. Has no effect if < 0
       double length;                  ///< reflector length in the case we wish to limit it by planes. Has no effect if < 0

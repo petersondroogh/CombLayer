@@ -1,207 +1,27 @@
 <!--
-c @@@ TOPTMDISTANCE = 12.9
-c @@@ LOWTMDISTANCE = 14.4
-c @@@ TWDVCHEIGHT = (TOPTMDISTANCE-11.2-1-0.05)
-c @@@ LWDVCHEIGHT = (LOWTMDISTANCE-11.2-1-0.05-1.2-0.3)
-c @@@ WHEELTARGETHEIGHT = 8
-c @@@ WHEELCASETHICK = 0.5
-c @@@ WHEELCOOLANTTHICKIN = 0.65
-c @@@ WHEELCOOLANTTHICKOUT = (WHEELCOOLANTTHICKIN-0.5)
-c @@@ WHEELVOIDTHICK = 1
-c @@@ WHEELYSTEP = 113
-c @@@ WHEELFULLHEIGHT = (WHEELTARGETHEIGHT + 2*(WHEELCASETHICK + WHEELCOOLANTTHICKIN  + WHEELVOIDTHICK))
-c @@@ BEREFHEIGHT = 32.1
-c @@@ TOPBEREFZ = (WHEELTARGETHEIGHT / 2 + WHEELCASETHICK + WHEELCOOLANTTHICKIN + WHEELVOIDTHICK)
-c @@@ LOWBEREFZ = ( -TOPBEREFZ )
-c @@@ LOWBEREFY = 0
-c @@@ BEREFRADIUS = 34.3
-c @@@ BULKMAT = 26010
-c @@@ PROTONBEAMVIEWHEIGHT = WHEELFULLHEIGHT
 c moderator
-c @@@ TOPMODR = 10
-c @@@ TOPMODH = 3
-c @@@ MODRADGAP1 = 0.3
-c @@@ MODRADGAP2 = 0.5
-c @@@ MODRADGAP3 = 0.2
-c @@@ MODRADGAP4 = 0
-c @@@ TOPMODFULLR = (TOPMODR + MODRADGAP1 + MODRADGAP2 + MODRADGAP3 + MODRADGAP4)
-c @@@ MODHGAP1 = 0.3
-c @@@ MODHGAP2 = 0.5
-c @@@ MODHGAP3 = 0.3
-c @@@ MODHGAP4 = 0.0
-c @@@ MODHGAP5 = 0.0
-c @@@ MODFULLHEIGHT = (TOPMODH + MODHGAP1*2)
-c @@@ TARGETMODZDISTANCE = (6.5-1.4-0.9)
-c @@@ TOPMODX = 0
-c @@@ TOPMODY = 0
-c @@@ TOPMODZ = (TARGETMODZDISTANCE + WHEELFULLHEIGHT/2.0 + MODFULLHEIGHT/2.0)
 c aluminum inner layer 
 c must be zero
-c @@@ PREDEPTH1  = 0.0
-c @@@ PREDEPTH3 = 0.4
 c thickness of water below mod
-c @@@ PREDEPTH2 = (TOPMODZ-WHEELFULLHEIGHT/2-(MODFULLHEIGHT+MODHGAP2*2+MODHGAP3*2)/2 - PREDEPTH3-0.01)
 c thickness of aluminum below mod and water layer
 c thickness of water above mod
-c @@@ PREHEIGHT1 = 0
-c @@@ PREHEIGHT2 = 1
-c @@@ PREHEIGHT3 = 0.3
 c premoderator thickness
-c @@@ PRETHICK1 = 0
-c @@@ PRETHICK2 = (BEREFRADIUS - TOPMODR - MODRADGAP1 - MODRADGAP2 - MODRADGAP3)
-c @@@ PRETHICK3 = 0
 c outer side aluminum layer
-c @@@ PREFULLHEIGHT = (MODFULLHEIGHT+PREDEPTH1 + PREDEPTH2 + PREDEPTH3*2 + PREHEIGHT2+1)
-c @@@ PRER = (TOPMODR+PRETHICK1+PRETHICK2)
 c flight line
-c @@@ FLHAT2M = 12
 c these formulae are correct only if the moderator in centered on the z-axis:
-c @@@ FLIGHTLINETILT = ( atan((FLHAT2M-TOPMODH)/2/(200.0-TOPMODR-MODRADGAP1-MODRADGAP2-MODRADGAP3-MODRADGAP4-PREDEPTH1-PRETHICK2)) * 180/3.1415926 )
-c @@@ FLIGHTLINEHALFOPENING = (120 / 2)
 c thickness of water layer in the wings
-c @@@ LINERTHICK = 0
-c @@@ LINERHEIGHT = 0.0
-c @@@ FLIGHTWIDTH = 30
 c supply/return pipes
-c @@@ TINRADIUS = (TOPMODH/2.0)
-c @@@ TMIDALRADIUS = (TINRADIUS+MODRADGAP1)
-c @@@ TVOIDRADIUS = (TMIDALRADIUS+MODRADGAP2)
-c @@@ TOUTERRADIUS = (TVOIDRADIUS+MODHGAP3+MODHGAP5)
-c @@@ TOUTERRADIUSH2O = (TOUTERRADIUS+1)
-c @@@ TOUTERRADIUSH2OAL = (TOUTERRADIUSH2O+0.3)
-c @@@ PPT1Y = (BEREFRADIUS-17)
-c @@@ PPT2Y = (PPT1Y)
-c @@@ ONIONR1 = (TOPMODR/3)
-c @@@ ONIONR2 = ((TOPMODR+ONIONR1)/2)
-c @@@ ONIONPRER1 = (PRER/4)
-c @@@ ONIONPRER2 = (ONIONPRER1*2)
-c @@@ ONIONPRER3 = (ONIONPRER1*3)
-c @@@ ONIONPREH = (PREFULLHEIGHT)
-c @@@ ONIONPREZ = (PREHEIGHT2-PREDEPTH2+1)
-c @@@ RECMODZ = (15.95+LOWBEREFZ)
-c @@@ THERMALHALFOPENING = ( 60.0/2.0 )
-c @@@ THERMALMODH2OTHICK = 3
-c @@@ THERMALMODD = 6
-c @@@ THERMALMODH = 6
-c @@@ THERMALMODW = 10
-c @@@ THERMALMODWALLTHICK = 0.3
-c @@@ THERMALMODZ = (6.65+THERMALMODH2OTHICK+LOWBEREFZ+THERMALMODH/2.0+THERMALMODWALLTHICK)
-c @@@ THERMALFLIGHTLINETILT = ( THERMALMODH<FLHAT2M ? atan((FLHAT2M-THERMALMODH-THERMALMODWALLTHICK*2)/2/(200.0-THERMALMODW/2-THERMALMODWALLTHICK)) * 180/pi : 0.0 )
-c @@@ WATERCYLWALLH = 0.3
-c @@@ THERMALCYLH = 6
-c @@@ THERMALCYLR = 6
-c @@@ LOWMODH = 3
-c @@@ LOWMODR = 10
-c @@@ LOWMODRADGAP1 = 0.3
-c @@@ LOWMODRADGAP2 = 0.5
-c @@@ LOWMODRADGAP3 = 0.2
-c @@@ LOWMODHGAP1 = 0.3
-c @@@ LOWMODHGAP2 = 0.5
-c @@@ LOWMODHGAP3 = 0.3
-c @@@ LOWPREDEPTH1 = 0
-c @@@ LOWPREDEPTH2 = 2.99
-c @@@ LOWPREDEPTH3 = 0.4
-c @@@ LOWPREHEIGHT2 = 1
-c @@@ LOWPRETHICK1 = 0
-c @@@ LOWPRETHICK2 = 23.3
-C @@@ LOWPRETHICK3 = 0
-C @@@ LOWMODFULLR = (LOWMODR+LOWMODRADGAP1+LOWMODRADGAP2+LOWMODRADGAP3)
-c @@@ LOWPRER = (LOWMODFULLR+LOWPRETHICK1+LOWPRETHICK2+LOWPRETHICK3)
-c @@@ LOWMODX = 0
-c @@@ LOWMODY = 0
-c @@@ LOWFLIGHTLINEHALFOPENING = (60)
-c @@@ LOWFLIGHTH = 3
-c @@@ LOWFLIGHTZ = ((LOWMODH-LOWFLIGHTH)/2.0)
-c @@@ BTH = 3
-c @@@ BTZTOP = (TOPTMDISTANCE-6.15 + (BTH-3)/2)
-c @@@ BTZLOW = (LOWTMDISTANCE-6.15 + (BTH-3)/2)
-c @@@ BTZCENTER = (1*(6.15+BTZTOP))
-c @@@ BTLENGTH = 28.4
-c @@@ BTWIDTH = 21.16
-c @@@ BTWINGRAD = (2.506)
-c @@@ BTWINGCENTRALRAD = 5
-c @@@ BTWL = 13.77
-c @@@ BTTHICK1 = 0.3
-c @@@ BTTHICK2 = 0.5
-c @@@ BTTHICK3 = 0.3
-c @@@ BTHALFOPENING = 60
-c @@@ BTALPHA = ( atan(BTWIDTH/2/BTWL) ) 
-c @@@ BTWATERLEN = 10
-c @@@ BTWATERTHICK1 = 2.5
-c @@@ BTWATERTHICK2 = 1.9
-c @@@ BTWATERBASETHICK = 3.2
-c @@@ BTWATERHEIGHTBELOW = 0.9
-c @@@ BTFLIGHTXOFFSET = 6
-c @@@ LOWAFLIGHTMASTERXY = 0
-c @@@ LOWBFLIGHTMASTERXY = 0
-c @@@ LOWMODXYANGLE = 90
-c @@@ F5RAD = 1000
-c @@@ F35zg = (BTZCENTER - BTH/2)
-c @@@ F35zb = (F35zg+BTH)
-c @@@ FCOLDWIDTH = 6
-c @@@ FTHERMALWIDTH  = 6
-c @@@ F35theta = (deg2rad(1))
-c @@@ F35x = (F5RAD*cos(F35theta))
-c @@@ F35y = (F5RAD*sin(F35theta))
-c @@@ F35z  = BTZCENTER
-c @@@ F35xb = ( BTWATERLEN*sin(BTALPHA) + BTWATERTHICK*cos(BTALPHA)  )
-c @@@ F35yb = 3
-c @@@ F35xc = F35xb
-c @@@ F35yc = (-1 * F35yb)
-c @@@ F45theta = (deg2rad(50))
-c @@@ F45x = (F5RAD*cos(F45theta))
-c @@@ F45y = (F5RAD*sin(F45theta))
-c @@@ F45z  = BTZCENTER
-c @@@ F45xc = (BTWIDTH/2+(BTTHICK1+BTTHICK2+BTTHICK3)/abs(sin(F45theta))+2)
-c @@@ F45yc = (BTLENGTH/2-BTWINGRAD)
-c @@@ F45xb = ( F45xc+FTHERMALWIDTH*abs(sin(F45theta)) )
-c @@@ F45yb = (F45yc)
-c @@@ F55theta = (-55*pi/180)
-c @@@ F55x = (F5RAD*cos(F55theta))
-c @@@ F55y = (F5RAD*sin(F55theta))
-c @@@ F55z  = BTZCENTER
-c @@@ F55xc = (BTWIDTH/2+(BTTHICK1+BTTHICK2+BTTHICK3)/abs(sin(F55theta))+2)
-c @@@ F55yc = (-1*BTLENGTH/2+BTWINGRAD)
-c @@@ F55xb = ( F55xc+FTHERMALWIDTH*abs(sin(F55theta)) )
-c @@@ F55yb = (F55yc)
-c @@@ F5theta = deg2rad(-1)
-c @@@ F5x = (F5RAD*cos(F5theta))
-c @@@ F5y = (F5RAD*sin(F5theta))
-c @@@ F5z = BTZCENTER
-c @@@ F5xb = (BTWIDTH/2.0)
-c @@@ F5yb = (-1*BTLENGTH/2)
-c @@@ F5xc = ( F5xb + FCOLDWIDTH*sin(F5theta) )
-c @@@ F5yc = ( F5yb + FCOLDWIDTH*cos(F5theta) )
-c @@@ F5zg = F35zg
-c @@@ F5zb = F35zb
-c @@@ F15theta = (deg2rad(2))
-c @@@ F15x = (F5RAD*cos(F15theta))
-c @@@ F15y = (F5RAD*sin(F15theta))
-c @@@ F15z = F35z
-c @@@ F15xb = ( BTWIDTH/2+(BTTHICK1+BTTHICK2+BTTHICK3)-BTFLIGHTXOFFSET-(BTTHICK1+BTTHICK2+BTTHICK3)/tan(deg2rad(BTHALFOPENING)))
-c @@@ F15yb = ( BTLENGTH/2 )
-c @@@ F15xc = ( F15xb + FCOLDWIDTH*abs(sin(F15theta)))
-c @@@ F15yc = ( F15yb - FCOLDWIDTH*abs(cos(F15theta)))
-c @@@ F25theta = (-50*pi/180)
-c @@@ F25x = (F5RAD*cos(F25theta))
-c @@@ F25y = (F5RAD*sin(F25theta))
-c @@@ F25z = F15z
-c @@@ F25xb = ( F15xb )
-c @@@ F25yb = ( -1*F15yb )
-c @@@ F25xc = (F25xb + FCOLDWIDTH*abs(sin(F25theta)))
-c @@@ F25yc = (F25yb + FCOLDWIDTH*abs(cos(F25theta)))
-c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2/(200.0-LOWPRER)) * 180/pi : 0.0 )
 -->
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <metadata_entry>
   <Variables>
     <variable name="LowWaterDiscHeight" type="function">3+0.95</variable>
-    <variable name="LowWaterDiscWallThick" type="double">WATERCYLWALLH</variable>
-    <variable name="LowWaterDiscRadius" type="function">BEREFRADIUS+0.2</variable>
+    <variable name="LowWaterDiscWallThick" type="double">0.3</variable>
+    <variable name="LowWaterDiscRadius" type="function">34.3+0.2</variable>
     <variable name="LowWaterDiscWidth" type="double">-10</variable>
     <variable name="LowWaterDiscRefMat" type="int">26010</variable>
     <variable name="LowWaterDiscRefMat1" type="int">26010</variable>
-    <variable name="LowWaterDiscVoidCellHeight" type="double">LWDVCHEIGHT</variable>
+    <variable name="LowWaterDiscVoidCellHeight" type="double">0.650000000000001</variable>
     <variable name="LowWaterDiscVoidCellMat" type="int">0</variable>
 
     <variable name="LowWaterDiscInnerRadius" type="double">30</variable>
@@ -212,12 +32,12 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
 
     
     <variable name="TopWaterDiscHeight" type="function">3+0.95</variable>
-    <variable name="TopWaterDiscWallThick" type="double">WATERCYLWALLH</variable>
-    <variable name="TopWaterDiscRadius" type="function">BEREFRADIUS+0.1</variable>
+    <variable name="TopWaterDiscWallThick" type="double">0.3</variable>
+    <variable name="TopWaterDiscRadius" type="function">34.3+0.1</variable>
     <variable name="TopWaterDiscWidth" type="double">-10</variable>
     <variable name="TopWaterDiscRefMat" type="int">26010</variable>
     <variable name="TopWaterDiscRefMat1" type="int">26010</variable>
-    <variable name="TopWaterDiscVoidCellHeight" type="double">TWDVCHEIGHT</variable>
+    <variable name="TopWaterDiscVoidCellHeight" type="double">0.650000000000001</variable>
     <variable name="TopWaterDiscVoidCellMat" type="int">0</variable>
 
     <variable name="TopWaterDiscInnerRadius" type="double">30</variable>
@@ -261,9 +81,9 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="BulkLAFlightWidth" type="double">23.3</variable>
     <variable name="BulkLAFlightXStep" type="double">0</variable>
     <variable name="BulkLAFlightZStep" type="double">0</variable>
-    <variable name="BulkMat1" type="std::string">BULKMAT</variable>
+    <variable name="BulkMat1" type="std::string">26010</variable>
     <variable name="BulkMat2" type="std::string">13001</variable>
-    <variable name="BulkMat3" type="std::string">BULKMAT</variable>
+    <variable name="BulkMat3" type="std::string">26010</variable>
     <variable name="BulkNLayer" type="int">3</variable>
     <variable name="BulkRadius1" type="double">65</variable>
     <variable name="BulkRadius2" type="double">66</variable>
@@ -286,7 +106,7 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
 
     <variable name="TubeModXStep" type="double">0</variable>
     <variable name="TubeModYStep" type="double">0</variable>
-    <variable name="TubeModZStep" type="double">RECMODZ</variable>
+    <variable name="TubeModZStep" type="double">9.8</variable>
     <variable name="TubeModZangle" type="double">0</variable>
     <variable name="TubeModNLayers" type="double">4</variable>
     <variable name="TubeModDepth" type="double">6</variable>
@@ -328,76 +148,76 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
 
     <variable name="ThermalRecModXStep" type="double">0</variable>
     <variable name="ThermalRecModYStep" type="double">0</variable>
-    <variable name="ThermalRecModZStep" type="double">THERMALMODZ</variable>
+    <variable name="ThermalRecModZStep" type="double">6.8</variable>
     <variable name="ThermalRecModZangle" type="double">0</variable>
     <variable name="ThermalRecModNLayers" type="double">2</variable>
-    <variable name="ThermalRecModDepth" type="double">THERMALMODD</variable>
-    <variable name="ThermalRecModHeight" type="double">THERMALMODH</variable>
-    <variable name="ThermalRecModWidth" type="double">THERMALMODW</variable>
+    <variable name="ThermalRecModDepth" type="double">6</variable>
+    <variable name="ThermalRecModHeight" type="double">6</variable>
+    <variable name="ThermalRecModWidth" type="double">10</variable>
     <variable name="ThermalRecModTemp" type="double">300</variable>
     <variable name="ThermalRecModMat1" type="int">13001</variable>
     <variable name="ThermalRecModTemp1" type="double">300</variable>
-    <variable name="ThermalRecModXGap1" type="double">THERMALMODWALLTHICK</variable>
-    <variable name="ThermalRecModYGap1" type="double">THERMALMODWALLTHICK</variable>
-    <variable name="ThermalRecModZGap1" type="double">THERMALMODWALLTHICK</variable>
+    <variable name="ThermalRecModXGap1" type="double">0.3</variable>
+    <variable name="ThermalRecModYGap1" type="double">0.3</variable>
+    <variable name="ThermalRecModZGap1" type="double">0.3</variable>
     <variable name="ThermalRecModModMat" type="int">1011</variable>
     <variable name="ThermalRecModWaterCylinderRadius" type="double">34.4</variable>
-    <variable name="ThermalRecModAFlightAngleZBase" type="double">THERMALFLIGHTLINETILT</variable>
-    <variable name="ThermalRecModAFlightAngleZTop" type="double">THERMALFLIGHTLINETILT</variable>
-    <variable name="ThermalRecModBFlightAngleZBase" type="double">THERMALFLIGHTLINETILT</variable>
-    <variable name="ThermalRecModBFlightAngleZTop" type="double">THERMALFLIGHTLINETILT</variable>
-    <variable name="ThermalRecModAFlightAngleXY1" type="double">THERMALHALFOPENING</variable>
-    <variable name="ThermalRecModAFlightAngleXY2" type="double">THERMALHALFOPENING</variable>
-    <variable name="ThermalRecModBFlightAngleXY1" type="double">THERMALHALFOPENING</variable>
-    <variable name="ThermalRecModBFlightAngleXY2" type="double">THERMALHALFOPENING</variable>
+    <variable name="ThermalRecModAFlightAngleZBase" type="double">0.794497633670777</variable>
+    <variable name="ThermalRecModAFlightAngleZTop" type="double">0.794497633670777</variable>
+    <variable name="ThermalRecModBFlightAngleZBase" type="double">0.794497633670777</variable>
+    <variable name="ThermalRecModBFlightAngleZTop" type="double">0.794497633670777</variable>
+    <variable name="ThermalRecModAFlightAngleXY1" type="double">30</variable>
+    <variable name="ThermalRecModAFlightAngleXY2" type="double">30</variable>
+    <variable name="ThermalRecModBFlightAngleXY1" type="double">30</variable>
+    <variable name="ThermalRecModBFlightAngleXY2" type="double">30</variable>
 
     <variable name="LowButterflyXStep" type="double">0</variable>
     <variable name="LowButterflyYStep" type="double">0</variable>
-    <variable name="LowButterflyZStep" type="double">BTZLOW</variable>
+    <variable name="LowButterflyZStep" type="double">8.25</variable>
     <variable name="LowButterflyZangle" type="double">0</variable>
     <variable name="LowButterflyXYangle" type="double">0</variable>
     <variable name="LowButterflyNLayers" type="double">4</variable>
     <variable name="LowButterflyHeight" type="double">6</variable>
-    <variable name="LowButterflyLength" type="double">BTLENGTH</variable>
-    <variable name="LowButterflyWidth" type="double">BTWIDTH</variable>
-    <variable name="LowButterflyWingLength" type="double">BTWL</variable>
-    <variable name="LowButterflyWingCurvatureSideRadius" type="double">BTWINGRAD</variable>
-    <variable name="LowButterflyWingCurvatureCentralRadius" type="double">BTWINGCENTRALRAD</variable>
+    <variable name="LowButterflyLength" type="double">28.4</variable>
+    <variable name="LowButterflyWidth" type="double">21.16</variable>
+    <variable name="LowButterflyWingLength" type="double">13.77</variable>
+    <variable name="LowButterflyWingCurvatureSideRadius" type="double">2.506</variable>
+    <variable name="LowButterflyWingCurvatureCentralRadius" type="double">5</variable>
     <variable name="LowButterflyModMat" type="int">1003</variable>
     <variable name="LowButterflyTemp" type="double">20</variable>
     <variable name="LowButterflyMat1" type="int">13001</variable>
     <variable name="LowButterflyTemp1" type="double">20</variable>
-    <variable name="LowButterflyThick1" type="double">BTTHICK1</variable>
+    <variable name="LowButterflyThick1" type="double">0.3</variable>
     <variable name="LowButterflyMat2" type="int">0</variable>
     <variable name="LowButterflyTemp2" type="double">300</variable>
-    <variable name="LowButterflyThick2" type="double">BTTHICK2</variable>
+    <variable name="LowButterflyThick2" type="double">0.5</variable>
     <variable name="LowButterflyMat3" type="int">13000</variable>
     <variable name="LowButterflyTemp3" type="double">300</variable>
-    <variable name="LowButterflyThick3" type="double">BTTHICK3</variable>
+    <variable name="LowButterflyThick3" type="double">0.3</variable>
     <variable name="LowButterflyAFlightAngleZBase" type="double">0</variable>
     <variable name="LowButterflyAFlightAngleZTop" type="double">0</variable>
     <variable name="LowButterflyBFlightAngleZBase" type="double">0</variable>
     <variable name="LowButterflyBFlightAngleZTop" type="double">0</variable>
-    <variable name="LowButterflyAFlightAngleXY1" type="double">BTHALFOPENING</variable>
-    <variable name="LowButterflyAFlightAngleXY2" type="double">BTHALFOPENING</variable>
-    <variable name="LowButterflyBFlightAngleXY1" type="double">BTHALFOPENING</variable>
-    <variable name="LowButterflyBFlightAngleXY2" type="double">BTHALFOPENING</variable>
+    <variable name="LowButterflyAFlightAngleXY1" type="double">60</variable>
+    <variable name="LowButterflyAFlightAngleXY2" type="double">60</variable>
+    <variable name="LowButterflyBFlightAngleXY1" type="double">60</variable>
+    <variable name="LowButterflyBFlightAngleXY2" type="double">60</variable>
     <variable name="LowButterflyFlightLineWallThick" type="double">0.3</variable>
     <variable name="LowButterflyFlightLineWallMat" type="int">13000</variable>
-    <variable name="LowButterflyFlightXOffset" type="double">BTFLIGHTXOFFSET</variable>
+    <variable name="LowButterflyFlightXOffset" type="double">6</variable>
     <variable name="LowButterflyFlightLineType" type="int">1</variable>
     <variable name="LowButterflyFlightLineWrapTopPreType" type="int">1</variable>
     <variable name="LowButterflyPreMat" type="int">1011</variable>
     <variable name="LowButterflyPreTemp" type="double">300</variable>
-    <variable name="LowButterflyPreLength" type="double">BTWATERLEN</variable>
-    <variable name="LowButterflyPreThick1" type="double">BTWATERTHICK1</variable>
-    <variable name="LowButterflyPreThick2" type="function">BTWATERTHICK2</variable>
-    <variable name="LowButterflyPreBaseThick" type="double">BTWATERBASETHICK</variable>
+    <variable name="LowButterflyPreLength" type="double">10</variable>
+    <variable name="LowButterflyPreThick1" type="double">2.5</variable>
+    <variable name="LowButterflyPreThick2" type="function">1.9</variable>
+    <variable name="LowButterflyPreBaseThick" type="double">3.2</variable>
     <variable name="LowButterflyPreHeight" type="double">3</variable>
     <variable name="LowButterflyPreWallThick" type="double">0.3</variable>
     <variable name="LowButterflyPreWallMat" type="int">13000</variable>
     <variable name="LowButterflyPreWallTemp" type="double">300</variable>
-    <variable name="LowButterflyPreTopHeight" type="double">BTWATERHEIGHTBELOW</variable>
+    <variable name="LowButterflyPreTopHeight" type="double">0.9</variable>
     <variable name="LowButterflyPreBottomHeight" type="double">0</variable>
     <variable name="LowButterflyTopPreType" type="int">2</variable>
     <variable name="LowButterflyTopPreHeight" type="double">1</variable>
@@ -406,51 +226,51 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
 
     <variable name="TopButterflyXStep" type="double">0</variable>
     <variable name="TopButterflyYStep" type="double">0</variable>
-    <variable name="TopButterflyZStep" type="double">BTZTOP</variable>
+    <variable name="TopButterflyZStep" type="double">6.75</variable>
     <variable name="TopButterflyZangle" type="double">0</variable>
     <variable name="TopButterflyXYangle" type="double">0</variable>
     <variable name="TopButterflyNLayers" type="double">4</variable>
-    <variable name="TopButterflyHeight" type="double">BTH</variable>
-    <variable name="TopButterflyLength" type="double">BTLENGTH</variable>
-    <variable name="TopButterflyWidth" type="double">BTWIDTH</variable>
-    <variable name="TopButterflyWingLength" type="double">BTWL</variable>
-    <variable name="TopButterflyWingCurvatureSideRadius" type="double">BTWINGRAD</variable>
-    <variable name="TopButterflyWingCurvatureCentralRadius" type="double">BTWINGCENTRALRAD</variable>
+    <variable name="TopButterflyHeight" type="double">3</variable>
+    <variable name="TopButterflyLength" type="double">28.4</variable>
+    <variable name="TopButterflyWidth" type="double">21.16</variable>
+    <variable name="TopButterflyWingLength" type="double">13.77</variable>
+    <variable name="TopButterflyWingCurvatureSideRadius" type="double">2.506</variable>
+    <variable name="TopButterflyWingCurvatureCentralRadius" type="double">5</variable>
     <variable name="TopButterflyModMat" type="int">1003</variable>
     <variable name="TopButterflyTemp" type="double">20</variable>
     <variable name="TopButterflyMat1" type="int">13001</variable>
     <variable name="TopButterflyTemp1" type="double">20</variable>
-    <variable name="TopButterflyThick1" type="double">BTTHICK1</variable>
+    <variable name="TopButterflyThick1" type="double">0.3</variable>
     <variable name="TopButterflyMat2" type="int">0</variable>
     <variable name="TopButterflyTemp2" type="double">300</variable>
-    <variable name="TopButterflyThick2" type="double">BTTHICK2</variable>
+    <variable name="TopButterflyThick2" type="double">0.5</variable>
     <variable name="TopButterflyMat3" type="int">13000</variable>
     <variable name="TopButterflyTemp3" type="double">300</variable>
-    <variable name="TopButterflyThick3" type="double">BTTHICK3</variable>
+    <variable name="TopButterflyThick3" type="double">0.3</variable>
     <variable name="TopButterflyAFlightAngleZBase" type="double">0</variable>
     <variable name="TopButterflyAFlightAngleZTop" type="double">0</variable>
     <variable name="TopButterflyBFlightAngleZBase" type="double">0</variable>
     <variable name="TopButterflyBFlightAngleZTop" type="double">0</variable>
-    <variable name="TopButterflyAFlightAngleXY1" type="double">BTHALFOPENING</variable>
-    <variable name="TopButterflyAFlightAngleXY2" type="double">BTHALFOPENING</variable>
-    <variable name="TopButterflyBFlightAngleXY1" type="double">BTHALFOPENING</variable>
-    <variable name="TopButterflyBFlightAngleXY2" type="double">BTHALFOPENING</variable>
+    <variable name="TopButterflyAFlightAngleXY1" type="double">60</variable>
+    <variable name="TopButterflyAFlightAngleXY2" type="double">60</variable>
+    <variable name="TopButterflyBFlightAngleXY1" type="double">60</variable>
+    <variable name="TopButterflyBFlightAngleXY2" type="double">60</variable>
     <variable name="TopButterflyFlightLineWallThick" type="double">0.3</variable>
     <variable name="TopButterflyFlightLineWallMat" type="int">13000</variable>
-    <variable name="TopButterflyFlightXOffset" type="double">BTFLIGHTXOFFSET</variable>
+    <variable name="TopButterflyFlightXOffset" type="double">6</variable>
     <variable name="TopButterflyFlightLineType" type="int">1</variable>
     <variable name="TopButterflyFlightLineWrapTopPreType" type="int">1</variable>
     <variable name="TopButterflyPreMat" type="int">1011</variable>
     <variable name="TopButterflyPreTemp" type="double">300</variable>
-    <variable name="TopButterflyPreLength" type="double">BTWATERLEN</variable>
-    <variable name="TopButterflyPreThick1" type="double">BTWATERTHICK1</variable>
-    <variable name="TopButterflyPreThick2" type="function">BTWATERTHICK2</variable>
-    <variable name="TopButterflyPreBaseThick" type="double">BTWATERBASETHICK</variable>
+    <variable name="TopButterflyPreLength" type="double">10</variable>
+    <variable name="TopButterflyPreThick1" type="double">2.5</variable>
+    <variable name="TopButterflyPreThick2" type="function">1.9</variable>
+    <variable name="TopButterflyPreBaseThick" type="double">3.2</variable>
     <variable name="TopButterflyPreHeight" type="double">3</variable>
     <variable name="TopButterflyPreWallThick" type="double">0.3</variable>
     <variable name="TopButterflyPreWallMat" type="int">13000</variable>
     <variable name="TopButterflyPreWallTemp" type="double">300</variable>
-    <variable name="TopButterflyPreTopHeight" type="double">BTWATERHEIGHTBELOW</variable>
+    <variable name="TopButterflyPreTopHeight" type="double">0.9</variable>
     <variable name="TopButterflyPreBottomHeight" type="double">0</variable>
     <variable name="TopButterflyTopPreType" type="int">1</variable>
     <variable name="TopButterflyTopPreHeight" type="double">1</variable>
@@ -481,40 +301,40 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="LowModOnionZangle" type="double">0</variable>
 
     <variable name="F5Length" type="double">700</variable>
-    <variable name="F5XB" type="double">F5xb</variable>
-    <variable name="F5YB" type="double">F5yb</variable>
-    <variable name="F5ZB" type="double">F5zb</variable>
-    <variable name="F5XC" type="double">F5xc</variable>
-    <variable name="F5YC" type="double">F5yc</variable>
-    <variable name="F5ZC" type="double">F5zb</variable>
-    <variable name="F5ZG" type="double">F5zg</variable>
-    <variable name="F5X" type="double">F5x</variable>
-    <variable name="F5Y" type="double">F5y</variable>
-    <variable name="F5Z" type="double">F5z</variable>
+    <variable name="F5XB" type="double">10.58</variable>
+    <variable name="F5YB" type="double">-14.2</variable>
+    <variable name="F5ZB" type="double">14.4</variable>
+    <variable name="F5XC" type="double">10.4752855613763</variable>
+    <variable name="F5YC" type="double">-8.20091382906165</variable>
+    <variable name="F5ZC" type="double">14.4</variable>
+    <variable name="F5ZG" type="double">11.4</variable>
+    <variable name="F5X" type="double">999.847695156391</variable>
+    <variable name="F5Y" type="double">-17.4524064372835</variable>
+    <variable name="F5Z" type="double">12.9</variable>
 
     <variable name="F15Length" type="double">700</variable>
-    <variable name="F15XB" type="double">F15xb</variable>
-    <variable name="F15YB" type="double">F15yb</variable>
-    <variable name="F15ZB" type="double">F5zb</variable>
-    <variable name="F15XC" type="double">F15xc</variable>
-    <variable name="F15YC" type="double">F15yc</variable>
-    <variable name="F15ZC" type="double">F5zb</variable>
-    <variable name="F15ZG" type="double">F5zg</variable>
-    <variable name="F15X" type="double">F15x</variable>
-    <variable name="F15Y" type="double">F15y</variable>
-    <variable name="F15Z" type="double">F15z</variable>
+    <variable name="F15XB" type="double">5.04491470389141</variable>
+    <variable name="F15YB" type="double">14.2</variable>
+    <variable name="F15ZB" type="double">14.4</variable>
+    <variable name="F15XC" type="double">5.25431168410642</variable>
+    <variable name="F15YC" type="double">8.20365503788543</variable>
+    <variable name="F15ZC" type="double">14.4</variable>
+    <variable name="F15ZG" type="double">11.4</variable>
+    <variable name="F15X" type="double">999.390827019096</variable>
+    <variable name="F15Y" type="double">34.899496702501</variable>
+    <variable name="F15Z" type="double">12.9</variable>
 
     <variable name="F25Length" type="double">700</variable>
-    <variable name="F25XB" type="double">F35xb</variable>
-    <variable name="F25YB" type="double">F35yb</variable>
-    <variable name="F25ZB" type="double">F35zb</variable>
-    <variable name="F25XC" type="double">F35xc</variable>
-    <variable name="F25YC" type="double">F35yc</variable>
-    <variable name="F25ZC" type="double">F35zb</variable>
-    <variable name="F25ZG" type="double">F35zg</variable>
-    <variable name="F25X" type="double">F35x</variable>
-    <variable name="F25Y" type="double">F35y</variable>
-    <variable name="F25Z" type="double">F35z</variable>
+    <variable name="F25XB" type="double">6.09265385968167</variable>
+    <variable name="F25YB" type="double">3</variable>
+    <variable name="F25ZB" type="double">14.4</variable>
+    <variable name="F25XC" type="double">6.09265385968167</variable>
+    <variable name="F25YC" type="double">-3</variable>
+    <variable name="F25ZC" type="double">14.4</variable>
+    <variable name="F25ZG" type="double">11.4</variable>
+    <variable name="F25X" type="double">999.847695156391</variable>
+    <variable name="F25Y" type="double">17.4524064372835</variable>
+    <variable name="F25Z" type="double">12.9</variable>
 
     <variable name="G1BLine10XYangle" type="double">-17.5</variable>
     <variable name="G2BLine10XYangle" type="double">-17.5</variable>
@@ -724,40 +544,40 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
 
     <variable name="LowAFlightAngleXY1" type="double">60</variable>
     <variable name="LowAFlightAngleXY2" type="double">60</variable>
-    <variable name="LowAFlightAngleZBase" type="double">LOWCYLFLIGHTLINETILT</variable>
-    <variable name="LowAFlightAngleZTop" type="double">LOWCYLFLIGHTLINETILT</variable>
-    <variable name="LowAFlightHeight" type="double">LOWFLIGHTH</variable>
+    <variable name="LowAFlightAngleZBase" type="double">1.5556285441308</variable>
+    <variable name="LowAFlightAngleZTop" type="double">1.5556285441308</variable>
+    <variable name="LowAFlightHeight" type="double">3</variable>
     <variable name="LowAFlightLinerMat1" type="int">0</variable>
     <variable name="LowAFlightLinerThick1" type="double">0.01</variable>
     <variable name="LowAFlightLinerHeight1" type="double">0.3</variable>
-    <variable name="LowAFlightMasterXY" type="double">LOWAFLIGHTMASTERXY</variable>
+    <variable name="LowAFlightMasterXY" type="double">0</variable>
     <variable name="LowAFlightNLiner" type="int">1</variable>
     <variable name="LowAFlightWidth" type="double">105</variable>
     <variable name="LowAFlightXStep" type="double">0</variable>
-    <variable name="LowAFlightZStep" type="double">LOWFLIGHTZ</variable>
-    <variable name="LowBFlightAngleXY1" type="double">LOWFLIGHTLINEHALFOPENING</variable>
-    <variable name="LowBFlightAngleXY2" type="double">LOWFLIGHTLINEHALFOPENING</variable>
-    <variable name="LowBFlightAngleZBase" type="double">LOWCYLFLIGHTLINETILT</variable>
-    <variable name="LowBFlightAngleZTop" type="double">LOWCYLFLIGHTLINETILT</variable>
-    <variable name="LowBFlightHeight" type="double">LOWFLIGHTH</variable>
+    <variable name="LowAFlightZStep" type="double">0</variable>
+    <variable name="LowBFlightAngleXY1" type="double">60</variable>
+    <variable name="LowBFlightAngleXY2" type="double">60</variable>
+    <variable name="LowBFlightAngleZBase" type="double">1.5556285441308</variable>
+    <variable name="LowBFlightAngleZTop" type="double">1.5556285441308</variable>
+    <variable name="LowBFlightHeight" type="double">3</variable>
     <variable name="LowBFlightLinerMat1" type="int">0</variable>
     <variable name="LowBFlightLinerThick1" type="double">0.01</variable>
     <variable name="LowBFlightLinerHeight1" type="double">0.01</variable> 
-    <variable name="LowBFlightMasterXY" type="double">LOWBFLIGHTMASTERXY</variable>
+    <variable name="LowBFlightMasterXY" type="double">0</variable>
     <variable name="LowBFlightNLiner" type="int">1</variable>
     <variable name="LowBFlightWidth" type="double">105</variable>
     <variable name="LowBFlightXStep" type="double">0</variable>
-    <variable name="LowBFlightZStep" type="double">LOWFLIGHTZ</variable>
-    <variable name="LowBeRefHeight" type="double">BEREFHEIGHT</variable>
-    <variable name="LowBeRefRadius" type="double">BEREFRADIUS</variable>
+    <variable name="LowBFlightZStep" type="double">0</variable>
+    <variable name="LowBeRefHeight" type="double">32.1</variable>
+    <variable name="LowBeRefRadius" type="double">34.3</variable>
     <variable name="LowBeRefRefMat" type="std::string">4005</variable>
     <variable name="LowBeRefWallMat" type="int">13000</variable>
-    <variable name="LowBeRefWallThick" type="double">0.5</variable>
+    <variable name="LowBeRefWallThick" type="double">0.4</variable>
     <variable name="LowBeRefCellCooling" type="int">0</variable>
     <variable name="LowBeRefXStep" type="double">0</variable>
     <variable name="LowBeRefXYangle" type="double">0</variable>
-    <variable name="LowBeRefYStep" type="double">LOWBEREFY</variable>
-    <variable name="LowBeRefZStep" type="double">LOWBEREFZ</variable>
+    <variable name="LowBeRefYStep" type="double">0</variable>
+    <variable name="LowBeRefZStep" type="double">-6.15</variable>
     <variable name="LowBeRefZangle" type="int">180</variable>
     <variable name="LowBeRefVoidThick" type="double">1</variable>
     <variable name="LowConeModAlMat" type="int">5</variable>
@@ -803,50 +623,50 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="LowConeModZAngle" type="double">0</variable>
     <variable name="LowConeModZStep" type="double">-18</variable>
 
-    <variable name="LowModHGap1" type="double">LOWMODHGAP1</variable>
-    <variable name="LowModHGap2" type="double">LOWMODHGAP2</variable>
-    <variable name="LowModHGap3" type="double">LOWMODHGAP3</variable>
-    <variable name="LowModHeight" type="double">LOWMODH</variable>
+    <variable name="LowModHGap1" type="double">0.3</variable>
+    <variable name="LowModHGap2" type="double">0.5</variable>
+    <variable name="LowModHGap3" type="double">0.3</variable>
+    <variable name="LowModHeight" type="double">3</variable>
     <variable name="LowModMat" type="int">1001</variable>
     <variable name="LowModMaterial1" type="int">13001</variable>
     <variable name="LowModMaterial2" type="int">0</variable>
     <variable name="LowModMaterial3" type="int">13000</variable>
     <variable name="LowModMaterial4" type="int">13000</variable>
     <variable name="LowModNLayers" type="int">4</variable>
-    <variable name="LowModRadGap1" type="double">LOWMODRADGAP1</variable>
-    <variable name="LowModRadGap2" type="double">LOWMODRADGAP2</variable>
-    <variable name="LowModRadGap3" type="double">LOWMODRADGAP3</variable>
-    <variable name="LowModRadius" type="double">LOWMODR</variable>
+    <variable name="LowModRadGap1" type="double">0.3</variable>
+    <variable name="LowModRadGap2" type="double">0.5</variable>
+    <variable name="LowModRadGap3" type="double">0.2</variable>
+    <variable name="LowModRadius" type="double">10</variable>
     <variable name="LowModTemp1" type="double">20</variable>
     <variable name="LowModTemp3" type="double">300</variable>
     <variable name="LowModTemp4" type="double">300</variable>
     <variable name="LowModTemp5" type="double">300</variable>
     <variable name="LowModTemp" type="double">20</variable>
-    <variable name="LowModXStep" type="int">LOWMODX</variable>
-    <variable name="LowModXYangle" type="double">LOWMODXYANGLE</variable>
-    <variable name="LowModYStep" type="int">LOWMODY</variable>
+    <variable name="LowModXStep" type="int">0</variable>
+    <variable name="LowModXYangle" type="double">90</variable>
+    <variable name="LowModYStep" type="int">0</variable>
     <variable name="LowModZStep" type="double">-12.15</variable>
     <variable name="LowModZangle" type="double">0</variable>
     <variable name="LowPreABlockActive" type="int">0</variable>
     <variable name="LowPreBBlockActive" type="int">0</variable>
-    <variable name="LowPreDepth1" type="double">LOWPREDEPTH1</variable>
-    <variable name="LowPreDepth2" type="double">LOWPREDEPTH2</variable>
-    <variable name="LowPreDepth3" type="double">LOWPREDEPTH3</variable>
-    <variable name="LowPreHeight1" type="double">LOWPREDEPTH1</variable>
-    <variable name="LowPreHeight2" type="double">LOWPREHEIGHT2</variable>
+    <variable name="LowPreDepth1" type="double">0</variable>
+    <variable name="LowPreDepth2" type="double">2.99</variable>
+    <variable name="LowPreDepth3" type="double">0.4</variable>
+    <variable name="LowPreHeight1" type="double">0</variable>
+    <variable name="LowPreHeight2" type="double">1</variable>
     <variable name="LowPreHeight3" type="double">0.3</variable>
     <variable name="LowPreMaterial1" type="int">13000</variable>
     <variable name="LowPreMaterial2" type="int">4010</variable>
     <variable name="LowPreMaterial3" type="int">13000</variable>
     <variable name="LowPreNLayers" type="int">3</variable>
     <variable name="LowPreNView" type="int">2</variable>
-    <variable name="LowPreThick1" type="double">LOWPRETHICK1</variable>
-    <variable name="LowPreThick2" type="double">LOWPRETHICK2</variable>
-    <variable name="LowPreThick3" type="double">LOWPRETHICK3</variable>
+    <variable name="LowPreThick1" type="double">0</variable>
+    <variable name="LowPreThick2" type="double">23.3</variable>
+    <variable name="LowPreThick3" type="double">0</variable>
     <variable name="LowPreViewAngle1" type="int">0</variable>
     <variable name="LowPreViewAngle2" type="double">180</variable>
-    <variable name="LowPreViewHeight1" type="double">LOWMODH</variable>
-    <variable name="LowPreViewHeight2" type="double">LOWMODH</variable>
+    <variable name="LowPreViewHeight1" type="double">3</variable>
+    <variable name="LowPreViewHeight2" type="double">3</variable>
     <variable name="LowPreViewOpenAngle1" type="double">60</variable>
     <variable name="LowPreViewOpenAngle2" type="double">60</variable>
     <variable name="LowPreViewWidth1" type="double">25</variable>
@@ -855,7 +675,7 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="LowPreXYangle" type="int">0</variable>
     <variable name="ProtonBeamLength1" type="int">235</variable>
     <variable name="ProtonBeamRadius2" type="double">11.5</variable>
-    <variable name="ProtonBeamViewHeight" type="double">PROTONBEAMVIEWHEIGHT</variable>
+    <variable name="ProtonBeamViewHeight" type="double">12.3</variable>
     <variable name="ProtonBeamViewWidth" type="double">23</variable>
     <variable name="ProtonBeamWindowActive" type="int">0</variable>
     <variable name="ProtonBeamWindowFrameHeight" type="int">30</variable>
@@ -951,7 +771,7 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="SegWheelShaftTopHeight" type="double">400</variable>
     <variable name="SegWheelShaftVoidThick" type="double">1</variable>
     <variable name="SegWheelSteelMat" type="std::string">Stainless304</variable>
-    <variable name="SegWheelTargetHeight" type="double">WHEELTARGETHEIGHT</variable>
+    <variable name="SegWheelTargetHeight" type="double">8</variable>
     <variable name="SegWheelTargetSectorAngleXY" type="double">1.12342</variable>
     <variable name="SegWheelTargetSectorAngleZ" type="double">0</variable>
     <variable name="SegWheelTargetSectorApertureXY" type="double">2.24684</variable>
@@ -1060,18 +880,18 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="TPreBWaterMat" type="int">1011</variable>
     <variable name="TPreBSteelMat" type="int">13000</variable>
 
-    <variable name="TopAFlightAngleXY1" type="int">FLIGHTLINEHALFOPENING</variable>
-    <variable name="TopAFlightAngleXY2" type="int">FLIGHTLINEHALFOPENING</variable>
-    <variable name="TopAFlightAngleZBase" type="double">FLIGHTLINETILT</variable>
-    <variable name="TopAFlightAngleZTop" type="double">FLIGHTLINETILT</variable>
-    <variable name="TopAFlightHeight" type="double">TOPMODH</variable>
+    <variable name="TopAFlightAngleXY1" type="int">60</variable>
+    <variable name="TopAFlightAngleXY2" type="int">60</variable>
+    <variable name="TopAFlightAngleZBase" type="double">1.55562857066696</variable>
+    <variable name="TopAFlightAngleZTop" type="double">1.55562857066696</variable>
+    <variable name="TopAFlightHeight" type="double">3</variable>
     <variable name="TopAFlightNLiner" type="int">4</variable>
     <variable name="TopAFlightLinerMat1" type="int">13000</variable>
     <variable name="TopAFlightLinerThick1" type="double">0.3</variable>
     <variable name="TopAFlightLinerHeight1" type="double">0.3</variable>
     <variable name="TopAFlightLinerMat2" type="int">1011</variable>
-    <variable name="TopAFlightLinerThick2" type="double">LINERTHICK</variable>
-    <variable name="TopAFlightLinerHeight2" type="double">LINERHEIGHT</variable>
+    <variable name="TopAFlightLinerThick2" type="double">0</variable>
+    <variable name="TopAFlightLinerHeight2" type="double">0.0</variable>
     <variable name="TopAFlightLinerMat3" type="int">0</variable>
     <variable name="TopAFlightLinerThick3" type="double">0.001</variable>
     <variable name="TopAFlightLinerHeight3" type="double">0.0</variable>
@@ -1086,34 +906,47 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="TopBFlightLinerThick1" type="double">0.3</variable>
     <variable name="TopBFlightLinerHeight1" type="double">0.3</variable>
     <variable name="TopBFlightLinerMat2" type="int">1011</variable>
-    <variable name="TopBFlightLinerThick2" type="double">LINERTHICK</variable>
-    <variable name="TopBFlightLinerHeight2" type="double">LINERHEIGHT</variable>
+    <variable name="TopBFlightLinerThick2" type="double">0</variable>
+    <variable name="TopBFlightLinerHeight2" type="double">0.0</variable>
     <variable name="TopBFlightLinerMat3" type="int">0</variable>
     <variable name="TopBFlightLinerThick3" type="double">0.001</variable>
     <variable name="TopBFlightLinerHeight3" type="double">0.0</variable>
     <variable name="TopBFlightLinerMat4" type="int">0</variable>
     <variable name="TopBFlightLinerThick4" type="double">0.001</variable>
     <variable name="TopBFlightLinerHeight4" type="double">0.0</variable>
-    <variable name="TopAFlightWidth" type="double">FLIGHTWIDTH</variable>
+    <variable name="TopAFlightWidth" type="double">30</variable>
     <variable name="TopAFlightXStep" type="double">0</variable>
     <variable name="TopAFlightZStep" type="double">0</variable>
-    <variable name="TopBFlightAngleXY1" type="double">FLIGHTLINEHALFOPENING</variable>
-    <variable name="TopBFlightAngleXY2" type="double">FLIGHTLINEHALFOPENING</variable>
-    <variable name="TopBFlightAngleZBase" type="double">FLIGHTLINETILT</variable>
-    <variable name="TopBFlightAngleZTop" type="double">FLIGHTLINETILT</variable>
-    <variable name="TopBFlightHeight" type="double">TOPMODH</variable>
-    <variable name="TopBFlightWidth" type="double">FLIGHTWIDTH</variable>
+    <variable name="TopBFlightAngleXY1" type="double">60</variable>
+    <variable name="TopBFlightAngleXY2" type="double">60</variable>
+    <variable name="TopBFlightAngleZBase" type="double">1.55562857066696</variable>
+    <variable name="TopBFlightAngleZTop" type="double">1.55562857066696</variable>
+    <variable name="TopBFlightHeight" type="double">3</variable>
+    <variable name="TopBFlightWidth" type="double">30</variable>
     <variable name="TopBFlightXStep" type="double">0</variable>
     <variable name="TopBFlightZStep" type="double">0</variable>
 
     <variable name="TopBeRefInnerRadius" type="double">12.5</variable>
-    <variable name="TopBeRefInnerHeight" type="function">BEREFHEIGHT</variable>
+    <variable name="TopBeRefInnerHeight" type="function">32.1-0.5-0.4</variable>
     <variable name="TopBeRefInnerWallThick" type="double">0.3</variable>
     <variable name="TopBeRefInnerWallMat" type="double">13000</variable>
     <variable name="TopBeRefInnerRefMat" type="double">4010</variable>
 
-    <variable name="TopBeRefHeight" type="double">BEREFHEIGHT</variable>
-    <variable name="TopBeRefRadius" type="double">BEREFRADIUS</variable>
+    <variable name="LowBeRefInnerRadius" type="double">12.5</variable>
+    <variable name="LowBeRefInnerHeight" type="function">32.1-0.5-0.4</variable>
+    <variable name="LowBeRefInnerWallThick" type="double">0.3</variable>
+    <variable name="LowBeRefInnerWallMat" type="double">13000</variable>
+    <variable name="LowBeRefInnerRefMat" type="double">4010</variable>
+
+    <variable name="LowBeRefTopWaterHeight" type="function">0.5+0.4-0.3</variable>
+    <variable name="LowBeRefTopWaterMat" type="int">1011</variable>
+
+    <variable name="TopBeRefTopWaterHeight" type="function">0.5+0.4-0.3</variable>
+    <variable name="TopBeRefTopWaterMat" type="int">1011</variable>
+
+
+    <variable name="TopBeRefHeight" type="double">32.1</variable>
+    <variable name="TopBeRefRadius" type="double">34.3</variable>
     <variable name="TopBeRefRefMat" type="std::string">4005</variable>
     <variable name="TopBeRefWallMat" type="int">13000</variable>
     <variable name="TopBeRefWallThick" type="double">0.4</variable>
@@ -1122,62 +955,62 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="TopBeRefXStep" type="double">0</variable>
     <variable name="TopBeRefXYangle" type="double">0</variable>
     <variable name="TopBeRefYStep" type="double">0</variable>
-    <variable name="TopBeRefZStep" type="double">TOPBEREFZ</variable>
+    <variable name="TopBeRefZStep" type="double">6.15</variable>
     <variable name="TopBeRefZangle" type="double">0</variable>
-    <variable name="TopModHGap1" type="double">MODHGAP1</variable>
-    <variable name="TopModHGap2" type="double">MODHGAP2</variable>
-    <variable name="TopModHGap3" type="double">MODHGAP3</variable>
-    <variable name="TopModHGap4" type="double">MODHGAP4</variable>
-    <variable name="TopModHGap5" type="double">MODHGAP5</variable>
+    <variable name="TopModHGap1" type="double">0.3</variable>
+    <variable name="TopModHGap2" type="double">0.5</variable>
+    <variable name="TopModHGap3" type="double">0.3</variable>
+    <variable name="TopModHGap4" type="double">0.0</variable>
+    <variable name="TopModHGap5" type="double">0.0</variable>
     <variable name="TopModHGap6" type="double">0.0</variable>
     <variable name="TopModHGap7" type="double">0.0</variable>
-    <variable name="TopModHeight" type="double">TOPMODH</variable>
+    <variable name="TopModHeight" type="double">3</variable>
     <variable name="TopModMat" type="int">1001</variable>
     <variable name="TopModMaterial1" type="int">13001</variable>
     <variable name="TopModMaterial2" type="int">0</variable>
     <variable name="TopModMaterial3" type="int">13000</variable>
     <variable name="TopModMaterial4" type="int">13000</variable>
     <variable name="TopModNLayers" type="int">4</variable>
-    <variable name="TopModRadGap1" type="double">MODRADGAP1</variable>
-    <variable name="TopModRadGap2" type="double">MODRADGAP2</variable>
-    <variable name="TopModRadGap3" type="double">MODRADGAP3</variable>
-    <variable name="TopModRadGap4" type="double">MODRADGAP4</variable>
+    <variable name="TopModRadGap1" type="double">0.3</variable>
+    <variable name="TopModRadGap2" type="double">0.5</variable>
+    <variable name="TopModRadGap3" type="double">0.2</variable>
+    <variable name="TopModRadGap4" type="double">0</variable>
     <variable name="TopModRadGap5" type="double">0</variable>
     <variable name="TopModRadGap6" type="double">0</variable>
     <variable name="TopModRadGap7" type="double">0</variable>
-    <variable name="TopModRadius" type="double">TOPMODR</variable>
+    <variable name="TopModRadius" type="double">10</variable>
     <variable name="TopModTemp1" type="double">20</variable>
     <variable name="TopModTemp3" type="double">300</variable>
     <variable name="TopModTemp4" type="double">300</variable>
     <variable name="TopModTemp5" type="double">300</variable>
     <variable name="TopModTemp" type="double">20</variable>
-    <variable name="TopModXStep" type="int">TOPMODX</variable>
+    <variable name="TopModXStep" type="int">0</variable>
     <variable name="TopModXYangle" type="double">90</variable>
-    <variable name="TopModYStep" type="int">TOPMODY</variable>
-    <variable name="TopModZStep" type="double">TOPMODZ</variable>
+    <variable name="TopModYStep" type="int">0</variable>
+    <variable name="TopModZStep" type="double">12.15</variable>
     <variable name="TopModZangle" type="double">180</variable>
     <variable name="TopPreABlockActive" type="int">0</variable>
     <variable name="TopPreBBlockActive" type="int">0</variable>
-    <variable name="TopPreDepth1" type="double">PREDEPTH1</variable>
-    <variable name="TopPreDepth2" type="double">PREDEPTH2</variable>
-    <variable name="TopPreDepth3" type="double">PREDEPTH3</variable>
-    <variable name="TopPreHeight1" type="double">PREHEIGHT1</variable>
-    <variable name="TopPreHeight2" type="double">PREHEIGHT2</variable>
-    <variable name="TopPreHeight3" type="double">PREHEIGHT3</variable>
+    <variable name="TopPreDepth1" type="double">0.0</variable>
+    <variable name="TopPreDepth2" type="double">2.99</variable>
+    <variable name="TopPreDepth3" type="double">0.4</variable>
+    <variable name="TopPreHeight1" type="double">0</variable>
+    <variable name="TopPreHeight2" type="double">1</variable>
+    <variable name="TopPreHeight3" type="double">0.3</variable>
     <variable name="TopPreMaterial1" type="int">13000</variable>
     <variable name="TopPreMaterial2" type="int">1011</variable>
     <variable name="TopPreMaterial3" type="int">13000</variable>
     <variable name="TopPreNLayers" type="int">3</variable>
     <variable name="TopPreNView" type="int">2</variable>
-    <variable name="TopPreThick1" type="double">PRETHICK1</variable>
-    <variable name="TopPreThick2" type="double">PRETHICK2</variable>
-    <variable name="TopPreThick3" type="double">PRETHICK3</variable>
+    <variable name="TopPreThick1" type="double">0</variable>
+    <variable name="TopPreThick2" type="double">23.3</variable>
+    <variable name="TopPreThick3" type="double">0</variable>
     <variable name="TopPreViewAngle1" type="int">0</variable>
     <variable name="TopPreViewAngle2" type="double">180</variable>
-    <variable name="TopPreViewHeight1" type="double">TOPMODH</variable>
-    <variable name="TopPreViewHeight2" type="double">TOPMODH</variable>
-    <variable name="TopPreViewOpenAngle1" type="double">FLIGHTLINEHALFOPENING</variable>
-    <variable name="TopPreViewOpenAngle2" type="double">FLIGHTLINEHALFOPENING</variable>
+    <variable name="TopPreViewHeight1" type="double">3</variable>
+    <variable name="TopPreViewHeight2" type="double">3</variable>
+    <variable name="TopPreViewOpenAngle1" type="double">60</variable>
+    <variable name="TopPreViewOpenAngle2" type="double">60</variable>
     <variable name="TopPreViewWidth1" type="double">25</variable>
     <variable name="TopPreViewWidth2" type="double">25</variable>
     <variable name="TopPreXStep" type="int">0</variable>
@@ -1186,12 +1019,12 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="TopPreZStep" type="int">0</variable>
     <variable name="TopPreZangle" type="int">180</variable>
     <variable name="WheelCaseRadius" type="double">125</variable>
-    <variable name="WheelCaseThick" type="double">WHEELCASETHICK</variable>
+    <variable name="WheelCaseThick" type="double">0.5</variable>
     <variable name="WheelCladShaftMat" type="int">26000</variable>
     <variable name="WheelCoolantRadiusIn" type="double">114.5</variable>
     <variable name="WheelCoolantRadiusOut" type="double">124.8</variable>
-    <variable name="WheelCoolantThickIn" type="double">WHEELCOOLANTTHICKIN</variable>
-    <variable name="WheelCoolantThickOut" type="double">WHEELCOOLANTTHICKOUT</variable>
+    <variable name="WheelCoolantThickIn" type="double">0.65</variable>
+    <variable name="WheelCoolantThickOut" type="double">0.15</variable>
     <variable name="WheelHeMat" type="int">0</variable>
     <variable name="WheelInnerMat" type="int">26317</variable>
     <variable name="WheelInnerRadius" type="double">84.27</variable>
@@ -1252,14 +1085,14 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="WheelShaftRadius" type="double">32</variable>
     <variable name="WheelShaftVoidThick" type="double">0.8</variable>
     <variable name="WheelSteelMat" type="int">26317</variable>
-    <variable name="WheelTargetHeight" type="double">WHEELTARGETHEIGHT</variable>
+    <variable name="WheelTargetHeight" type="double">8</variable>
     <variable name="WheelTemp" type="int">600</variable>
     <variable name="WheelVoidRadius" type="double">126</variable>
-    <variable name="WheelVoidThick" type="double">WHEELVOIDTHICK</variable>
+    <variable name="WheelVoidThick" type="double">1</variable>
     <variable name="WheelWMat" type="std::string">74000</variable>
     <variable name="WheelXStep" type="double">0</variable>
     <variable name="WheelXYangle" type="double">0</variable>
-    <variable name="WheelYStep" type="double">WHEELYSTEP</variable>
+    <variable name="WheelYStep" type="double">113</variable>
     <variable name="WheelZStep" type="double">0</variable>
     <variable name="WheelZangle" type="double">0</variable>
     <variable name="OnionModGateLength1" type="int">2</variable>
@@ -1267,8 +1100,8 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="OnionModGateWidth1" type="int">1</variable>
     <variable name="OnionModGateWidth2" type="int">2</variable>
     <variable name="OnionModNRings" type="int">2</variable>
-    <variable name="OnionModRadius1" type="double">ONIONR1</variable>
-    <variable name="OnionModRadius2" type="double">ONIONR2</variable>
+    <variable name="OnionModRadius1" type="double">3.33333333333333</variable>
+    <variable name="OnionModRadius2" type="double">6.66666666666667</variable>
     <variable name="OnionModWallMat" type="int">13001</variable>
     <variable name="OnionModWallThick" type="double">0.3</variable>
     <variable name="OnionModWallTemp" type="double">20</variable>
@@ -1284,16 +1117,16 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="OnionPreGateWidth2" type="int">1</variable>
     <variable name="OnionPreGateWidth3" type="int">1</variable>
     <variable name="OnionPreNRings" type="int">3</variable>
-    <variable name="OnionPreRadius1" type="double">ONIONPRER1</variable>
-    <variable name="OnionPreRadius2" type="double">ONIONPRER2</variable> 
-    <variable name="OnionPreRadius3" type="double">ONIONPRER3</variable> 
+    <variable name="OnionPreRadius1" type="double">8.325</variable>
+    <variable name="OnionPreRadius2" type="double">16.65</variable> 
+    <variable name="OnionPreRadius3" type="double">24.975</variable> 
     <variable name="OnionPreWallMat" type="int">13000</variable>
     <variable name="OnionPreWallTemp" type="double">300</variable>
     <variable name="OnionPreWallThick" type="double">0.5</variable>
     <variable name="OnionPreXStep" type="int">0</variable>
     <variable name="OnionPreXYangle" type="double">0</variable>
     <variable name="OnionPreYStep" type="int">0</variable>
-    <variable name="OnionPreZStep" type="double">ONIONPREZ</variable>
+    <variable name="OnionPreZStep" type="double">-0.99</variable>
     <variable name="OnionPreZangle" type="double">0</variable>
     <variable name="one" type="double">1</variable>
     <variable name="sdefEnergy" type="double">2000</variable>
