@@ -176,6 +176,8 @@ namespace essSystem
     TopPreWidth = Control.EvalDefVar<double>(keyName+"TopPreWidth", 40);
 
     TopPreCoolingChannels = Control.EvalDefVar<int>(keyName+"TopPreCoolingChannels", 1);
+    TopPreTopVoidHeight = Control.EvalDefVar<double>(keyName+"TopPreTopVoidHeight", 0.0);
+    TopPreTopAlHeight = Control.EvalDefVar<double>(keyName+"TopPreTopAlHeight", 0.0);
 
     MaterialInBeRef = ModelSupport::EvalDefMat<int>(Control, keyName + "MaterialInBeRef", 1011);
 
@@ -585,6 +587,12 @@ namespace essSystem
 
     ModelSupport::buildPlane(SMap, SI+75, Origin+Z*(Height[nLayers-1]/2.0-PreWallThick), Z); // see also plane 55
 
+    // second Al layer on top of TopPre
+    ModelSupport::buildPlane(SMap, SI+76, Origin+Z*(Height[nLayers-1]/2.0+TopPreHeight+PreWallThick+TopPreTopVoidHeight), Z);
+    ModelSupport::buildPlane(SMap, SI+176, Origin+Z*(Height[nLayers-1]/2.0+TopPreHeight+PreWallThick+TopPreTopVoidHeight+TopPreTopAlHeight), Z);
+
+
+
 
     // Flight lines
     /// x<0
@@ -618,6 +626,8 @@ namespace essSystem
     if (TopPreType) {
       ModelSupport::buildPlane(SMap, SI+106, Origin+Z*(Height[nLayers-2]/2.0 + zshift), zDirc);
       ModelSupport::buildPlane(SMap, SI+116, Origin+Z*(Height[nLayers-2]/2.0 + FlightLineWallThick + zshift), zDirc);
+      ModelSupport::buildPlane(SMap, SI+216, Origin+Z*(Height[nLayers-2]/2.0 + FlightLineWallThick + zshift+TopPreTopVoidHeight), zDirc);
+      ModelSupport::buildPlane(SMap, SI+316, Origin+Z*(Height[nLayers-2]/2.0 + FlightLineWallThick + zshift+TopPreTopVoidHeight+TopPreTopAlHeight), zDirc);
       } else {
       ModelSupport::buildPlane(SMap, SI+106, Origin+Z*(Height[0]/2.0), zDirc);
       ModelSupport::buildPlane(SMap, SI+116, Origin+Z*(Height[0]/2.0+FlightLineWallThick), zDirc);
@@ -798,10 +808,8 @@ namespace essSystem
 	  Out += ModelSupport::getComposite(SMap, SI-50, SI, " 78M -79M -80M 81M 3 -4 : -9 : -19 : -29 : -39)"); // 
 	else if (TopPreType==2)
 	  Out += " +" + ReflectorSideBe + ")"; 
-	std::cout << Out << std::endl;
-	std::cout << "before" << std::endl;
+	//	std::cout << Out << std::endl;
 	addOuterUnionSurf(Out); 
-	std::cout << "after" << std::endl;
 	Out1 = WaterWingsComplement;
 	replaceSurface(Out1, SI, SI-50, "9", "6M"); // replace upper surface of the cross by the upper surface of the cold wing
 	replaceSurface(Out1, SI, SI, "8", "75"); // just to gain speed: replace lower water surface by the lower surface of TopPreMod al container
@@ -810,9 +818,19 @@ namespace essSystem
 	Out += HR.display();
 	System.addCell(MonteCarlo::Qhull(cellIndex++, PreWallMat, PreWallTemp, Out));
 	setCell(keyName+"Wall",1,cellIndex-1); // for TSupply Pipe - name this cell in order to remove it in makeESS: TopSupplyPipe->addInsertCell
-	ELog::EM << "SET CELL : " << keyName << "Wall " << cellIndex-1 << " " << TopPreType << ELog::endCrit;
+	//	ELog::EM << "SET CELL : " << keyName << "Wall " << cellIndex-1 << " " << TopPreType << ELog::endCrit;
 
 	//setCell(keyName+"Ring",1,cellIndex-1); // for TSupply Pipe - name this cell in order to remove it in makeESS: TopSupplyPipe->addInsertCell
+
+	if ((1) && (TopPreType==1)) { // todo: remove (1) and add in Table
+	  Out = ModelSupport::getComposite(SMap, SI, SI-50, " 65 -76 (66 -67 78 -79 -80 81 3M -4M : -9M : -19M : -29M : -39M) ");
+	  System.addCell(MonteCarlo::Qhull(cellIndex++, 0, 0, Out));
+	  addOuterUnionSurf(Out);
+
+	  Out = ModelSupport::getComposite(SMap, SI, SI-50, " 76 -176 (66 -67 78 -79 -80 81 3M -4M : -9M : -19M : -29M : -39M) ");
+	  System.addCell(MonteCarlo::Qhull(cellIndex++, PreWallMat, PreWallTemp, Out));
+	  addOuterUnionSurf(Out);
+	}
 
 
 	HR.procString(TopPreOuterSurface);
@@ -838,6 +856,55 @@ namespace essSystem
       System.addCell(MonteCarlo::Qhull(cellIndex++, MaterialInBeRef, 0.0, Out)); 
       addOuterUnionSurf(Out);
     
+      // top Al + void + Al
+      if ((1) && (TopPreType==1)) { // todo: uncomment (1) after added in the Table. optimise addOuterUnionSurf
+	// Al
+	Out = ModelSupport::getComposite(SMap, SI, SI-50, " 106 -116 -3M ") + ReflectorSideAl;
+	if (FlightLineType==1) Out += ModelSupport::getComposite(SMap, SI, " 153 -154 ");
+	else Out += ModelSupport::getComposite(SMap, SI, " -113 -133 ");
+	System.addCell(MonteCarlo::Qhull(cellIndex++, PreWallMat, PreWallTemp, Out)); 
+
+	Out = ModelSupport::getComposite(SMap, SI, SI-50, " 106 -116 4M ") + ReflectorSideAl;
+        if (FlightLineType==1) Out += ModelSupport::getComposite(SMap, SI, " 153 -154 ");
+	else Out += ModelSupport::getComposite(SMap, SI, " 114 134 ");
+	System.addCell(MonteCarlo::Qhull(cellIndex++, PreWallMat, PreWallTemp, Out)); 
+
+	// void layer
+	Out = ModelSupport::getComposite(SMap, SI, SI-50, " 116 -216 -3M ") + ReflectorSideAl;
+	if (FlightLineType==1) Out += ModelSupport::getComposite(SMap, SI, " 153 -154 ");
+	else Out += ModelSupport::getComposite(SMap, SI, " -113 -133 ");
+	System.addCell(MonteCarlo::Qhull(cellIndex++, 0, 0.0, Out)); 
+
+	Out = ModelSupport::getComposite(SMap, SI, SI-50, " 116 -216 4M ") + ReflectorSideAl;
+        if (FlightLineType==1) Out += ModelSupport::getComposite(SMap, SI, " 153 -154 ");
+	else Out += ModelSupport::getComposite(SMap, SI, " 114 134 ");
+	System.addCell(MonteCarlo::Qhull(cellIndex++, 0, 0.0, Out)); 
+
+	// Al
+	Out = ModelSupport::getComposite(SMap, SI, SI-50, " 216 -316 -3M ") + ReflectorSideAl;
+	if (FlightLineType==1) Out += ModelSupport::getComposite(SMap, SI, " 153 -154 ");
+	else Out += ModelSupport::getComposite(SMap, SI, " -113 -133 ");
+	System.addCell(MonteCarlo::Qhull(cellIndex++, PreWallMat, PreWallTemp, Out)); 
+
+	Out = ModelSupport::getComposite(SMap, SI, SI-50, " 216 -316 4M ") + ReflectorSideAl;
+        if (FlightLineType==1) Out += ModelSupport::getComposite(SMap, SI, " 153 -154 ");
+	else Out += ModelSupport::getComposite(SMap, SI, " 114 134 ");
+	System.addCell(MonteCarlo::Qhull(cellIndex++, PreWallMat, PreWallTemp, Out)); 
+
+
+	// outer surface
+	Out = ModelSupport::getComposite(SMap, SI, SI-50, " 106 -316 -3M ") + ReflectorSideAl;
+	if (FlightLineType==1) Out += ModelSupport::getComposite(SMap, SI, " 153 -154 ");
+	else Out += ModelSupport::getComposite(SMap, SI, " -113 -133 ");
+	addOuterUnionSurf(Out);
+
+	Out = ModelSupport::getComposite(SMap, SI, SI-50, " 106 -316 4M ") + ReflectorSideAl;
+        if (FlightLineType==1) Out += ModelSupport::getComposite(SMap, SI, " 153 -154 ");
+	else Out += ModelSupport::getComposite(SMap, SI, " 114 134 ");
+	addOuterUnionSurf(Out);
+
+      }
+
     // Flight lines 
     // x<0
       Out = ModelSupport::getComposite(SMap, SI, " 105 -106 -5 (103 -104  ");

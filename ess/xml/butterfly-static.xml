@@ -19,37 +19,51 @@ c supply/return pipes
     <variable name="LowWaterDiscWallThick" type="double">0.3</variable>
     <variable name="LowWaterDiscRadius" type="function">34.3+0.2</variable>
     <variable name="LowWaterDiscWidth" type="double">-10</variable>
+    <variable name="LowWaterDiscRefMat" type="int">26010</variable>
     <variable name="LowWaterDiscRefMat1" type="int">26010</variable>
     <variable name="LowWaterDiscVoidCellHeight" type="double">0.650000000000001</variable>
     <variable name="LowWaterDiscVoidCellMat" type="int">0</variable>
+
+    <variable name="LowWaterDiscInnerRadius" type="double">30</variable>
+    <variable name="LowWaterDiscInnerHeight" type="function">3+0.95</variable>
+    <variable name="LowWaterDiscInnerWallThick" type="double">0.3</variable>
+    <variable name="LowWaterDiscInnerWallMat" type="double">13000</variable>
+    <variable name="LowWaterDiscInnerRefMat" type="double">1011</variable>
+
     
     <variable name="TopWaterDiscHeight" type="function">3+0.95</variable>
     <variable name="TopWaterDiscWallThick" type="double">0.3</variable>
     <variable name="TopWaterDiscRadius" type="function">34.3+0.1</variable>
     <variable name="TopWaterDiscWidth" type="double">-10</variable>
+    <variable name="TopWaterDiscRefMat" type="int">26010</variable>
     <variable name="TopWaterDiscRefMat1" type="int">26010</variable>
     <variable name="TopWaterDiscVoidCellHeight" type="double">0.650000000000001</variable>
     <variable name="TopWaterDiscVoidCellMat" type="int">0</variable>
+
+    <variable name="TopWaterDiscInnerRadius" type="double">30</variable>
+    <variable name="TopWaterDiscInnerHeight" type="function">3+0.95</variable>
+    <variable name="TopWaterDiscInnerWallThick" type="double">0.3</variable>
+    <variable name="TopWaterDiscInnerWallMat" type="double">13000</variable>
+    <variable name="TopWaterDiscInnerRefMat" type="double">1011</variable>
+
 
     <variable name="LowModLFlowGuideXYangle" type="double">0</variable>
     <variable name="LowModLFlowGuideType" type="std::string">Star</variable>
     <variable name="LowModLFlowGuideWallMat" type="int">13001</variable>
     <variable name="LowModLFlowGuideWallTemp" type="double">20</variable>
-
     <variable name="LowModRFlowGuideXYangle" type="double">180</variable>
     <variable name="LowModRFlowGuideType" type="std::string">Star</variable>
     <variable name="LowModRFlowGuideWallMat" type="int">13001</variable>
     <variable name="LowModRFlowGuideWallTemp" type="double">20</variable>
-
     <variable name="TopModLFlowGuideXYangle" type="double">0</variable>
     <variable name="TopModLFlowGuideType" type="std::string">Star</variable>
     <variable name="TopModLFlowGuideWallMat" type="int">13001</variable>
     <variable name="TopModLFlowGuideWallTemp" type="double">20</variable>
-
     <variable name="TopModRFlowGuideXYangle" type="double">180</variable>
     <variable name="TopModRFlowGuideType" type="std::string">Star</variable>
     <variable name="TopModRFlowGuideWallMat" type="int">13001</variable>
     <variable name="TopModRFlowGuideWallTemp" type="double">20</variable>
+
 
     <variable name="BulkDepth1" type="double">75</variable>
     <variable name="BulkDepth2" type="double">76</variable>
@@ -261,8 +275,11 @@ c supply/return pipes
     <variable name="TopButterflyTopPreType" type="int">1</variable>
     <variable name="TopButterflyTopPreHeight" type="double">1</variable>
     <variable name="TopButterflyTopPreWidth" type="double">40</variable>
-    <variable name="TopButterflyPipeType" type="int">1</variable>
+    <variable name="TopButterflyPipeType" type="int">0</variable>
     <variable name="TopButterflyMaterialInBeRef" type="int">1011</variable>
+
+    <variable name="TopButterflyTopPreTopVoidHeight" type="double">1</variable>
+    <variable name="TopButterflyTopPreTopAlHeight" type="double">0.3</variable>
 
     <variable name="LowModOnionGateLength1" type="int">2</variable>
     <variable name="LowModOnionGateLength2" type="int">2</variable>
@@ -558,7 +575,7 @@ c supply/return pipes
     <variable name="LowBeRefRadius" type="double">34.3</variable>
     <variable name="LowBeRefRefMat" type="std::string">4005</variable>
     <variable name="LowBeRefWallMat" type="int">13000</variable>
-    <variable name="LowBeRefWallThick" type="double">0.5</variable>
+    <variable name="LowBeRefWallThick" type="double">0.4</variable>
     <variable name="LowBeRefCellCooling" type="int">0</variable>
     <variable name="LowBeRefXStep" type="double">0</variable>
     <variable name="LowBeRefXYangle" type="double">0</variable>
@@ -911,6 +928,26 @@ c supply/return pipes
     <variable name="TopBFlightWidth" type="double">30</variable>
     <variable name="TopBFlightXStep" type="double">0</variable>
     <variable name="TopBFlightZStep" type="double">0</variable>
+
+    <variable name="TopBeRefInnerRadius" type="double">12.5</variable>
+    <variable name="TopBeRefInnerHeight" type="function">32.1-0.5-0.4</variable>
+    <variable name="TopBeRefInnerWallThick" type="double">0.3</variable>
+    <variable name="TopBeRefInnerWallMat" type="double">13000</variable>
+    <variable name="TopBeRefInnerRefMat" type="double">4010</variable>
+
+    <variable name="LowBeRefInnerRadius" type="double">12.5</variable>
+    <variable name="LowBeRefInnerHeight" type="function">32.1-0.5-0.4</variable>
+    <variable name="LowBeRefInnerWallThick" type="double">0.3</variable>
+    <variable name="LowBeRefInnerWallMat" type="double">13000</variable>
+    <variable name="LowBeRefInnerRefMat" type="double">4010</variable>
+
+    <variable name="LowBeRefTopWaterHeight" type="function">0.5+0.4-0.3</variable>
+    <variable name="LowBeRefTopWaterMat" type="int">1011</variable>
+
+    <variable name="TopBeRefTopWaterHeight" type="function">0.5+0.4-0.3</variable>
+    <variable name="TopBeRefTopWaterMat" type="int">1011</variable>
+
+
     <variable name="TopBeRefHeight" type="double">32.1</variable>
     <variable name="TopBeRefRadius" type="double">34.3</variable>
     <variable name="TopBeRefRefMat" type="std::string">4005</variable>

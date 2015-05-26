@@ -60,6 +60,8 @@ namespace essSystem
 	double TopPreHeight; // top premoderator (water layer)
 	double TopPreWidth; // along x, makes sense only if TopPreType==2. It does not make sense to set it > BeRefRad, because then it becomes a cylinder
 	int TopPreCoolingChannels; // 0=no cooling channels, 1=yes
+	double TopPreTopVoidHeight; ///< height of void layer above TopPre. Implemented for TopPreType==1
+	double TopPreTopAlHeight;   ///< height of the second Al layer above TopPre (and other Butterfly parts). Implemented for TopPreType==1
 
 	int MaterialInBeRef; // material inside BeRef at the level of the moderator (usually water)
 
