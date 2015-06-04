@@ -929,6 +929,7 @@ namespace essSystem
       Out += ")" + ModComplement;
       Out1 = Out;
       Out +=  " ( " + HR.display() + " ) ";
+      Out += ModelSupport::getComposite(SMap, SI-50, " 48M 46M ");
       System.addCell(MonteCarlo::Qhull(cellIndex++, FlightLineWallMat, 0.0, Out+sSurf));
 
       addOuterUnionSurf(Out1);
@@ -955,6 +956,7 @@ namespace essSystem
       Out +=  ")" + ModComplement;
       Out1 = Out;
       Out += " ( " + HR.display() + " ) ";
+      Out += ModelSupport::getComposite(SMap, SI-50, " 48M 46M ");
       System.addCell(MonteCarlo::Qhull(cellIndex++, FlightLineWallMat, 0.0, Out+sSurf));
 
       addOuterUnionSurf(Out1);
