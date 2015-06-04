@@ -275,10 +275,10 @@ c supply/return pipes
     <variable name="TopButterflyTopPreType" type="int">1</variable>
     <variable name="TopButterflyTopPreHeight" type="double">1</variable>
     <variable name="TopButterflyTopPreWidth" type="double">40</variable>
-    <variable name="TopButterflyPipeType" type="int">0</variable>
+    <variable name="TopButterflyPipeType" type="int">1</variable>
     <variable name="TopButterflyMaterialInBeRef" type="int">1011</variable>
 
-    <variable name="TopButterflyTopPreTopVoidHeight" type="double">1</variable>
+    <variable name="TopButterflyTopPreTopVoidHeight" type="double">0</variable>
     <variable name="TopButterflyTopPreTopAlHeight" type="double">0.3</variable>
 
     <variable name="LowModOnionGateLength1" type="int">2</variable>
