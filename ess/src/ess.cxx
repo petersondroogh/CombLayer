@@ -248,6 +248,7 @@ main(int argc,char* argv[])
 	  const int renumCellWork=tallySelection(*SimPtr,IParam);
 	  // kbat start
 	  if (IParam.flag("rotate")) { // rotate to the Alan's coordinate system
+	    // SA says I need to use master rotation here - see hist t2 model
 	    masterRotate& MR = masterRotate::Instance();
 	    MR.addRotation(Geometry::Vec3D(1,0,0), Geometry::Vec3D(0,0,0), -90.0);
 	    MR.addRotation(Geometry::Vec3D(0,1,0), Geometry::Vec3D(0,0,0), 180.0);
