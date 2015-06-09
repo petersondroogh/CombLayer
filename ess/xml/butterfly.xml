@@ -272,13 +272,14 @@ c supply/return pipes
     <variable name="TopButterflyPreWallTemp" type="double">300</variable>
     <variable name="TopButterflyPreTopHeight" type="double">0.9</variable>
     <variable name="TopButterflyPreBottomHeight" type="double">0</variable>
-    <variable name="TopButterflyTopPreType" type="int">1</variable>
+    <variable name="TopButterflyTopPreType" type="int">3</variable>
+    <variable name="TopButterflyTopPreRadius" type="double">19.5</variable>
     <variable name="TopButterflyTopPreHeight" type="double">1</variable>
     <variable name="TopButterflyTopPreWidth" type="double">40</variable>
-    <variable name="TopButterflyPipeType" type="int">1</variable>
+    <variable name="TopButterflyPipeType" type="int">0</variable>
     <variable name="TopButterflyMaterialInBeRef" type="int">1011</variable>
 
-    <variable name="TopButterflyTopPreTopVoidHeight" type="double">0</variable>
+    <variable name="TopButterflyTopPreTopVoidHeight" type="double">0.1</variable>
     <variable name="TopButterflyTopPreTopAlHeight" type="double">0.3</variable>
 
     <variable name="LowModOnionGateLength1" type="int">2</variable>
@@ -821,7 +822,7 @@ c supply/return pipes
     <variable name="TReturnRadius2" type="double">1.5</variable>
     <variable name="TReturnRadius3" type="double">1.8</variable>
     <variable name="TReturnRadius4" type="double">2.3</variable>
-    <variable name="TReturnRadius5" type="double">2.6</variable>
+    <variable name="TReturnRadius5" type="double">2.599</variable>
     <variable name="TReturnTemp0" type="double">20</variable>
     <variable name="TReturnTemp1" type="double">20</variable>
     <variable name="TReturnTemp2" type="double">20</variable>
@@ -848,7 +849,7 @@ c supply/return pipes
     <variable name="TSupplyRadius2" type="double">1.5</variable>
     <variable name="TSupplyRadius3" type="double">1.8</variable>
     <variable name="TSupplyRadius4" type="double">2.3</variable>
-    <variable name="TSupplyRadius5" type="double">2.6</variable>
+    <variable name="TSupplyRadius5" type="double">2.599</variable>
     <variable name="TSupplyTemp0" type="double">20</variable>
     <variable name="TSupplyTemp1" type="double">20</variable>
     <variable name="TSupplyTemp2" type="double">20</variable>

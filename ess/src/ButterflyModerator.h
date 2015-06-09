@@ -37,7 +37,7 @@ namespace essSystem
 	int    FlightLineWallMat; ///< material of flight line wall
 	double FlightXOffset; ///< distance along the x-axis between the end of the wing and the start of the flight line plane
 	int    FlightLineType; ///< 0=normal flight line; 1=planes inside BeRef are parallel to the x-axis
-	int    FlightLineWrapTopPreType; //< Describes how flight line wraps TopPremoderator. 0=TopPre inside void of flight line; 1=TopPre inside inner reflector.
+	int    FlightLineWrapTopPreType; //< Describes how flight line wraps TopPremoderator. 0=TopPre inside void of flight line; 1=TopPre inside inner reflector;
 	
 	// thermal moderator (side premoderator)
 	int    PreMat;
@@ -56,7 +56,8 @@ namespace essSystem
 	bool WingsSeparated; // true if the butterfly wings are separated, otherwise false
 	int PipeType; // type of supply/return pipes (1=horizontal, 2=vertical. It's not enough just to change PipeType - the PPt* vectors must be adjusted accordingly)
 
-	int TopPreType; // 0=no TopPre, 1=covers Butterfly, 2=covers BeRef at butterfly width
+	int TopPreType; // 0=no TopPre, 1=covers Butterfly, 2=covers BeRef at butterfly width; 3=cylinder of radius TopPreRadius
+	double TopPreRadius; // makes sence only if TopPreType==3
 	double TopPreHeight; // top premoderator (water layer)
 	double TopPreWidth; // along x, makes sense only if TopPreType==2. It does not make sense to set it > BeRefRad, because then it becomes a cylinder
 	int TopPreCoolingChannels; // 0=no cooling channels, 1=yes
