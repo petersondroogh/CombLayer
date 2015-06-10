@@ -579,7 +579,7 @@ namespace essSystem
       ModelSupport::buildCylinder(SMap, SI+57, Origin, Z, TopPreRadius+PreWallThick);
 
       ModelSupport::buildCylinder(SMap, SI+58, Origin, Z, TopPreRadius+PreWallThick+TopPreTopVoidHeight);
-      ModelSupport::buildCylinder(SMap, SI+59, Origin, Z, TopPreRadius+PreWallThick+TopPreTopVoidHeight+PreWallThick);
+      ModelSupport::buildCylinder(SMap, SI+59, Origin, Z, TopPreRadius+PreWallThick+TopPreTopVoidHeight+TopPreTopAlHeight);
     }
 
     ModelSupport::buildPlane(SMap, SI+65, Origin+Z*(Height[nLayers-1]/2.0+TopPreHeight+PreWallThick), Z);
