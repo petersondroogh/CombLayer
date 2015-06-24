@@ -242,7 +242,7 @@ namespace essSystem
     double dRad = 0.0; // additional shift in WingRad and coordinates
     
     double fullWidth = 0.0;
-    double theta = 0.0; // angle of inclination of the inclined planes in the first layer (to make equal thickness of the other layers )
+    //    double theta = 0.0; // angle of inclination of the inclined planes in the first layer (to make equal thickness of the other layers )
     struct {
       double x;
       double y;
@@ -256,12 +256,14 @@ namespace essSystem
     for (size_t i=0; i<nLayers; i++) {
       if (i>0) {
 	dRad = (Width[i]-Width[i-1])/2;
+	std::cout << "dRad: " << dRad << std::endl;
 	WingRad += dRad;
 	WingCentralRad += dRad;
       }
       vWingRad.push_back(WingRad);
-      double xangle = atan(Width[i]/2/WingLength);
-      std::cout << "xangle: " << xangle*180/M_PI << std::endl;
+      //double xangle = atan(Width[i]/2/WingLength);
+      double xangle = atan(Width[i]/2/(WingLength+(Length[i]-Length[0])));
+      std::cout << "xangle: " << xangle*180/M_PI << "\t" << WingLength << " " << (Length[i]-Length[0]) << std::endl;
 
       ModelSupport::buildPlane(SMap, SI+3, Origin-Y*(Length[i]/2.0), Y);
       ModelSupport::buildPlane(SMap, SI+4, Origin+Y*(Length[i]/2.0), Y); // this one at Y<0
@@ -276,8 +278,8 @@ namespace essSystem
       C[0].x = 0; // center
       C[0].y = Length[i]/2-WingLength;
       if (i>0) {
-	theta = 0.0; //xangle;
-	C[0].y -= (Width[i]-Width[0])/sin(xangle); // here must be sin (checked)
+	//	theta = 0.0; //xangle;
+	C[0].y -= (Width[i]-Width[0])/cos(xangle); // here must be sin (checked)
       }
 
       // peak of the left wing
