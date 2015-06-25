@@ -385,7 +385,6 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="LowButterflyFlightLineWallThick" type="double">0.3</variable>
     <variable name="LowButterflyFlightLineWallMat" type="int">13000</variable>
     <variable name="LowButterflyFlightXOffset" type="double">BTFLIGHTXOFFSET</variable>
-    <variable name="LowButterflyFlightTiltOffset" type="double">19.5</variable>
     <variable name="LowButterflyFlightLineType" type="int">1</variable>
     <variable name="LowButterflyFlightLineWrapTopPreType" type="int">1</variable>
     <variable name="LowButterflyPreMat" type="int">1011</variable>
@@ -439,7 +438,6 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="TopButterflyFlightLineWallThick" type="double">0.3</variable>
     <variable name="TopButterflyFlightLineWallMat" type="int">13000</variable>
     <variable name="TopButterflyFlightXOffset" type="double">BTFLIGHTXOFFSET</variable>
-    <variable name="TopButterflyFlightTiltOffset" type="double">19.5</variable>
     <variable name="TopButterflyFlightLineType" type="int">1</variable>
     <variable name="TopButterflyFlightLineWrapTopPreType" type="int">1</variable>
     <variable name="TopButterflyPreMat" type="int">1011</variable>

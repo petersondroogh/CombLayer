@@ -36,7 +36,6 @@ namespace essSystem
 	double FlightLineWallThick; ///< thickness of flight line wall
 	int    FlightLineWallMat; ///< material of flight line wall
 	double FlightXOffset; ///< distance along the x-axis between the end of the wing and the start of the flight line plane
-	double FlightTiltOffset; ///< coordinate along the x-axis where the vertical tilting starts
 	int    FlightLineType; ///< 0=normal flight line; 1=planes inside BeRef are parallel to the x-axis
 	int    FlightLineWrapTopPreType; //< Describes how flight line wraps TopPremoderator. 0=TopPre inside void of flight line; 1=TopPre inside inner reflector;
 	
