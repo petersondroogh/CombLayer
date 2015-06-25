@@ -136,34 +136,8 @@ c @@@ LOWAFLIGHTMASTERXY = 0
 c @@@ LOWBFLIGHTMASTERXY = 0
 c @@@ LOWMODXYANGLE = 90
 c @@@ F5RAD = 1000
-c @@@ F35zg = (BTZCENTER - BTH/2)
-c @@@ F35zb = (F35zg+BTH)
 c @@@ FCOLDWIDTH = 6
 c @@@ FTHERMALWIDTH  = 6
-c @@@ F35theta = (deg2rad(1))
-c @@@ F35x = (F5RAD*cos(F35theta))
-c @@@ F35y = (F5RAD*sin(F35theta))
-c @@@ F35z  = BTZCENTER
-c @@@ F35xb = ( BTWATERLEN*sin(BTALPHA) + BTWATERTHICK*cos(BTALPHA)  )
-c @@@ F35yb = 3
-c @@@ F35xc = F35xb
-c @@@ F35yc = (-1 * F35yb)
-c @@@ F45theta = (deg2rad(50))
-c @@@ F45x = (F5RAD*cos(F45theta))
-c @@@ F45y = (F5RAD*sin(F45theta))
-c @@@ F45z  = BTZCENTER
-c @@@ F45xc = (BTWIDTH/2+(BTTHICK1+BTTHICK2+BTTHICK3)/abs(sin(F45theta))+2)
-c @@@ F45yc = (BTLENGTH/2-BTWINGRAD)
-c @@@ F45xb = ( F45xc+FTHERMALWIDTH*abs(sin(F45theta)) )
-c @@@ F45yb = (F45yc)
-c @@@ F55theta = (-55*pi/180)
-c @@@ F55x = (F5RAD*cos(F55theta))
-c @@@ F55y = (F5RAD*sin(F55theta))
-c @@@ F55z  = BTZCENTER
-c @@@ F55xc = (BTWIDTH/2+(BTTHICK1+BTTHICK2+BTTHICK3)/abs(sin(F55theta))+2)
-c @@@ F55yc = (-1*BTLENGTH/2+BTWINGRAD)
-c @@@ F55xb = ( F55xc+FTHERMALWIDTH*abs(sin(F55theta)) )
-c @@@ F55yb = (F55yc)
 c @@@ F5theta = deg2rad(-1)
 c @@@ F5x = (F5RAD*cos(F5theta))
 c @@@ F5y = (F5RAD*sin(F5theta))
@@ -172,24 +146,24 @@ c @@@ F5xb = (BTWIDTH/2.0)
 c @@@ F5yb = (-1*BTLENGTH/2)
 c @@@ F5xc = ( F5xb + FCOLDWIDTH*sin(F5theta) )
 c @@@ F5yc = ( F5yb + FCOLDWIDTH*cos(F5theta) )
-c @@@ F5zg = F35zg
-c @@@ F5zb = F35zb
+c @@@ F5zg = (BTZCENTER - BTH/2)
+c @@@ F5zb = (F5zg+BTH)
 c @@@ F15theta = (deg2rad(2))
 c @@@ F15x = (F5RAD*cos(F15theta))
 c @@@ F15y = (F5RAD*sin(F15theta))
-c @@@ F15z = F35z
+c @@@ F15z = F5z
 c @@@ F15xb = ( BTWIDTH/2+(BTTHICK1+BTTHICK2+BTTHICK3)-BTFLIGHTXOFFSET-(BTTHICK1+BTTHICK2+BTTHICK3)/tan(deg2rad(BTHALFOPENING)))
 c @@@ F15yb = ( BTLENGTH/2 )
 c @@@ F15xc = ( F15xb + FCOLDWIDTH*abs(sin(F15theta)))
 c @@@ F15yc = ( F15yb - FCOLDWIDTH*abs(cos(F15theta)))
-c @@@ F25theta = (-50*pi/180)
+c @@@ F25theta = (deg2rad(1))
 c @@@ F25x = (F5RAD*cos(F25theta))
 c @@@ F25y = (F5RAD*sin(F25theta))
-c @@@ F25z = F15z
-c @@@ F25xb = ( F15xb )
-c @@@ F25yb = ( -1*F15yb )
-c @@@ F25xc = (F25xb + FCOLDWIDTH*abs(sin(F25theta)))
-c @@@ F25yc = (F25yb + FCOLDWIDTH*abs(cos(F25theta)))
+c @@@ F25z  = F5z
+c @@@ F25xb = ( BTWATERLEN*sin(BTALPHA) + BTWATERTHICK*cos(BTALPHA)  )
+c @@@ F25yb = 3
+c @@@ F25xc = F25xb
+c @@@ F25yc = (-1 * F25yb)
 c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2/(200.0-LOWPRER)) * 180/pi : 0.0 )
 -->
 <?xml version="1.0" encoding="ISO-8859-1" ?>
@@ -508,16 +482,16 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="F15Z" type="double">F15z</variable>
 
     <variable name="F25Length" type="double">700</variable>
-    <variable name="F25XB" type="double">F35xb</variable>
-    <variable name="F25YB" type="double">F35yb</variable>
-    <variable name="F25ZB" type="double">F35zb</variable>
-    <variable name="F25XC" type="double">F35xc</variable>
-    <variable name="F25YC" type="double">F35yc</variable>
-    <variable name="F25ZC" type="double">F35zb</variable>
-    <variable name="F25ZG" type="double">F35zg</variable>
-    <variable name="F25X" type="double">F35x</variable>
-    <variable name="F25Y" type="double">F35y</variable>
-    <variable name="F25Z" type="double">F35z</variable>
+    <variable name="F25XB" type="double">F25xb</variable>
+    <variable name="F25YB" type="double">F25yb</variable>
+    <variable name="F25ZB" type="double">F5zb</variable>
+    <variable name="F25XC" type="double">F25xc</variable>
+    <variable name="F25YC" type="double">F25yc</variable>
+    <variable name="F25ZC" type="double">F5zb</variable>
+    <variable name="F25ZG" type="double">F5zg</variable>
+    <variable name="F25X" type="double">F25x</variable>
+    <variable name="F25Y" type="double">F25y</variable>
+    <variable name="F25Z" type="double">F25z</variable>
 
     <variable name="G1BLine10XYangle" type="double">-17.5</variable>
     <variable name="G2BLine10XYangle" type="double">-17.5</variable>
