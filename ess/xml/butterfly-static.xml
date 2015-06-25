@@ -219,7 +219,8 @@ c supply/return pipes
     <variable name="LowButterflyPreWallTemp" type="double">300</variable>
     <variable name="LowButterflyPreTopHeight" type="double">0.9</variable>
     <variable name="LowButterflyPreBottomHeight" type="double">0</variable>
-    <variable name="LowButterflyTopPreType" type="int">2</variable>
+    <variable name="LowButterflyTopPreType" type="int">3</variable>
+    <variable name="LowButterflyTopPreRadius" type="double">19.5</variable>
     <variable name="LowButterflyTopPreHeight" type="double">1</variable>
     <variable name="LowButterflyTopPreWidth" type="double">40</variable>
     <variable name="LowButterflyPipeType" type="int">1</variable>
@@ -274,13 +275,12 @@ c supply/return pipes
     <variable name="TopButterflyPreBottomHeight" type="double">0</variable>
     <variable name="TopButterflyTopPreType" type="int">3</variable>
     <variable name="TopButterflyTopPreRadius" type="double">19.5</variable>
+    <variable name="TopButterflyTopPreTopVoidHeight" type="double">0</variable>
+    <variable name="TopButterflyTopPreTopAlHeight" type="double">0.3</variable>
     <variable name="TopButterflyTopPreHeight" type="double">1</variable>
     <variable name="TopButterflyTopPreWidth" type="double">40</variable>
     <variable name="TopButterflyPipeType" type="int">1</variable>
     <variable name="TopButterflyMaterialInBeRef" type="int">1011</variable>
-
-    <variable name="TopButterflyTopPreTopVoidHeight" type="double">0</variable>
-    <variable name="TopButterflyTopPreTopAlHeight" type="double">0.3</variable>
 
     <variable name="LowModOnionGateLength1" type="int">2</variable>
     <variable name="LowModOnionGateLength2" type="int">2</variable>
@@ -339,6 +339,42 @@ c supply/return pipes
     <variable name="F25X" type="double">999.847695156391</variable>
     <variable name="F25Y" type="double">17.4524064372835</variable>
     <variable name="F25Z" type="double">12.9</variable>
+
+    <variable name="F35Length" type="double">700</variable>
+    <variable name="F35XB" type="double">10.58</variable>
+    <variable name="F35YB" type="double">-14.2</variable>
+    <variable name="F35ZB" type="double">-17.4</variable>
+    <variable name="F35XC" type="double">10.4752855613763</variable>
+    <variable name="F35YC" type="double">-8.20091382906165</variable>
+    <variable name="F35ZC" type="double">-17.4</variable>
+    <variable name="F35ZG" type="double">-11.4</variable>
+    <variable name="F35X" type="double">999.847695156391</variable>
+    <variable name="F35Y" type="double">-17.4524064372835</variable>
+    <variable name="F35Z" type="double">-14.4</variable>
+
+    <variable name="F45Length" type="double">700</variable>
+    <variable name="F45XB" type="double">5.04491470389141</variable>
+    <variable name="F45YB" type="double">14.2</variable>
+    <variable name="F45ZB" type="double">-17.4</variable>
+    <variable name="F45XC" type="double">5.25431168410642</variable>
+    <variable name="F45YC" type="double">8.20365503788543</variable>
+    <variable name="F45ZC" type="double">-17.4</variable>
+    <variable name="F45ZG" type="double">-11.4</variable>
+    <variable name="F45X" type="double">999.390827019096</variable>
+    <variable name="F45Y" type="double">34.899496702501</variable>
+    <variable name="F45Z" type="double">-14.4</variable>
+
+    <variable name="F55Length" type="double">700</variable>
+    <variable name="F55XB" type="double">6.09265385968167</variable>
+    <variable name="F55YB" type="double">3</variable>
+    <variable name="F55ZB" type="double">-17.4</variable>
+    <variable name="F55XC" type="double">6.09265385968167</variable>
+    <variable name="F55YC" type="double">-3</variable>
+    <variable name="F55ZC" type="double">-17.4</variable>
+    <variable name="F55ZG" type="double">-11.4</variable>
+    <variable name="F55X" type="double">999.847695156391</variable>
+    <variable name="F55Y" type="double">17.4524064372835</variable>
+    <variable name="F55Z" type="double">-14.4</variable>
 
     <variable name="G1BLine10XYangle" type="double">-17.5</variable>
     <variable name="G2BLine10XYangle" type="double">-17.5</variable>
@@ -572,7 +608,20 @@ c supply/return pipes
     <variable name="LowBFlightWidth" type="double">105</variable>
     <variable name="LowBFlightXStep" type="double">0</variable>
     <variable name="LowBFlightZStep" type="double">0</variable>
-    <variable name="LowBeRefHeight" type="double">32.1</variable>
+
+    <variable name="LowBeRefInnerRadius" type="double">12.5</variable>
+    <variable name="LowBeRefInnerHeight" type="function">34.55-0.5-0.4</variable>
+    <variable name="LowBeRefInnerWallThick" type="double">0.3</variable>
+    <variable name="LowBeRefInnerWallMat" type="double">13000</variable>
+    <variable name="LowBeRefInnerRefMat" type="double">4010</variable>
+
+    <variable name="LowBeRefTopWaterHeight" type="function">0.5+0.4-0.3</variable>
+    <variable name="LowBeRefTopWaterMat" type="int">1011</variable>
+
+    <variable name="TopBeRefTopWaterHeight" type="function">0.5+0.4-0.3</variable>
+    <variable name="TopBeRefTopWaterMat" type="int">1011</variable>
+
+    <variable name="LowBeRefHeight" type="double">34.55</variable>
     <variable name="LowBeRefRadius" type="double">34.3</variable>
     <variable name="LowBeRefRefMat" type="std::string">4005</variable>
     <variable name="LowBeRefWallMat" type="int">13000</variable>
@@ -583,7 +632,7 @@ c supply/return pipes
     <variable name="LowBeRefYStep" type="double">0</variable>
     <variable name="LowBeRefZStep" type="double">-6.15</variable>
     <variable name="LowBeRefZangle" type="int">180</variable>
-    <variable name="LowBeRefVoidThick" type="double">1</variable>
+    <variable name="LowBeRefVoidThick" type="double">0.2</variable>
     <variable name="LowConeModAlMat" type="int">5</variable>
     <variable name="LowConeModAlThick" type="double">0.5</variable>
     <variable name="LowConeModBAlMat" type="int">13060</variable>
@@ -931,30 +980,17 @@ c supply/return pipes
     <variable name="TopBFlightZStep" type="double">0</variable>
 
     <variable name="TopBeRefInnerRadius" type="double">12.5</variable>
-    <variable name="TopBeRefInnerHeight" type="function">32.1-0.5-0.4</variable>
+    <variable name="TopBeRefInnerHeight" type="function">31.85-0.5-0.4</variable>
     <variable name="TopBeRefInnerWallThick" type="double">0.3</variable>
     <variable name="TopBeRefInnerWallMat" type="double">13000</variable>
     <variable name="TopBeRefInnerRefMat" type="double">4010</variable>
 
-    <variable name="LowBeRefInnerRadius" type="double">12.5</variable>
-    <variable name="LowBeRefInnerHeight" type="function">32.1-0.5-0.4</variable>
-    <variable name="LowBeRefInnerWallThick" type="double">0.3</variable>
-    <variable name="LowBeRefInnerWallMat" type="double">13000</variable>
-    <variable name="LowBeRefInnerRefMat" type="double">4010</variable>
-
-    <variable name="LowBeRefTopWaterHeight" type="function">0.5+0.4-0.3</variable>
-    <variable name="LowBeRefTopWaterMat" type="int">1011</variable>
-
-    <variable name="TopBeRefTopWaterHeight" type="function">0.5+0.4-0.3</variable>
-    <variable name="TopBeRefTopWaterMat" type="int">1011</variable>
-
-
-    <variable name="TopBeRefHeight" type="double">32.1</variable>
+    <variable name="TopBeRefHeight" type="double">31.85</variable>
     <variable name="TopBeRefRadius" type="double">34.3</variable>
     <variable name="TopBeRefRefMat" type="std::string">4005</variable>
     <variable name="TopBeRefWallMat" type="int">13000</variable>
     <variable name="TopBeRefWallThick" type="double">0.4</variable>
-    <variable name="TopBeRefVoidThick" type="double">0</variable>
+    <variable name="TopBeRefVoidThick" type="double">0.2</variable>
     <variable name="TopBeRefCellCooling" type="int">0</variable>
     <variable name="TopBeRefXStep" type="double">0</variable>
     <variable name="TopBeRefXYangle" type="double">0</variable>

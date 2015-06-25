@@ -10,7 +10,8 @@ c @@@ WHEELCOOLANTTHICKOUT = (WHEELCOOLANTTHICKIN-0.5)
 c @@@ WHEELVOIDTHICK = 1
 c @@@ WHEELYSTEP = 113
 c @@@ WHEELFULLHEIGHT = (WHEELTARGETHEIGHT + 2*(WHEELCASETHICK + WHEELCOOLANTTHICKIN  + WHEELVOIDTHICK))
-c @@@ BEREFHEIGHT = 32.1
+c @@@ TOPBEREFHEIGHT = (32.1-0.23-0.02)
+c @@@ LOWBEREFHEIGHT = (32.1+2.05+0.4)
 c @@@ TOPBEREFZ = (WHEELTARGETHEIGHT / 2 + WHEELCASETHICK + WHEELCOOLANTTHICKIN + WHEELVOIDTHICK)
 c @@@ LOWBEREFZ = ( -TOPBEREFZ )
 c @@@ LOWBEREFY = 0
@@ -405,7 +406,8 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="LowButterflyPreWallTemp" type="double">300</variable>
     <variable name="LowButterflyPreTopHeight" type="double">BTWATERHEIGHTBELOW</variable>
     <variable name="LowButterflyPreBottomHeight" type="double">0</variable>
-    <variable name="LowButterflyTopPreType" type="int">2</variable>
+    <variable name="LowButterflyTopPreType" type="int">3</variable>
+    <variable name="LowButterflyTopPreRadius" type="double">19.5</variable>
     <variable name="LowButterflyTopPreHeight" type="double">1</variable>
     <variable name="LowButterflyTopPreWidth" type="double">40</variable>
     <variable name="LowButterflyPipeType" type="int">1</variable>
@@ -795,7 +797,7 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="LowBFlightZStep" type="double">LOWFLIGHTZ</variable>
 
     <variable name="LowBeRefInnerRadius" type="double">12.5</variable>
-    <variable name="LowBeRefInnerHeight" type="function">BEREFHEIGHT-0.5-0.4</variable>
+    <variable name="LowBeRefInnerHeight" type="function">LOWBEREFHEIGHT-0.5-0.4</variable>
     <variable name="LowBeRefInnerWallThick" type="double">0.3</variable>
     <variable name="LowBeRefInnerWallMat" type="double">13000</variable>
     <variable name="LowBeRefInnerRefMat" type="double">4010</variable>
@@ -806,7 +808,7 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="TopBeRefTopWaterHeight" type="function">0.5+0.4-0.3</variable>
     <variable name="TopBeRefTopWaterMat" type="int">1011</variable>
 
-    <variable name="LowBeRefHeight" type="double">BEREFHEIGHT</variable>
+    <variable name="LowBeRefHeight" type="double">LOWBEREFHEIGHT</variable>
     <variable name="LowBeRefRadius" type="double">BEREFRADIUS</variable>
     <variable name="LowBeRefRefMat" type="std::string">4005</variable>
     <variable name="LowBeRefWallMat" type="int">13000</variable>
@@ -817,7 +819,7 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="LowBeRefYStep" type="double">LOWBEREFY</variable>
     <variable name="LowBeRefZStep" type="double">LOWBEREFZ</variable>
     <variable name="LowBeRefZangle" type="int">180</variable>
-    <variable name="LowBeRefVoidThick" type="double">1</variable>
+    <variable name="LowBeRefVoidThick" type="double">0.2</variable>
     <variable name="LowConeModAlMat" type="int">5</variable>
     <variable name="LowConeModAlThick" type="double">0.5</variable>
     <variable name="LowConeModBAlMat" type="int">13060</variable>
@@ -1165,17 +1167,17 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="TopBFlightZStep" type="double">0</variable>
 
     <variable name="TopBeRefInnerRadius" type="double">12.5</variable>
-    <variable name="TopBeRefInnerHeight" type="function">BEREFHEIGHT-0.5-0.4</variable>
+    <variable name="TopBeRefInnerHeight" type="function">TOPBEREFHEIGHT-0.5-0.4</variable>
     <variable name="TopBeRefInnerWallThick" type="double">0.3</variable>
     <variable name="TopBeRefInnerWallMat" type="double">13000</variable>
     <variable name="TopBeRefInnerRefMat" type="double">4010</variable>
 
-    <variable name="TopBeRefHeight" type="double">BEREFHEIGHT</variable>
+    <variable name="TopBeRefHeight" type="double">TOPBEREFHEIGHT</variable>
     <variable name="TopBeRefRadius" type="double">BEREFRADIUS</variable>
     <variable name="TopBeRefRefMat" type="std::string">4005</variable>
     <variable name="TopBeRefWallMat" type="int">13000</variable>
     <variable name="TopBeRefWallThick" type="double">0.4</variable>
-    <variable name="TopBeRefVoidThick" type="double">0</variable>
+    <variable name="TopBeRefVoidThick" type="double">0.2</variable>
     <variable name="TopBeRefCellCooling" type="int">0</variable>
     <variable name="TopBeRefXStep" type="double">0</variable>
     <variable name="TopBeRefXYangle" type="double">0</variable>
