@@ -112,10 +112,12 @@ c @@@ LOWMODY = 0
 c @@@ LOWFLIGHTLINEHALFOPENING = (60)
 c @@@ LOWFLIGHTH = 3
 c @@@ LOWFLIGHTZ = ((LOWMODH-LOWFLIGHTH)/2.0)
-c @@@ BTH = 3
-c @@@ BTZTOP = (TOPTMDISTANCE-6.15 + (BTH-3)/2)
-c @@@ BTZLOW = (LOWTMDISTANCE-6.15 + (BTH-3)/2)
-c @@@ BTZCENTER = (1*(6.15+BTZTOP))
+c @@@ TOPBTH = 3
+c @@@ LOWBTH = 6
+c @@@ BTZTOP = (TOPTMDISTANCE-6.15 + (TOPBTH-3)/2)
+c @@@ BTZLOW = (LOWTMDISTANCE-6.15 + (LOWBTH-6)/2)
+c @@@ TOPBTZCENTER = (1*(6.15+BTZTOP))
+c @@@ LOWBTZCENTER = (-1*(6.15+BTZLOW))
 c @@@ BTLENGTH = 28.4
 c @@@ BTWIDTH = 21.16
 c @@@ BTWINGRAD = (2.506)
@@ -141,13 +143,13 @@ c @@@ FTHERMALWIDTH  = 6
 c @@@ F5theta = deg2rad(-1)
 c @@@ F5x = (F5RAD*cos(F5theta))
 c @@@ F5y = (F5RAD*sin(F5theta))
-c @@@ F5z = BTZCENTER
+c @@@ F5z = TOPBTZCENTER
 c @@@ F5xb = (BTWIDTH/2.0)
 c @@@ F5yb = (-1*BTLENGTH/2)
 c @@@ F5xc = ( F5xb + FCOLDWIDTH*sin(F5theta) )
 c @@@ F5yc = ( F5yb + FCOLDWIDTH*cos(F5theta) )
-c @@@ F5zg = (BTZCENTER - BTH/2)
-c @@@ F5zb = (F5zg+BTH)
+c @@@ F5zg = (TOPBTZCENTER - TOPBTH/2)
+c @@@ F5zb = (F5zg+TOPBTH)
 c @@@ F15theta = (deg2rad(2))
 c @@@ F15x = (F5RAD*cos(F15theta))
 c @@@ F15y = (F5RAD*sin(F15theta))
@@ -164,6 +166,36 @@ c @@@ F25xb = ( BTWATERLEN*sin(BTALPHA) + BTWATERTHICK*cos(BTALPHA)  )
 c @@@ F25yb = 3
 c @@@ F25xc = F25xb
 c @@@ F25yc = (-1 * F25yb)
+c @@@ F35theta = F5theta
+c @@@ F35x = (F5RAD*cos(F35theta))
+c @@@ F35y = (F5RAD*sin(F35theta))
+c @@@ F35z  = LOWBTZCENTER
+c @@@ F35xb = F5xb
+c @@@ F35yb = F5yb
+c @@@ F35xc = F5xc
+c @@@ F35yc = F5yc
+c @@@ F35zb = (LOWBTZCENTER - LOWBTH/2)
+c @@@ F35zg = (LOWBTZCENTER + LOWBTH/2)
+c @@@ F45theta = F15theta
+c @@@ F45x = (F5RAD*cos(F45theta))
+c @@@ F45y = (F5RAD*sin(F45theta))
+c @@@ F45z  = F35z
+c @@@ F45xb = F15xb
+c @@@ F45yb = F15yb
+c @@@ F45xc = F15xc
+c @@@ F45yc = F15yc
+c @@@ F45zb = F35zb
+c @@@ F45zg = F35zg
+c @@@ F55theta = F25theta
+c @@@ F55x = (F5RAD*cos(F55theta))
+c @@@ F55y = (F5RAD*sin(F55theta))
+c @@@ F55z  = F35z
+c @@@ F55xb = F25xb
+c @@@ F55yb = F25yb
+c @@@ F55xc = F25xc
+c @@@ F55yc = F25yc
+c @@@ F55zb = F35zb
+c @@@ F55zg = F35zg
 c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2/(200.0-LOWPRER)) * 180/pi : 0.0 )
 -->
 <?xml version="1.0" encoding="ISO-8859-1" ?>
@@ -384,7 +416,7 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="TopButterflyZangle" type="double">0</variable>
     <variable name="TopButterflyXYangle" type="double">0</variable>
     <variable name="TopButterflyNLayers" type="double">4</variable>
-    <variable name="TopButterflyHeight" type="double">BTH</variable>
+    <variable name="TopButterflyHeight" type="double">TOPBTH</variable>
     <variable name="TopButterflyLength" type="double">BTLENGTH</variable>
     <variable name="TopButterflyWidth" type="double">BTWIDTH</variable>
     <variable name="TopButterflyWingLength" type="double">BTWL</variable>
@@ -492,6 +524,42 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="F25X" type="double">F25x</variable>
     <variable name="F25Y" type="double">F25y</variable>
     <variable name="F25Z" type="double">F25z</variable>
+
+    <variable name="F35Length" type="double">700</variable>
+    <variable name="F35XB" type="double">F35xb</variable>
+    <variable name="F35YB" type="double">F35yb</variable>
+    <variable name="F35ZB" type="double">F35zb</variable>
+    <variable name="F35XC" type="double">F35xc</variable>
+    <variable name="F35YC" type="double">F35yc</variable>
+    <variable name="F35ZC" type="double">F35zb</variable>
+    <variable name="F35ZG" type="double">F35zg</variable>
+    <variable name="F35X" type="double">F35x</variable>
+    <variable name="F35Y" type="double">F35y</variable>
+    <variable name="F35Z" type="double">F35z</variable>
+
+    <variable name="F45Length" type="double">700</variable>
+    <variable name="F45XB" type="double">F45xb</variable>
+    <variable name="F45YB" type="double">F45yb</variable>
+    <variable name="F45ZB" type="double">F35zb</variable>
+    <variable name="F45XC" type="double">F45xc</variable>
+    <variable name="F45YC" type="double">F45yc</variable>
+    <variable name="F45ZC" type="double">F35zb</variable>
+    <variable name="F45ZG" type="double">F35zg</variable>
+    <variable name="F45X" type="double">F45x</variable>
+    <variable name="F45Y" type="double">F45y</variable>
+    <variable name="F45Z" type="double">F45z</variable>
+
+    <variable name="F55Length" type="double">700</variable>
+    <variable name="F55XB" type="double">F55xb</variable>
+    <variable name="F55YB" type="double">F55yb</variable>
+    <variable name="F55ZB" type="double">F35zb</variable>
+    <variable name="F55XC" type="double">F55xc</variable>
+    <variable name="F55YC" type="double">F55yc</variable>
+    <variable name="F55ZC" type="double">F35zb</variable>
+    <variable name="F55ZG" type="double">F35zg</variable>
+    <variable name="F55X" type="double">F55x</variable>
+    <variable name="F55Y" type="double">F55y</variable>
+    <variable name="F55Z" type="double">F55z</variable>
 
     <variable name="G1BLine10XYangle" type="double">-17.5</variable>
     <variable name="G2BLine10XYangle" type="double">-17.5</variable>

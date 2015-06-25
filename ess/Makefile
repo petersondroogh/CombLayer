@@ -50,7 +50,7 @@ butterfly-pstudy: ess
 	pstudy-nowrap -i xml/butterfly.xml -setup
 	/bin/mv -f case001/inp flat.xml  && rm -fr case001
 	@rm -fv flat1.x
-	./ess -r -lowMod Butterfly -topMod Butterfly -nF5 3  -lowModFlowGuide On -topModFlowGuide On  -lowWaterDisc On -topWaterDisc On  -topPreCooling None -x flat.xml -T surface object Bulk 3 -TMod energy 1 "5E-9 20E-9" --validCheck 1000 butterfly
+	./ess -r -lowMod Butterfly -topMod Butterfly -nF5 6  -lowModFlowGuide On -topModFlowGuide On  -lowWaterDisc On -topWaterDisc On  -topPreCooling None -x flat.xml -T surface object Bulk 3 -TMod energy 1 "5E-9 20E-9" --validCheck 1000 butterfly
 	sed -i -n '/^sdef/{p;:a;N;/prdmp/!ba;s/.*\n/si1 h -7 7\nsp1 0 1\nsi2 h -1.6 1.6\nsp2 0 1\n/};p' butterfly1.x
 	sed -i -e "s/fq1   f d u s m e t c/*c1:n 90 5 0/" butterfly1.x
 #	remove-weights butterfly1.x
