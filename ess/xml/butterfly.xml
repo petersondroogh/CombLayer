@@ -1,7 +1,8 @@
 <!--
-c @@@ TOPTMDISTANCE = 12.9
+c @@@ TWDHEIGHT = 3
+c @@@ TOPTMDISTANCE = (12.9-3+TWDHEIGHT)
 c @@@ LOWTMDISTANCE = 14.4
-c @@@ TWDVCHEIGHT = (TOPTMDISTANCE-11.2-1-0.05)
+c @@@ TWDVCHEIGHT = (TOPTMDISTANCE-11.2-1-0.05+3-TWDHEIGHT)
 c @@@ LWDVCHEIGHT = (LOWTMDISTANCE-11.2-1-0.05-1.2-0.3)
 c @@@ WHEELTARGETHEIGHT = 8
 c @@@ WHEELCASETHICK = 0.5
@@ -218,7 +219,7 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="LowWaterDiscInnerRefMat" type="double">1011</variable>
 
     
-    <variable name="TopWaterDiscHeight" type="function">3+0.95</variable>
+    <variable name="TopWaterDiscHeight" type="function">TWDHEIGHT+0.95</variable>
     <variable name="TopWaterDiscWallThick" type="double">WATERCYLWALLH</variable>
     <variable name="TopWaterDiscRadius" type="function">BEREFRADIUS+0.1</variable>
     <variable name="TopWaterDiscWidth" type="double">-10</variable>
