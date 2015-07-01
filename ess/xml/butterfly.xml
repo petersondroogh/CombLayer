@@ -254,7 +254,7 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="LowWaterDiscVoidCellMat" type="int">0</variable>
 
     <variable name="LowWaterDiscInnerRadius" type="double">30</variable>
-    <variable name="LowWaterDiscInnerHeight" type="function">3+0.95</variable>
+    <variable name="LowWaterDiscInnerHeight" type="function">LWDHEIGHT+0.95</variable>
     <variable name="LowWaterDiscInnerWallThick" type="double">0.3</variable>
     <variable name="LowWaterDiscInnerWallMat" type="double">13000</variable>
     <variable name="LowWaterDiscInnerRefMat" type="double">1011</variable>
@@ -272,7 +272,7 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="TopWaterDiscZStep" type="function">0.2+3-TWDHEIGHT+0.3-WATERCYLWALLH</variable>
 
     <variable name="TopWaterDiscInnerRadius" type="double">30</variable>
-    <variable name="TopWaterDiscInnerHeight" type="function">3+0.95</variable>
+    <variable name="TopWaterDiscInnerHeight" type="function">TWDHEIGHT+0.95</variable>
     <variable name="TopWaterDiscInnerWallThick" type="double">0.3</variable>
     <variable name="TopWaterDiscInnerWallMat" type="double">13000</variable>
     <variable name="TopWaterDiscInnerRefMat" type="double">1011</variable>
