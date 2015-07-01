@@ -72,7 +72,7 @@ namespace essSystem
   */
   {}
 
-  void F5Collimator::populate(const FuncDataBase& Control)
+  void F5Collimator::populate(FuncDataBase& Control)
   /*!
     Populate all the variables
     \param Control :: Variable table to use
@@ -90,8 +90,41 @@ namespace essSystem
     length=Control.EvalVar<double>(keyName+"Length"); // along x
     wall=Control.EvalDefVar<double>(keyName+"WallThick", 0.5);
 
+    GluePoint = Control.EvalDefVar<int>(keyName+"GluePoint", -1);
+
     tallySystem::point gC,gB,gB2;
 
+    if (GluePoint>=0) {
+      std::ifstream essdat; // currently used by collimators
+      essdat.open(".ess.dat", std::ios::in);
+      double F[12], L[13];
+      while (!essdat.eof()) {
+	std::string str;
+	std::getline(essdat, str);
+	std::stringstream ss(str);
+	std::string header; // F: or L: point title
+	ss >> header;
+	int i=0;
+	if (header == "F:")
+	  while(ss >> F[i]) i++;
+	else if (header == "L:")
+	  while(ss >> L[i]) i++;
+	
+	int gpshift = GluePoint*3;
+	if (F[2]>0) { // top moderator;
+	  Control.setVariable<double>(keyName+"XB", F[gpshift+0]);
+	  Control.setVariable<double>(keyName+"YB", F[gpshift+1]);
+	  Control.setVariable<double>(keyName+"ZB", F[gpshift+2]);
+
+	  Control.setVariable<double>(keyName+"XC", L[gpshift+0]);
+	  Control.setVariable<double>(keyName+"YC", L[gpshift+1]);
+	  Control.setVariable<double>(keyName+"ZC", L[gpshift+2]);
+
+	  Control.setVariable<double>(keyName+"ZG", L[gpshift+3]);
+	}
+      } 
+      essdat.close();
+    } 
     gB.x=Control.EvalVar<double>(keyName+"XB");
     gB.y=Control.EvalVar<double>(keyName+"YB");
     gB.z=Control.EvalVar<double>(keyName+"ZB");
@@ -99,11 +132,12 @@ namespace essSystem
     gC.x=Control.EvalVar<double>(keyName+"XC");
     gC.y=Control.EvalVar<double>(keyName+"YC");
     gC.z=Control.EvalVar<double>(keyName+"ZC");
+
+    gB2.z = Control.EvalVar<double>(keyName+"ZG");
     
 
     gB2.x = gB.x;
     gB2.y = gB.y;
-    gB2.z = Control.EvalVar<double>(keyName+"ZG");
 
     SetTally(xStep, yStep, zStep);
     SetPoints(gB, gC, gB2);

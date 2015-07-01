@@ -143,6 +143,10 @@ namespace essSystem
     //  OR.addObject(BulkLowAFL);
 
     OR.addObject(ShutterBayObj);
+
+    std::ofstream essdat; // currently used by collimators and filled by ButterflyModerator
+    essdat.open(".ess.dat", std::ios::out);
+    essdat.close();
   }
 
 

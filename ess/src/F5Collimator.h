@@ -20,10 +20,12 @@ namespace essSystem
 	double length;                   ///< Width  along x
 	double width;                   ///< Width  along y
 	double wall;                    ///< Wall thickness
+
+	int GluePoint;              ///< Glue point number (currently number defines quadrant as in butterfly.svgz). Not used if <0
 	
 	// Functions:
 
-	void populate(const FuncDataBase&);
+	void populate(FuncDataBase&);
 	void createUnitVector(const attachSystem::FixedComp&);
 
 	void createSurfaces();

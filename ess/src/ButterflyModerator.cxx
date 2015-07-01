@@ -246,7 +246,7 @@ namespace essSystem
     struct {
       double x;
       double y;
-    } A[8], B[4], C[2], D[6], E[2], F[4], G[4], K[4];
+    } A[8], B[4], C[2], D[6], E[2], F[4], G[4], K[4], L[4];
     Geometry::Vec3D dirX(X);
     Geometry::Plane *sideWingPlane[4]; // side wing planes
     double virtAngle[4]; // angles of virtual planes with respect to the positive y-axis
@@ -555,6 +555,24 @@ namespace essSystem
     ModelSupport::buildPlane(SMap, SI+1103, Origin+X*K[1].x - Y*K[1].y, sideWingPlane[1]->getNormal()); // water
     ModelSupport::buildPlane(SMap, SI+1104, Origin+X*(K[1].x-PreWallThick*cos(theta3))-Y*(K[1].y+PreWallThick*cos(theta3)), sideWingPlane[1]->getNormal()); // wall
 
+    std::ofstream essdat; // currently used by collimators
+    essdat.open(".ess.dat", std::ios::out | std::ios::app);
+    essdat << "F: ";
+    for (int i=0; i<4; i++)
+      essdat << F[i].x << " " << F[i].y << " " << Origin.Z()+Height[0]/2.0 << " ";
+    essdat << Origin.Z()-Height[0]/2.0;
+    essdat << std::endl; 
+    essdat << "L: ";
+    for (int i=0; i<4; i++) {
+      L[0].x = -(fullWidth/2.0-FlightXOffset);      L[0].y = Length[0]/2.0;
+      L[1].x = -L[0].x; L[1].y = L[0].y;
+      L[2].x = -L[0].x; L[2].y = -L[1].y;
+      L[3].x =  L[0].x; L[3].y = L[2].y;
+      essdat << L[i].x << " " << L[i].y << " " << Origin.Z()+Height[0]/2.0 << " ";
+    }
+    essdat << Origin.Z()-Height[0]/2.0;
+    essdat << std::endl;
+    essdat.close();
    
     // top pre moderator
     ModelSupport::buildPlane(SMap, SI+55, Origin+Z*(Height[nLayers-1]/2.0+TopPreHeight), Z); // see also plane 75
