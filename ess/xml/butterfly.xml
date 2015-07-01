@@ -1,9 +1,10 @@
 <!--
 c @@@ TWDHEIGHT = 3
-c @@@ TOPTMDISTANCE = (12.9-3+TWDHEIGHT)
+c @@@ LWDHEIGHT = 3
+c @@@ TOPTMDISTANCE = 12.9
 c @@@ LOWTMDISTANCE = 14.4
-c @@@ TWDVCHEIGHT = (TOPTMDISTANCE-11.2-1-0.05+3-TWDHEIGHT)
-c @@@ LWDVCHEIGHT = (LOWTMDISTANCE-11.2-1-0.05-1.2-0.3)
+c @@@ TWDVCHEIGHT = (TOPTMDISTANCE-12.25 )
+c @@@ LWDVCHEIGHT = (LOWTMDISTANCE-13.75 )
 c @@@ WHEELTARGETHEIGHT = 8
 c @@@ WHEELCASETHICK = 0.5
 c @@@ WHEELCOOLANTTHICKIN = 0.65
@@ -198,12 +199,52 @@ c @@@ F55xc = F25xc
 c @@@ F55yc = F25yc
 c @@@ F55zb = F35zb
 c @@@ F55zg = F35zg
+c @@@ F65theta = (deg2rad(180-50))
+c @@@ F65x = (F5RAD*cos(F65theta))
+c @@@ F65y = (F5RAD*sin(F65theta))
+c @@@ F65z  = F5z
+c @@@ F65xb = -8.4
+c @@@ F65yb = -6.8
+c @@@ F65xc = (F65xb + FTHERMALWIDTH*sin(F65theta))
+c @@@ F65yc = (F65yb - FTHERMALWIDTH*cos(F65theta))
+c @@@ F65zb = F5zb
+c @@@ F65zg = F5zg
+c @@@ F75theta = (deg2rad(180+50))
+c @@@ F75x = (F5RAD*cos(F75theta))
+c @@@ F75y = (F5RAD*sin(F75theta))
+c @@@ F75z  = F5z
+c @@@ F75xb = F65xb
+c @@@ F75yb = (-1*F65yb)
+c @@@ F75xc = (F75xb - FTHERMALWIDTH*sin(F75theta))
+c @@@ F75yc = (F75yb + FTHERMALWIDTH*cos(F75theta))
+c @@@ F75zb = F5zb
+c @@@ F75zg = F5zg
+c @@@ F85theta = (deg2rad(180-50))
+c @@@ F85x = (F5RAD*cos(F85theta))
+c @@@ F85y = (F5RAD*sin(F85theta))
+c @@@ F85z  = F35z
+c @@@ F85xb = F65xb
+c @@@ F85yb = F65yb
+c @@@ F85xc = (F85xb + FTHERMALWIDTH*sin(F85theta))
+c @@@ F85yc = (F85yb - FTHERMALWIDTH*cos(F85theta))
+c @@@ F85zb = F35zb
+c @@@ F85zg = F35zg
+c @@@ F95theta = (deg2rad(180+50))
+c @@@ F95x = (F5RAD*cos(F95theta))
+c @@@ F95y = (F5RAD*sin(F95theta))
+c @@@ F95z  = F35z
+c @@@ F95xb = F75xb
+c @@@ F95yb = F75yb
+c @@@ F95xc = (F95xb - FTHERMALWIDTH*sin(F95theta))
+c @@@ F95yc = (F95yb + FTHERMALWIDTH*cos(F95theta))
+c @@@ F95zb = F35zb
+c @@@ F95zg = F35zg
 c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2/(200.0-LOWPRER)) * 180/pi : 0.0 )
 -->
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <metadata_entry>
   <Variables>
-    <variable name="LowWaterDiscHeight" type="function">3+0.95</variable>
+    <variable name="LowWaterDiscHeight" type="function">LWDHEIGHT+0.95</variable>
     <variable name="LowWaterDiscWallThick" type="double">WATERCYLWALLH</variable>
     <variable name="LowWaterDiscRadius" type="function">BEREFRADIUS+0.2</variable>
     <variable name="LowWaterDiscWidth" type="double">-10</variable>
@@ -217,6 +258,7 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="LowWaterDiscInnerWallThick" type="double">0.3</variable>
     <variable name="LowWaterDiscInnerWallMat" type="double">13000</variable>
     <variable name="LowWaterDiscInnerRefMat" type="double">1011</variable>
+    <variable name="LowWaterDiscZStep" type="function">0.2+3-LWDHEIGHT+0.3-WATERCYLWALLH</variable>
 
     
     <variable name="TopWaterDiscHeight" type="function">TWDHEIGHT+0.95</variable>
@@ -227,6 +269,7 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="TopWaterDiscRefMat1" type="int">26010</variable>
     <variable name="TopWaterDiscVoidCellHeight" type="double">TWDVCHEIGHT</variable>
     <variable name="TopWaterDiscVoidCellMat" type="int">0</variable>
+    <variable name="TopWaterDiscZStep" type="function">0.2+3-TWDHEIGHT+0.3-WATERCYLWALLH</variable>
 
     <variable name="TopWaterDiscInnerRadius" type="double">30</variable>
     <variable name="TopWaterDiscInnerHeight" type="function">3+0.95</variable>
@@ -543,11 +586,11 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="F45Length" type="double">700</variable>
     <variable name="F45XB" type="double">F45xb</variable>
     <variable name="F45YB" type="double">F45yb</variable>
-    <variable name="F45ZB" type="double">F35zb</variable>
+    <variable name="F45ZB" type="double">F45zb</variable>
     <variable name="F45XC" type="double">F45xc</variable>
     <variable name="F45YC" type="double">F45yc</variable>
-    <variable name="F45ZC" type="double">F35zb</variable>
-    <variable name="F45ZG" type="double">F35zg</variable>
+    <variable name="F45ZC" type="double">F45zb</variable>
+    <variable name="F45ZG" type="double">F45zg</variable>
     <variable name="F45X" type="double">F45x</variable>
     <variable name="F45Y" type="double">F45y</variable>
     <variable name="F45Z" type="double">F45z</variable>
@@ -555,14 +598,62 @@ c @@@ LOWCYLFLIGHTLINETILT = ( LOWMFLIGHTH<FLHAT2M ? atan((FLHAT2M-LOWFLIGHTH)/2
     <variable name="F55Length" type="double">700</variable>
     <variable name="F55XB" type="double">F55xb</variable>
     <variable name="F55YB" type="double">F55yb</variable>
-    <variable name="F55ZB" type="double">F35zb</variable>
+    <variable name="F55ZB" type="double">F55zb</variable>
     <variable name="F55XC" type="double">F55xc</variable>
     <variable name="F55YC" type="double">F55yc</variable>
-    <variable name="F55ZC" type="double">F35zb</variable>
-    <variable name="F55ZG" type="double">F35zg</variable>
+    <variable name="F55ZC" type="double">F55zb</variable>
+    <variable name="F55ZG" type="double">F55zg</variable>
     <variable name="F55X" type="double">F55x</variable>
     <variable name="F55Y" type="double">F55y</variable>
     <variable name="F55Z" type="double">F55z</variable>
+
+    <variable name="F65Length" type="double">700</variable>
+    <variable name="F65XB" type="double">F65xb</variable>
+    <variable name="F65YB" type="double">F65yb</variable>
+    <variable name="F65ZB" type="double">F65zb</variable>
+    <variable name="F65XC" type="double">F65xc</variable>
+    <variable name="F65YC" type="double">F65yc</variable>
+    <variable name="F65ZC" type="double">F65zb</variable>
+    <variable name="F65ZG" type="double">F65zg</variable>
+    <variable name="F65X" type="double">F65x</variable>
+    <variable name="F65Y" type="double">F65y</variable>
+    <variable name="F65Z" type="double">F65z</variable>
+
+    <variable name="F75Length" type="double">700</variable>
+    <variable name="F75XB" type="double">F75xb</variable>
+    <variable name="F75YB" type="double">F75yb</variable>
+    <variable name="F75ZB" type="double">F75zb</variable>
+    <variable name="F75XC" type="double">F75xc</variable>
+    <variable name="F75YC" type="double">F75yc</variable>
+    <variable name="F75ZC" type="double">F75zb</variable>
+    <variable name="F75ZG" type="double">F75zg</variable>
+    <variable name="F75X" type="double">F75x</variable>
+    <variable name="F75Y" type="double">F75y</variable>
+    <variable name="F75Z" type="double">F75z</variable>
+
+    <variable name="F85Length" type="double">700</variable>
+    <variable name="F85XB" type="double">F85xb</variable>
+    <variable name="F85YB" type="double">F85yb</variable>
+    <variable name="F85ZB" type="double">F85zb</variable>
+    <variable name="F85XC" type="double">F85xc</variable>
+    <variable name="F85YC" type="double">F85yc</variable>
+    <variable name="F85ZC" type="double">F85zb</variable>
+    <variable name="F85ZG" type="double">F85zg</variable>
+    <variable name="F85X" type="double">F85x</variable>
+    <variable name="F85Y" type="double">F85y</variable>
+    <variable name="F85Z" type="double">F85z</variable>
+
+    <variable name="F95Length" type="double">700</variable>
+    <variable name="F95XB" type="double">F95xb</variable>
+    <variable name="F95YB" type="double">F95yb</variable>
+    <variable name="F95ZB" type="double">F95zb</variable>
+    <variable name="F95XC" type="double">F95xc</variable>
+    <variable name="F95YC" type="double">F95yc</variable>
+    <variable name="F95ZC" type="double">F95zb</variable>
+    <variable name="F95ZG" type="double">F95zg</variable>
+    <variable name="F95X" type="double">F95x</variable>
+    <variable name="F95Y" type="double">F95y</variable>
+    <variable name="F95Z" type="double">F95z</variable>
 
     <variable name="G1BLine10XYangle" type="double">-17.5</variable>
     <variable name="G2BLine10XYangle" type="double">-17.5</variable>
