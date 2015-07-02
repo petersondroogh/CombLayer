@@ -125,15 +125,15 @@ namespace essSystem
       } 
       essdat.close();
     } 
-    gB.x=Control.EvalVar<double>(keyName+"XB");
-    gB.y=Control.EvalVar<double>(keyName+"YB");
-    gB.z=Control.EvalVar<double>(keyName+"ZB");
+    gB.x=Control.EvalDefVar<double>(keyName+"XB", 0);
+    gB.y=Control.EvalDefVar<double>(keyName+"YB", 0);
+    gB.z=Control.EvalDefVar<double>(keyName+"ZB", 0);
 
-    gC.x=Control.EvalVar<double>(keyName+"XC");
-    gC.y=Control.EvalVar<double>(keyName+"YC");
-    gC.z=Control.EvalVar<double>(keyName+"ZC");
+    gC.x=Control.EvalDefVar<double>(keyName+"XC", 0);
+    gC.y=Control.EvalDefVar<double>(keyName+"YC", 0);
+    gC.z=Control.EvalDefVar<double>(keyName+"ZC", 0);
 
-    gB2.z = Control.EvalVar<double>(keyName+"ZG");
+    gB2.z = Control.EvalDefVar<double>(keyName+"ZG", 0);
     
 
     gB2.x = gB.x;
