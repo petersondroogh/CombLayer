@@ -6,7 +6,7 @@ namespace tallySystem {
   void F5Calc::SetTally(double lx,double ly,double lz)
   {
     F5.x=lx; F5.y=ly; F5.z=lz;
-    cout << F5.x << " " << F5.y << " " << F5.z << endl;
+    // cout<< F5.x << " " << F5.y << " " << F5.z << endl;
   };
 
   void F5Calc::SetPoints(point lB,point lC, point lB2)
@@ -17,7 +17,7 @@ namespace tallySystem {
     */
     B = lB; C = lC; B2 = lB2;
 
-    if(B2.z<B.z)
+    /*    if(B2.z<B.z)
       {
 	cerr << "WARNING - F5Calc::SetPoints() - The z coordinate of B2 is smaller than that of B: B2.z=" << B2.z << " B.z=" << B.z << endl;
 	cerr << "                                      As a consequence, the z angle could be wrong!" << endl;
@@ -27,7 +27,7 @@ namespace tallySystem {
       {
 	cerr << "WARNING - F5Calc::SetPoints() - The z coordinate of B2 is smaller than that of C: B2.z=" << B2.z << " C.z=" << C.z << endl;
 	cerr << "                                      As a consequence, the xy angle could be wrong!" << endl;
-      }
+	}*/
   };
 
   void F5Calc::SetLength(double laf)
@@ -71,7 +71,7 @@ namespace tallySystem {
     M.y=C.y+(B.y-C.y)/2.0+(B2.y-B.y)/2.0;
     M.z=C.z+(B.z-C.z)/2.0+(B2.z-B.z)/2.0;
 
-    cout << "Middle of moderator: " << M.x << " " << M.y << " " << M.z <<  endl;
+    // cout<< "Middle of moderator: " << M.x << " " << M.y << " " << M.z <<  endl;
   };
 
   double F5Calc::GetZAngle()
@@ -86,14 +86,14 @@ namespace tallySystem {
 
     lM.x=M.x+(B.x-C.x)/2.0;
     lM.y=M.y+(B.y-C.y)/2.0;
-    lM.z=M.z+(B.z-C.z)/2.0; cout << "F5Calc::GetZAngle() - lM = " << lM.x << " " << lM.y << " " << lM.z << endl;
-    CalculateNormalVector(B,C,B2,lNV); cout << "F5Calc::GetZAngle() - lNV = " << lNV.x << " " << lNV.y << " " << lNV.z << endl;
+    lM.z=M.z+(B.z-C.z)/2.0; //cout << "F5Calc::GetZAngle() - lM = " << lM.x << " " << lM.y << " " << lM.z << endl;
+    CalculateNormalVector(B,C,B2,lNV); // cout<< "F5Calc::GetZAngle() - lNV = " << lNV.x << " " << lNV.y << " " << lNV.z << endl;
     lNV2.x=lNV.y*(lM.z-M.z)-lNV.z*(lM.y-M.y);
     lNV2.y=lNV.z*(lM.x-M.x)-lNV.x*(lM.z-M.z);
-    lNV2.z=lNV.x*(lM.y-M.y)-lNV.y*(lM.x-M.x); cout << "F5Calc::GetZAngle() - lNV2 = " << lNV2.x << " " << lNV2.y << " " << lNV2.z << endl;
+    lNV2.z=lNV.x*(lM.y-M.y)-lNV.y*(lM.x-M.x); // cout<< "F5Calc::GetZAngle() - lNV2 = " << lNV2.x << " " << lNV2.y << " " << lNV2.z << endl;
     double lLength=CalculateLength(lNV2);
-    lNV2.x/=lLength; lNV2.y/=lLength; lNV2.z/=lLength; cout << "F5Calc::GetZAngle() - lNV2 = " << lNV2.x << " " << lNV2.y << " " << lNV2.z << endl;
-    CalculateProjectionOntoPlane(lNV2,M,F5,lF5_Projected); cout << "F5Calc::GetZAngle() - lF5_Projected = " << lF5_Projected.x << " " << lF5_Projected.y << " " << lF5_Projected.z << endl;
+    lNV2.x/=lLength; lNV2.y/=lLength; lNV2.z/=lLength; // cout<< "F5Calc::GetZAngle() - lNV2 = " << lNV2.x << " " << lNV2.y << " " << lNV2.z << endl;
+    CalculateProjectionOntoPlane(lNV2,M,F5,lF5_Projected); // cout<< "F5Calc::GetZAngle() - lF5_Projected = " << lF5_Projected.x << " " << lF5_Projected.y << " " << lF5_Projected.z << endl;
 
     double lAngle=fabs(atan( CalculateDistance(F5,lF5_Projected)/CalculateDistance(M,lF5_Projected) )/M_PI*180.0);
     if(lF5_Projected.z-F5.z >= 0.0) return -lAngle;
@@ -180,7 +180,7 @@ namespace tallySystem {
     //P is a point which projection (P2) is calculated on the plane
 
     double lDistance=fabs(NV.x*(M.x-P.x)+NV.y*(M.y-P.y)+NV.z*(M.z-P.z))/sqrt(pow(NV.x,2.0)+pow(NV.y,2.0)+pow(NV.z,2.0));
-    cout << "Distance from point to plane = " << lDistance << endl;
+    //    cout << "Distance from point to plane = " << lDistance << endl;
 
     //Calculate the possible projections
     point lProjection1,lProjection2;
