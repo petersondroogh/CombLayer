@@ -120,7 +120,7 @@ namespace essSystem
 	  Control.setVariable<double>(keyName+"YC", L[gpshift+1]);
 	  Control.setVariable<double>(keyName+"ZC", L[gpshift+2]);
 
-	  Control.setVariable<double>(keyName+"ZG", L[gpshift+3]);
+	  Control.setVariable<double>(keyName+"ZG", L[12]);
 	}
       } 
       essdat.close();
