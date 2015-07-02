@@ -147,7 +147,7 @@ namespace essSystem
     width = 2*GetHalfSizeX();
     height = 2*GetHalfSizeZ();
 
-    std::cout << "F5 detector: " << xStep << " " << yStep << " " << zStep << std::endl;
+    /*    std::cout << "F5 detector: " << xStep << " " << yStep << " " << zStep << std::endl;
     std::cout << "B: " << gB.x << " " << gB.y << " " << gB.z << std::endl;
     std::cout << "C: " << gC.x << " " << gC.y << " " << gC.z << std::endl;
     std::cout << "B2(G): " << gB2.x << " " << gB2.y << " " << gB2.z << std::endl;
@@ -156,7 +156,7 @@ namespace essSystem
     std::cout << "F5Col::xyAngle: " << xyAngle << std::endl;
     std::cout << "F5Col::zAngle: " << zAngle << std::endl;
     std::cout << "F5Col::Omega: " << GetOmega()*1E+6 << " mksr" << std::endl;
-
+    */
     return;
   }
 
