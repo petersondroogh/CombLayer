@@ -19,14 +19,14 @@ namespace tallySystem {
 
     if(B2.z<B.z)
       {
-	cout << "WARNING - F5Calc::SetPoints() - The z coordinate of B2 is smaller than that of B: B2.z=" << B2.z << " B.z=" << B.z << endl;
-	cout << "                                      As a consequence, the z angle could be wrong!" << endl;
+	cerr << "WARNING - F5Calc::SetPoints() - The z coordinate of B2 is smaller than that of B: B2.z=" << B2.z << " B.z=" << B.z << endl;
+	cerr << "                                      As a consequence, the z angle could be wrong!" << endl;
       }
 
     if(B2.z<C.z)
       {
-	cout << "WARNING - F5Calc::SetPoints() - The z coordinate of B2 is smaller than that of C: B2.z=" << B2.z << " C.z=" << C.z << endl;
-	cout << "                                      As a consequence, the xy angle could be wrong!" << endl;
+	cerr << "WARNING - F5Calc::SetPoints() - The z coordinate of B2 is smaller than that of C: B2.z=" << B2.z << " C.z=" << C.z << endl;
+	cerr << "                                      As a consequence, the xy angle could be wrong!" << endl;
       }
   };
 
