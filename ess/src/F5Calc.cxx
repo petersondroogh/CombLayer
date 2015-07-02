@@ -142,9 +142,11 @@ namespace tallySystem {
   double F5Calc::GetHalfSizeX()
   {
     double val = CalculateDistance(B,C)/2.0*af/CalculateDistance(F5,M);
-    //    double l = CalculateDistance(B, C) / 1; // /2 since it is half size
-    //    val *= abs(B.y - C.y) / l;
-    //    cout << "points: " << B.x << " " << B.y << " " << C.x << " " << C.y << endl;
+    // Correction if BC is not perpendicular to M F5:
+    double ab = (F5.x-M.x)*(B.x-C.x) + (F5.y-M.y)*(B.y-C.y);
+    double len = sqrt(pow(F5.x-M.x, 2) + pow(F5.y-M.y, 2)) * sqrt(pow(B.x-C.x, 2) + pow(B.y-C.y, 2));
+    double cosa = ab/len;
+    val *= cos(M_PI/2-acos(cosa));
     return val;
   };
 
