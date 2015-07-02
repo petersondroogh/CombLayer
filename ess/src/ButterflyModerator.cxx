@@ -555,11 +555,23 @@ namespace essSystem
     ModelSupport::buildPlane(SMap, SI+1103, Origin+X*K[1].x - Y*K[1].y, sideWingPlane[1]->getNormal()); // water
     ModelSupport::buildPlane(SMap, SI+1104, Origin+X*(K[1].x-PreWallThick*cos(theta3))-Y*(K[1].y+PreWallThick*cos(theta3)), sideWingPlane[1]->getNormal()); // wall
 
+    const double gpShift = (Width[nLayers-1]-Width[0])/2.0/sqrt(2.0); // to move the F glue point on the border of the 1st layer
+    double xs, ys;
     std::ofstream essdat; // currently used by collimators
     essdat.open(".ess.dat", std::ios::out | std::ios::app);
     essdat << "F: ";
-    for (int i=0; i<4; i++)
-      essdat << F[i].x << " " << F[i].y << " " << Origin.Z()+Height[0]/2.0 << " ";
+    for (int i=0; i<4; i++) {
+      if ( (i==0) || (i==3))
+	xs = gpShift;
+      else
+	xs = -gpShift;
+      if ( (i==0) || (i==1)) 
+	ys = gpShift;
+      else
+	ys = -gpShift;
+      //      std::cout << "gpShift: " << i << " " << xs << " " << ys << std::endl;
+      essdat << F[i].x+xs << " " << F[i].y+ys << " " << Origin.Z()+Height[0]/2.0 << " ";
+    }
     essdat << Origin.Z()-Height[0]/2.0;
     essdat << std::endl; 
     essdat << "L: ";
