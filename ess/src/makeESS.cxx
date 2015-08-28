@@ -397,10 +397,64 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
     return;
   }
 
+  std::string
+  makeESS::getMaterialString(std::vector<int> vmat) const
+  {
+    std::ostringstream buffer;
+
+    std::sort(vmat.begin(), vmat.end());
+    const size_t N = vmat.size(); // total number of material entries
+    std::vector<int> vmatu = vmat;
+    std::vector<int>::iterator it = std::unique(vmatu.begin(), vmatu.end());
+    vmatu.resize(std::distance(vmatu.begin(), it));
+    std::vector<int> vfrac(vmatu.size(), 0); // fractions
+
+    for (size_t j=0; j<vmatu.size(); j++) {
+      for (size_t i=0; i<N; i++)
+	if (vmatu[j] == vmat[i])
+	  vfrac[j]++;
+      buffer << vfrac[j]*100.0/static_cast<double>(N) << "%" << vmatu[j] << "\t";
+    }
+    return buffer.str();
+  }
+  
+
+  std::vector<int>
+  makeESS::getMaterials(Simulation& SimPtr, const Geometry::Vec3D &center, double *stepXYZ, size_t N) const
+  {
+    std::vector<int> vmat;
+    double x, y, z, r;
+    double xmin = 100000;
+    double xmax = -10000;
+
+    MonteCarlo::Object *ObjPtr(0);
+
+    for (size_t i=0; i<N; i++) {
+      r = (rand() % 100)/100.0 - 0.5; // -0.5 ... 0.5
+      x = center[0] + r*stepXYZ[0];
+      if (x<xmin) xmin=x;
+      if (x>xmax) xmax=x;
+
+      r = (rand() % 100)/100.0 - 0.5;
+      y = center[1] + r*stepXYZ[1];
+
+      r = (rand() % 100)/100.0 - 0.5;
+      z = center[2] + r*stepXYZ[2];
+      Geometry::Vec3D p(x, y, z);
+      
+      ObjPtr = SimPtr.findCell(p, ObjPtr);
+      if (ObjPtr)
+	vmat.push_back(ObjPtr->getMat());
+    }
+    std::cout << "xmin, xmax: " << xmin << " " << xmax << std::endl;
+
+    return vmat;
+  }
+
   void 
   makeESS::dumpMaterialMesh(Simulation& SimPtr, const Geometry::Vec3D &startPt, const Geometry::Vec3D &endPt,
 			    const size_t nX, const size_t nY, const size_t nZ,
-			    const char *fname)
+			    const char *fname) const
   {
     /*
       Dumps a mesh with materials in ASCII file 'fname'
@@ -428,6 +482,8 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
     std::ofstream fmesh;
     fmesh.open(fname);
     int mat = 0;
+    vector<int> vmat;
+    double xmin, ymin, zmin, xmax, ymax, zmax;
 
     for (size_t i=0; i<nX; i++) {
       aVec[0] = stepXYZ[0]*(static_cast<double>(i)+0.5);
@@ -441,8 +497,14 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
 	    mat = ObjPtr->getMat();
 	  else 
 	    mat = -1;
-	  fmesh << Pt[0] << " " << Pt[1] << " " << Pt[2] << "\t" << mat << std::endl;
-	  
+	  //	  fmesh << Pt[0] << " " << Pt[1] << " " << Pt[2] << "\t" << mat << std::endl;
+	  xmin = Pt[0]-stepXYZ[0]/2;	  xmax = Pt[0]+stepXYZ[0]/2;
+	  ymin = Pt[1]-stepXYZ[1]/2;	  ymax = Pt[1]+stepXYZ[1]/2;
+	  zmin = Pt[2]-stepXYZ[2]/2;	  zmax = Pt[2]+stepXYZ[2]/2;
+	  vmat = getMaterials(SimPtr, Pt, stepXYZ, 1000);
+	  fmesh << xmin << " " << xmax << " " << ymin << " " << ymax << " " << zmin << " " << zmax << "\t";
+	  //	  for (size_t imat=0; imat<vmat.size(); imat++) fmesh << vmat[imat] << " ";
+	  fmesh << "\t" << getMaterialString(vmat) << std::endl;;
 	}
       }
     }
@@ -751,9 +813,9 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
     // write out the material mesh
     if (IParam.flag("matmesh"))
       {
-	Geometry::Vec3D ptStart(-40, -40, -20);
-	Geometry::Vec3D ptEnd(40, 40, 20);
-        dumpMaterialMesh(*SimPtr, ptStart, ptEnd, 200, 200, 100, "mesh.dat");
+	Geometry::Vec3D ptStart(-0.2, -12.4, 11.5);
+	Geometry::Vec3D ptEnd(0.2, -12, 11.6);
+        dumpMaterialMesh(*SimPtr, ptStart, ptEnd, 1, 1, 1, "mesh.dat");
       }
       
   }
