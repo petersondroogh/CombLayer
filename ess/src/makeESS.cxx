@@ -408,7 +408,7 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
     std::vector<int>::iterator it = std::unique(vmatu.begin(), vmatu.end());
     vmatu.resize(std::distance(vmatu.begin(), it));
     std::vector<int> vfrac(vmatu.size(), 0); // fractions
-
+ 
     for (size_t j=0; j<vmatu.size(); j++) {
       for (size_t i=0; i<N; i++)
 	if (vmatu[j] == vmat[i])
@@ -422,6 +422,8 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
   std::vector<int>
   makeESS::getMaterials(Simulation& SimPtr, const Geometry::Vec3D &center, double *stepXYZ, size_t N) const
   {
+    ELog::RegMethod RControl("makeESS","getMaterials");    // For output stream
+
     std::vector<int> vmat;
     double x, y, z, r;
     double xmin = 100000;
@@ -445,8 +447,9 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
       ObjPtr = SimPtr.findCell(p, ObjPtr);
       if (ObjPtr)
 	vmat.push_back(ObjPtr->getMat());
+      else
+	ELog::EM << "Can't find cell at " << p << ELog::endCrit;
     }
-    std::cout << "xmin, xmax: " << xmin << " " << xmax << std::endl;
 
     return vmat;
   }
@@ -485,12 +488,14 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
     vector<int> vmat;
     double xmin, ymin, zmin, xmax, ymax, zmax;
 
-    for (size_t i=0; i<nX; i++) {
-      aVec[0] = stepXYZ[0]*(static_cast<double>(i)+0.5);
+    for (size_t k=0; k<nZ; k++) {
+      std::cout << k << "/" << nZ << std::endl;
+      aVec[2] = stepXYZ[2]*(static_cast<double>(k)+0.5);
       for (size_t j=0; j<nY; j++) {
 	aVec[1] = stepXYZ[1]*(static_cast<double>(j)+0.5);
-	for (size_t k=0; k<nZ; k++) {
-	  aVec[2] = stepXYZ[2]*(static_cast<double>(k)+0.5);
+	for (size_t i=0; i<nX; i++) {
+	  aVec[0] = stepXYZ[0]*(static_cast<double>(i)+0.5);
+
 	  const Geometry::Vec3D Pt = Origin+aVec;
 	  ObjPtr = SimPtr.findCell(Pt, ObjPtr);
 	  if (ObjPtr)
@@ -810,12 +815,16 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
     }
 
 
+    SimPtr->populateCells();
+    SimPtr->validateObjSurfMap();
+
+
     // write out the material mesh
     if (IParam.flag("matmesh"))
       {
-	Geometry::Vec3D ptStart(-0.2, -12.4, 11.5);
-	Geometry::Vec3D ptEnd(0.2, -12, 11.6);
-        dumpMaterialMesh(*SimPtr, ptStart, ptEnd, 1, 1, 1, "mesh.dat");
+	Geometry::Vec3D ptStart(-70, -70, -80);
+	Geometry::Vec3D ptEnd(70, 70, -20);
+        dumpMaterialMesh(*SimPtr, ptStart, ptEnd, 280, 280, 30, "mesh.dat");
       }
       
   }

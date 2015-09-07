@@ -56,6 +56,7 @@ namespace essSystem
   class ThermalModerator;
   class FlowGuide;
   class Grooving;
+  class PreModWing;
 
   /*!
     \class makeESS
@@ -106,6 +107,11 @@ class makeESS
   std::shared_ptr<essSystem::FlightLine> TopAFL;  ///< Upper Mode FL
   std::shared_ptr<essSystem::FlightLine> TopBFL;  ///< Upper Mode FL
   std::shared_ptr<CylPreMod> TopPre;  ///< Upper Mod (Pre)
+
+  std::shared_ptr<PreModWing> TopPreWing; ///< Top premoderator wing
+  std::shared_ptr<PreModWing> TopCapWing; ///< Top cap premoderator wing
+  std::shared_ptr<PreModWing> LowPreWing; ///< Low premoderator wing
+  std::shared_ptr<PreModWing> LowCapWing; ///< Low cap premoderator wing
 
   std::shared_ptr<BulkModule> Bulk;      ///< Main bulk module
   std::shared_ptr<essSystem::FlightLine> BulkLowAFL;  ///< Lower Mode FL (kbat: maybe not used?)
