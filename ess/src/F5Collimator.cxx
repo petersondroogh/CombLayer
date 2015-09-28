@@ -111,7 +111,17 @@ namespace essSystem
 	  while(ss >> L[i]) i++;
 	
 	int gpshift = GluePoint*3;
-	if (F[2]>0) { // top moderator;
+	if ((zStep>0) && (F[2]>0)) { // top moderator;
+	  Control.setVariable<double>(keyName+"XB", F[gpshift+0]);
+	  Control.setVariable<double>(keyName+"YB", F[gpshift+1]);
+	  Control.setVariable<double>(keyName+"ZB", F[gpshift+2]);
+
+	  Control.setVariable<double>(keyName+"XC", L[gpshift+0]);
+	  Control.setVariable<double>(keyName+"YC", L[gpshift+1]);
+	  Control.setVariable<double>(keyName+"ZC", L[gpshift+2]);
+
+	  Control.setVariable<double>(keyName+"ZG", L[12]);
+	} else if ((zStep<0) && (F[2]<0)) { // bottom moderator;
 	  Control.setVariable<double>(keyName+"XB", F[gpshift+0]);
 	  Control.setVariable<double>(keyName+"YB", F[gpshift+1]);
 	  Control.setVariable<double>(keyName+"ZB", F[gpshift+2]);
