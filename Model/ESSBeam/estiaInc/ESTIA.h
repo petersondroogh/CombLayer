@@ -73,15 +73,8 @@ class ESTIA
   /// mirror to end of monolith
   std::shared_ptr<beamlineSystem::GuideLine> FocusA;
 
-    /// Pipe between bunker and the wall
-  std::shared_ptr<constructSystem::VacuumPipe> VPipeA;
-  /// mirror to end of monolith
-  std::shared_ptr<beamlineSystem::GuideLine> FocusA;
-  
-
-
-
-  
+  /// Pipe between bunker and the wall
+  std::shared_ptr<constructSystem::VacuumPipe> VPipeB;
   /// Vac box for 
   std::shared_ptr<constructSystem::VacuumBox> VacBoxA;
   /// Elliptic guide from 5.5 to 6metre
