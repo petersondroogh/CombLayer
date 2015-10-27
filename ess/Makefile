@@ -8,7 +8,7 @@ CXXFLAGS= -std=c++11 -g -fPIC -Wconversion -W -Wall -Wextra -Wno-comment -fexcep
 # obj/ess.o should not be in OBJ:
 OBJ=obj/essVariables.o obj/BulkModule.o obj/BeRef.o obj/CylinderCell.o obj/essDBMaterial.o obj/ConicModerator.o  obj/WedgeItem.o obj/BlockAddition.o obj/CylModerator.o  obj/GuideBay.o obj/SegWheel.o obj/WheelBase.o  obj/CylPreMod.o obj/essMod.o  obj/GuideItem.o obj/ShutterBay.o obj/Wheel.o obj/F5Collimator.o obj/FlightLine.o obj/ProtonVoid.o obj/RecModerator.o obj/ButterflyModerator.o obj/ProtonBeamWindow.o obj/FlowGuide.o obj/F5Calc.o obj/WaterPipe.o obj/Grooving.o obj/ThermalModerator.o obj/makeESS.o
 
-CC=g++
+CC=clang
 
 all: ess
 
@@ -18,7 +18,7 @@ obj/essVariables.o: src/essVariables.cxx
 
 obj/ess.o: src/ess.cxx
 	@echo "Compiling $@"
-	$(CC) -c $(CXXFLAGS) $(INC) $< -o $@
+	@$(CC) -c $(CXXFLAGS) $(INC) $< -o $@
 
 obj/%.o: src/%.cxx src/%.h
 	@echo "Compiling $@"
@@ -30,7 +30,7 @@ libEssBuild.so: $(OBJ)
 
 ess: libEssBuild.so obj/ess.o
 	@echo "Linking $@"
-	@$(CC) $(CXXFLAGS) -o $@ $^ -fPIC -Wl,-rpath,$(CL) $(CL)/lib/libVisit.so   $(CL)/lib/libSrc.so $(CL)/lib/libPhysics.so   $(CL)/lib/libInput.so $(CL)/lib/libSource.so   $(CL)/lib/libMonte.so $(CL)/lib/libFuncBase.so   $(CL)/lib/libLog.so $(CL)/lib/libTally.so   $(CL)/lib/libConstruct.so   $(CL)/lib/libCrystal.so   $(CL)/lib/libTransport.so   $(CL)/lib/libScatMat.so $(CL)/lib/libMd5.so   $(CL)/lib/libEndf.so $(CL)/lib/libProcess.so   $(CL)/lib/libWorld.so $(CL)/lib/libWork.so   $(CL)/lib/libMonte.so $(CL)/lib/libGeometry.so   $(CL)/lib/libMersenne.so $(CL)/lib/libSrc.so   $(CL)/lib/libXml.so $(CL)/lib/libPoly.so   $(CL)/lib/libSupport.so $(CL)/lib/libWeights.so   $(CL)/lib/libGlobal.so   $(CL)/lib/libAttachComp.so   $(CL)/lib/libVisit.so $(CL)/lib/libSimMC.so -lgsl -lgslcblas -lm  -lboost_regex 
+	@$(CC) $(CXXFLAGS) -o $@ -Wl,-rpath,./ $^ -fPIC -Wl,-rpath,$(CL) $(CL)/lib/libVisit.so   $(CL)/lib/libSrc.so $(CL)/lib/libPhysics.so   $(CL)/lib/libInput.so $(CL)/lib/libSource.so   $(CL)/lib/libMonte.so $(CL)/lib/libFuncBase.so   $(CL)/lib/libLog.so $(CL)/lib/libTally.so   $(CL)/lib/libConstruct.so   $(CL)/lib/libCrystal.so   $(CL)/lib/libTransport.so   $(CL)/lib/libScatMat.so $(CL)/lib/libMd5.so   $(CL)/lib/libEndf.so $(CL)/lib/libProcess.so   $(CL)/lib/libWorld.so $(CL)/lib/libWork.so   $(CL)/lib/libMonte.so $(CL)/lib/libGeometry.so   $(CL)/lib/libMersenne.so $(CL)/lib/libSrc.so   $(CL)/lib/libXml.so $(CL)/lib/libPoly.so   $(CL)/lib/libSupport.so $(CL)/lib/libWeights.so   $(CL)/lib/libGlobal.so   $(CL)/lib/libAttachComp.so   $(CL)/lib/libVisit.so $(CL)/lib/libSimMC.so $(CL)/lib/libAttachComp.so -lgsl -lgslcblas -lm  -lboost_regex -lstdc++
 
 
 clean:
