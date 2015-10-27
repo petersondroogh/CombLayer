@@ -255,6 +255,12 @@ void addESSMaterial()
   MObj.setDensity(-2.73);
   MDB.resetMaterial(MObj); 
 
+  // same as 13000 but with different id (initially requested by Yannick)
+  MObj.setMaterial(13010, "M13010", " 13027.70c 1.0 ", "al27.12t", MLib);
+  MObj.setDensity(-2.7);
+  MDB.resetMaterial(MObj); 
+
+
   // ESS M13060 #81 Al-6061-T6 - same as 13061 but at normal T (and slightly different density) !!! isotope composition checked, check other numbers again !!!
   MObj.setMaterial(13060,"M13060"," 12024.70c  0.008812087 "
 		   "12025.70c 0.001115595 12026.70c  0.001228270 "
