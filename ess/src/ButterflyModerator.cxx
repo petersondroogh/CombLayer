@@ -161,6 +161,7 @@ namespace essSystem
     BFlightAngleXY2 = Control.EvalVar<double>(keyName+"BFlightAngleXY2");
 
     FlightLineWallMat = ModelSupport::EvalDefMat<int>(Control,keyName+"FlightLineWallMat", 13000);
+    FlightLineOuterWallMat = ModelSupport::EvalDefMat<int>(Control,keyName+"FlightLineOuterWallMat", FlightLineWallMat);
     FlightLineWallThick = Control.EvalDefVar<double>(keyName+"FlightLineWallThick", 0.5);
   
     FlightXOffset = Control.EvalVar<double>(keyName+"FlightXOffset");
@@ -992,11 +993,19 @@ namespace essSystem
       } else {
 	Out += ModelSupport::getComposite(SMap, SI, SI-50, ": ((9M 39M -1M -2M (2:12)) : (4 14 -2 -12))");
       }
-      Out += ")" + ModComplement;
-      Out1 = Out;
+      Out += ")"; //+ ModComplement;
+      Out1 = Out+ModComplement;
       Out +=  " ( " + HR.display() + " ) ";
       Out += ModelSupport::getComposite(SMap, SI-50, " 48M 46M ");
-      System.addCell(MonteCarlo::Qhull(cellIndex++, FlightLineWallMat, 0.0, Out+sSurf));
+      
+      // old way (single Al cell)
+      //      System.addCell(MonteCarlo::Qhull(cellIndex++, FlightLineWallMat, 0.0, Out+sSurf)); // flight line wall
+
+      // new way: two Al cells: one inside BeRef, one outside
+      System.addCell(MonteCarlo::Qhull(cellIndex++, FlightLineWallMat, 0.0, Out+ReflectorSideBe + ModComplement));
+      HR.procString(ReflectorSideBe);
+      HR.makeComplement();
+      System.addCell(MonteCarlo::Qhull(cellIndex++, FlightLineOuterWallMat, 0.0, Out+HR.display()+sSurf));
 
       addOuterUnionSurf(Out1);
       
@@ -1019,11 +1028,17 @@ namespace essSystem
       if (TopPreType) {
       } else
 	Out += ModelSupport::getComposite(SMap, SI, SI-50, ": ((19M 29M 7M 8M (22 : 32)) : (24 34 -22 -32))"); // !!! removed 125 -126 - is it correct?
-      Out +=  ")" + ModComplement;
-      Out1 = Out;
+      Out +=  ")"; // + ModComplement;
+      Out1 = Out+ModComplement;
       Out += " ( " + HR.display() + " ) ";
       Out += ModelSupport::getComposite(SMap, SI-50, " 48M 46M ");
-      System.addCell(MonteCarlo::Qhull(cellIndex++, FlightLineWallMat, 0.0, Out+sSurf));
+
+      // old way (single Al cell)
+      //      System.addCell(MonteCarlo::Qhull(cellIndex++, FlightLineWallMat, 0.0, Out+sSurf));
+      System.addCell(MonteCarlo::Qhull(cellIndex++, FlightLineWallMat, 0.0, Out+ReflectorSideBe + ModComplement));
+      HR.procString(ReflectorSideBe);
+      HR.makeComplement();
+      System.addCell(MonteCarlo::Qhull(cellIndex++, FlightLineOuterWallMat, 0.0, Out+HR.display()+sSurf));
 
       addOuterUnionSurf(Out1);
 
