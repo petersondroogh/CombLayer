@@ -540,6 +540,7 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
     const std::string isTopWaterDisc=IParam.getValue<std::string>("topWaterDisc");
     const std::string isThermalCylMod=IParam.getValue<std::string>("thermalCylMod");
     const int nF5 = IParam.getValue<int>("nF5");
+    const int matmesh = IParam.getValue<int>("matmesh");
 
     ModelSupport::objectRegister& OR = ModelSupport::objectRegister::Instance();
 
@@ -820,11 +821,35 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
 
 
     // write out the material mesh
-    if (IParam.flag("matmesh"))
+    if (matmesh==1)
       {
-	Geometry::Vec3D ptStart(-70, -70, -80);
-	Geometry::Vec3D ptEnd(70, 70, -20);
-        dumpMaterialMesh(*SimPtr, ptStart, ptEnd, 280, 280, 30, "mesh.dat");
+        Geometry::Vec3D ptStart(-70, -70, -80);
+        Geometry::Vec3D ptEnd(70, 70, -20);
+        dumpMaterialMesh(*SimPtr, ptStart, ptEnd, 280, 280, 30, "mesh1.dat");
+      }
+    else if (matmesh==2)
+      {
+        Geometry::Vec3D ptStart(-70, -70, 20);
+        Geometry::Vec3D ptEnd(70, 70, -6);
+        dumpMaterialMesh(*SimPtr, ptStart, ptEnd, 280, 280, 70, "mesh2.dat");
+      }
+    else if (matmesh==3)
+      {
+        Geometry::Vec3D ptStart(-70, -70, -6);
+        Geometry::Vec3D ptEnd(70, 70, 6);
+        dumpMaterialMesh(*SimPtr, ptStart, ptEnd, 280, 280, 1, "mesh3.dat");
+      }
+    else if (matmesh==4)
+      {
+        Geometry::Vec3D ptStart(-70, -70, 6);
+        Geometry::Vec3D ptEnd(70, 70, 20);
+        dumpMaterialMesh(*SimPtr, ptStart, ptEnd, 280, 280, 70, "mesh4.dat");
+      }
+    else if (matmesh==5)
+      {
+        Geometry::Vec3D ptStart(-70, -70, 20);
+        Geometry::Vec3D ptEnd(70, 70, 80);
+        dumpMaterialMesh(*SimPtr, ptStart, ptEnd, 280, 280, 30, "mesh5.dat");
       }
       
   }
