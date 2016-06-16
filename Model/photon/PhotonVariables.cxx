@@ -237,7 +237,12 @@ PhotonVariables(FuncDataBase& Control)
   Control.addVariable("PModVWidth0",5.0);
   Control.addVariable("PModVWidth1",35.0);
   Control.addVariable("PModVWidth2",0.0);
-return;
+
+  Control.addVariable("PModMat0","Stainless304");
+  Control.addVariable("PModMat1","Stainless304");
+  Control.addVariable("PModMat2","Poly");
+
+  return;
 }
 
 }  // NAMESPACE setVariable
