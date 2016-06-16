@@ -1,7 +1,7 @@
 /********************************************************************* 
   CombLayer : MCNP(X) Input builder
  
- * File:   Main/ess.cxx
+ * File:   Main/photonMod2.cxx
  *
  * Copyright (c) 2004-2016 by Stuart Ansell
  *
@@ -32,6 +32,7 @@
 #include <string>
 #include <algorithm>
 #include <memory>
+#include <array>
 
 #include "Exception.h"
 #include "MersenneTwister.h"
@@ -49,6 +50,10 @@
 #include "Matrix.h"
 #include "Vec3D.h"
 #include "inputParam.h"
+#include "Transform.h"
+#include "Quaternion.h"
+#include "Surface.h"
+#include "Quadratic.h"
 #include "Rules.h"
 #include "surfIndex.h"
 #include "Code.h"
@@ -59,26 +64,24 @@
 #include "Qhull.h"
 #include "MainProcess.h"
 #include "SimProcess.h"
-#include "SimInput.h"
-#include "SurInter.h"
-#include "Simulation.h"
+#include "Simulation.h" 
 #include "SimPHITS.h"
 #include "ContainedComp.h"
-#include "ContainedGroup.h"
 #include "LinkUnit.h"
 #include "FixedComp.h"
 #include "mainJobs.h"
-#include "DefPhysics.h"
 #include "Volumes.h"
+#include "DefPhysics.h"
 #include "variableSetup.h"
-#include "defaultConfig.h"
-#include "DefUnitsESS.h"
 #include "ImportControl.h"
 #include "SourceCreate.h"
 #include "SourceSelector.h"
 #include "TallySelector.h"
+#include "tallyConstructFactory.h"
 #include "World.h"
-#include "makeESS.h"
+#include "SimInput.h"
+
+#include "makePhoton2.h"
 
 MTRand RNG(12345UL);
 
@@ -108,58 +111,61 @@ main(int argc,char* argv[])
       // PROCESS INPUT:
       InputControl::mainVector(argc,argv,Names);
       mainSystem::inputParam IParam;
-      createESSInputs(IParam);
-      
+      createPhotonInputs(IParam);
+
       SimPtr=createSimulation(IParam,Names,Oname);
       if (!SimPtr) return -1;
-      
+
       // The big variable setting
-      setVariable::EssVariables(SimPtr->getDataBase());
-      mainSystem::setDefUnits(SimPtr->getDataBase(),IParam);
+      setVariable::PhotonVariables(SimPtr->getDataBase());
       InputModifications(SimPtr,IParam,Names);
       mainSystem::setMaterialsDataBase(IParam);
-      
+
       // Definitions section 
       int MCIndex(0);
       const int multi=IParam.getValue<int>("multi");
-      
       SimPtr->resetAll();
-      
-      essSystem::makeESS ESSObj;
+            
+
+      photonSystem::makePhoton2 LObj;
       World::createOuterObjects(*SimPtr);
-      ESSObj.build(*SimPtr,IParam);
+      LObj.build(SimPtr,IParam);
+      
       SDef::sourceSelection(*SimPtr,IParam);
       
       SimPtr->removeComplements();
       SimPtr->removeDeadSurfaces(0);         
       ModelSupport::setDefaultPhysics(*SimPtr,IParam);
-      
+
       ModelSupport::setDefRotation(IParam);
       SimPtr->masterRotation();
-      
+
       const int renumCellWork=tallySelection(*SimPtr,IParam);
       if (createVTK(IParam,SimPtr,Oname))
-	{
-	  delete SimPtr;
-	  ModelSupport::objectRegister::Instance().reset();
+        {
+          delete SimPtr;
+          ModelSupport::objectRegister::Instance().reset();
           ModelSupport::surfIndex::Instance().reset();
-	  return 0;
-	}
-      
+          return 0;
+        }
+
       SimProcess::importanceSim(*SimPtr,IParam);
       SimProcess::inputProcessForSim(*SimPtr,IParam); // energy cut etc
       if (renumCellWork)
-	tallyRenumberWork(*SimPtr,IParam);
+        tallyRenumberWork(*SimPtr,IParam);
       tallyModification(*SimPtr,IParam);
-            
+
       // Ensure we done loop
+      ELog::EM<<"PHOTONMOD : variable hash: "
+              <<SimPtr->getDataBase().variableHash()
+              <<ELog::endBasic;
       do
-	{
-	  SimProcess::writeIndexSim(*SimPtr,Oname,MCIndex);
-	  MCIndex++;
-	}
+        {
+          SimProcess::writeIndexSim(*SimPtr,Oname,MCIndex);
+          MCIndex++;
+        }
       while(MCIndex<multi);
-      
+    
       exitFlag=SimProcess::processExitChecks(*SimPtr,IParam);
       ModelSupport::calcVolumes(SimPtr,IParam);
       ModelSupport::objectRegister::Instance().write("ObjectRegister.txt");

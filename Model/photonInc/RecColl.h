@@ -1,7 +1,7 @@
 /********************************************************************* 
   CombLayer : MCNP(X) Input builder
  
- * File:   photonInc/CylLayer.h
+ * File:   photonInc/RecColl.h
  *
  * Copyright (c) 2004-2016 by Stuart Ansell
  *
@@ -19,8 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>. 
  *
  ****************************************************************************/
-#ifndef photonSystem_CylLayer_h
-#define photonSystem_CylLayer_h
+#ifndef photonSystem_RecColl_h
+#define photonSystem_RecColl_h
 
 class Simulation;
 
@@ -40,26 +40,22 @@ struct LInfo
 };
 
 /*!
-  \class CylLayer
+  \class RecColl
   \author S. Ansell
   \version 1.0
   \date Janurary 2015
   \brief Specialized for a layered cylinder pre-mod object
 */
 
-class CylLayer : public attachSystem::ContainedComp,
-   public attachSystem::FixedComp
+class RecColl : public attachSystem::ContainedComp,
+  public attachSystem::FixedOffset,
+  public attachSystem::CellMap
 {
  private:
 
   const int layerIndex;         ///< Index of surface offset
   int cellIndex;                ///< Cell index
 
-  double xStep;                 ///< X-Step
-  double yStep;                 ///< Y-Step
-  double zStep;                 ///< Z-Step
-  double xyAngle;               ///< Angle rotation [deg]
-  double zAngle;                ///< horizontal rotation [deg]
 
   double outerRadius;                ///< Outer radius
   size_t nLayers;                    ///< Layer count
@@ -75,11 +71,11 @@ class CylLayer : public attachSystem::ContainedComp,
   
  public:
 
-  CylLayer(const std::string&);
-  CylLayer(const CylLayer&);
-  CylLayer& operator=(const CylLayer&);
-  virtual ~CylLayer();
-  virtual CylLayer* clone() const;
+  RecColl(const std::string&);
+  RecColl(const RecColl&);
+  RecColl& operator=(const RecColl&);
+  virtual ~RecColl();
+  virtual RecColl* clone() const;
   
   void createAll(Simulation&,const attachSystem::FixedComp&,
 		 const long int);

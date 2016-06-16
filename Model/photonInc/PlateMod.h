@@ -1,7 +1,7 @@
 /********************************************************************* 
   CombLayer : MCNP(X) Input builder
  
- * File:   photonInc/CylLayer.h
+ * File:   photonInc/PlateMod.h
  *
  * Copyright (c) 2004-2016 by Stuart Ansell
  *
@@ -19,52 +19,50 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>. 
  *
  ****************************************************************************/
-#ifndef photonSystem_CylLayer_h
-#define photonSystem_CylLayer_h
+#ifndef photonSystem_PlateMod_h
+#define photonSystem_PlateMod_h
 
 class Simulation;
 
 namespace photonSystem
 {
 
-struct LInfo
+struct plateInfo
 {
-  size_t nDisk;                ///< number of units
   double thick;                ///< Thickness
-  std::vector<double> Radii;   ///< Radii
-  std::vector<int> Mat;        ///< Material
-  std::vector<double> Temp;    ///< Temperature
-  
-  void resize(const size_t);
-
+  double vHeight;              ///< void height
+  double vWidth;               ///< void width
+  int mat;                     ///< Material
+  double temp;                 ///< temperature [K]
 };
 
 /*!
-  \class CylLayer
+  \class PlateMod
   \author S. Ansell
   \version 1.0
-  \date Janurary 2015
-  \brief Specialized for a layered cylinder pre-mod object
+  \date June 2016
+  \brief Specialized for a simple plate object
 */
 
-class CylLayer : public attachSystem::ContainedComp,
-   public attachSystem::FixedComp
+class PlateMod : public attachSystem::ContainedComp,
+  public attachSystem::FixedOffset,
+  public attachSystem::CellMap
 {
  private:
 
-  const int layerIndex;         ///< Index of surface offset
+  const int plateIndex;         ///< Index of surface offset
   int cellIndex;                ///< Cell index
 
-  double xStep;                 ///< X-Step
-  double yStep;                 ///< Y-Step
-  double zStep;                 ///< Z-Step
-  double xyAngle;               ///< Angle rotation [deg]
-  double zAngle;                ///< horizontal rotation [deg]
+  double outerWidth;                ///< Outer width
+  double outerHeight;               ///< Outer Height
+  
+  double innerWidth;                ///< inner width 
+  double innerHeight;               ///< inner height
 
-  double outerRadius;                ///< Outer radius
-  size_t nLayers;                    ///< Layer count
-  std::vector<LInfo> LVec;           ///< Layer Info
+  std::vector<plateInfo> Layer;    ///< Layer info
 
+  int outerMat;
+  
   void populate(const FuncDataBase&);
   void createUnitVector(const attachSystem::FixedComp&,
 			const long int);
@@ -75,11 +73,11 @@ class CylLayer : public attachSystem::ContainedComp,
   
  public:
 
-  CylLayer(const std::string&);
-  CylLayer(const CylLayer&);
-  CylLayer& operator=(const CylLayer&);
-  virtual ~CylLayer();
-  virtual CylLayer* clone() const;
+  PlateMod(const std::string&);
+  PlateMod(const PlateMod&);
+  PlateMod& operator=(const PlateMod&);
+  virtual ~PlateMod();
+  virtual PlateMod* clone() const;
   
   void createAll(Simulation&,const attachSystem::FixedComp&,
 		 const long int);

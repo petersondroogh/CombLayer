@@ -228,11 +228,14 @@ createInputs(inputParam& IParam)
   IParam.regItem("I","isolate");
   IParam.regDefItemList<std::string>("imp","importance",10,RItems);
   IParam.regDefItem<int>("m","multi",1,1);
+  IParam.regDefItem<std::string>("matDB","materialDatabase",1,
+                                 std::string("shielding"));  
   IParam.regFlag("M","mesh");
   IParam.regItem("MA","meshA");
   IParam.regItem("MB","meshB");
   IParam.regItem("MN","meshNPS",3,3);
   IParam.regFlag("md5","md5");
+
   IParam.regItem("memStack","memStack");
   IParam.regDefItem<int>("n","nps",1,10000);
   IParam.regFlag("p","PHITS");
@@ -329,6 +332,8 @@ createInputs(inputParam& IParam)
   IParam.setDesc("I","Isolate component");
   IParam.setDesc("imp","Importance regions");
   IParam.setDesc("m","Create multiple files (diff: RNDseed)");
+  IParam.setDesc("matDB","Set the material database to use "
+                 "(shielding or neutronics)");
   IParam.setDesc("M","Add mesh tally");
   IParam.setDesc("MA","Lower Point in mesh tally");
   IParam.setDesc("MB","Upper Point in mesh tally");
@@ -687,8 +692,6 @@ createESSInputs(inputParam& IParam)
   IParam.setValue("sdefType",std::string("ess"));  
   IParam.setValue("targetType",std::string("Bilbao"));
 
-  IParam.regDefItem<std::string>("matDB","materialDatabase",1,
-                                 std::string("shielding"));
   
   IParam.regDefItem<std::string>("lowMod","lowModType",1,std::string("lowMod"));
   IParam.regDefItem<std::string>("topMod","topModType",1,std::string("topMod"));
@@ -705,7 +708,6 @@ createESSInputs(inputParam& IParam)
   IParam.regDefItem<int>("nF5", "nF5", 1,0);
 
   
-  IParam.setDesc("matDB","Set the material database to use (shielding or neutronics)");
   IParam.setDesc("bunkerFeed","Creates feedthroughs in bunker");
   IParam.setDesc("beamlines","Creates beamlines on the main model");
   IParam.setDesc("lowMod","Type of low moderator to be built");

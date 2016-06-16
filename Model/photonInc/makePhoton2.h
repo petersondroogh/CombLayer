@@ -1,7 +1,7 @@
 /********************************************************************* 
   CombLayer : MCNP(X) Input builder
  
- * File:   attachCompInc/FixedOffset.h
+ * File:   photonInc/makePhoton2.h
  *
  * Copyright (c) 2004-2016 by Stuart Ansell
  *
@@ -19,47 +19,56 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>. 
  *
  ****************************************************************************/
-#ifndef attachSystem_FixedOffset_h
-#define attachSystem_FixedOffset_h
+#ifndef photonSystem_makePhoton2_h
+#define photonSystem_makePhoton2_h
 
-class FuncDataBase;
-
-namespace attachSystem
+namespace constructSystem
 {
+  class SupplyPipe;
+}
+
 /*!
-  \class FixedOffset
+  \namespace photonSystem
+  \brief General Laser moderator system
   \version 1.0
+  \date January 2015
   \author S. Ansell
-  \date  2015
-  \brief FixedComp derivative which handles x-z step and xy/z angle rotation
 */
 
-class FixedOffset  : public FixedComp
+namespace photonSystem
 {
- protected:
-
-  double preXYAngle;     ///< pre-shift xy Angle
-  double preZAngle;      ///< pre-shift z Angle
-  double xStep;          ///< x step
-  double yStep;          ///< y step
-  double zStep;          ///< z step
-  double xyAngle;        ///< xy Angle
-  double zAngle;         ///< z Angle
+  class CylLayer;
+  class CylContainer;
+  class TubeMod;
+  class B4CCollimator;
+  class PlateMod;
+  class EQDetector;
   
+  /*!
+    \class makePhoton2
+    \version 1.0
+    \author S. Ansell
+    \date January 2015
+    \brief General constructor for the photon system
+  */
+
+class makePhoton2
+{
+ private:
+
+  std::shared_ptr<PlateMod> PModObj;        ///< Initial moderator
+
  public:
-
-  FixedOffset(const std::string&,const size_t);
-  FixedOffset(const FixedOffset&);
-  FixedOffset& operator=(const FixedOffset&);
-  virtual ~FixedOffset() {}     ///< Destructor
-
-  virtual void populate(const FuncDataBase&);
-  void applyOffset();
-  void linkAngleRotate(const long int);
   
+  makePhoton2();
+  makePhoton2(const makePhoton2&);
+  makePhoton2& operator=(const makePhoton2&);
+  ~makePhoton2();
+  
+  void build(Simulation*,const mainSystem::inputParam&);
+
 };
 
 }
 
 #endif
- 
