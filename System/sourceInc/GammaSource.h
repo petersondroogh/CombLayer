@@ -52,9 +52,13 @@ class GammaSource :
   
   int particleType;             ///< Particle Type
   double cutEnergy;             ///< Energy cut point
-  double radius;
-  double angleSpread;           ///< Angle spread
 
+  size_t shape;                    ///< Shape type
+  double width;                 ///< width
+  double height;                ///< height
+  double radius;                ///< radius
+  double angleSpread;           ///< Angle spread
+  
   Geometry::Vec3D FocusPoint;   ///< Focus point
   Geometry::Vec3D Direction;    ///< Beam direction
 

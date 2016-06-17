@@ -25,6 +25,7 @@
 namespace constructSystem
 {
   class SupplyPipe;
+  class insertPlate;
 }
 
 /*!
@@ -43,12 +44,12 @@ namespace photonSystem
   class B4CCollimator;
   class PlateMod;
   class EQDetector;
-  
+   
   /*!
     \class makePhoton2
     \version 1.0
     \author S. Ansell
-    \date January 2015
+    \date June 2016
     \brief General constructor for the photon system
   */
 
@@ -57,6 +58,7 @@ class makePhoton2
  private:
 
   std::shared_ptr<PlateMod> PModObj;        ///< Initial moderator
+  std::shared_ptr<constructSystem::insertPlate> DetPlate;
 
  public:
   

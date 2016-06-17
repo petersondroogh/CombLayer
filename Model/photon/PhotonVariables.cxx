@@ -3,7 +3,7 @@
  
  * File:   photon/PhotonVariables.cxx
  *
- * Copyright (c) 2004-2015 by Stuart Ansell
+ * Copyright (c) 2004-2016 by Stuart Ansell
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -221,27 +221,38 @@ PhotonVariables(FuncDataBase& Control)
 
   // PHOTONMOD2:
   
-  Control.addVariable("PModOuterHeight",50.0);
-  Control.addVariable("PModOuterWidth",50.0);
+  Control.addVariable("PModOuterHeight",7.0);
+  Control.addVariable("PModOuterWidth",7.0);
+  Control.addVariable("PModInnerHeight",5.0);
+  Control.addVariable("PModInnerWidth",5.0);
   Control.addVariable("PModOuterMat","Stainless304");
   Control.addVariable("PModNLayer",3);
 
-  Control.addVariable("PModThick0",5.0);
-  Control.addVariable("PModThick1",35.0);
-  Control.addVariable("PModThick2",10.0);
+  Control.addVariable("PModThick0",0.3);
+  Control.addVariable("PModThick1",1.7);
+  Control.addVariable("PModThick2",1.0);
 
-  Control.addVariable("PModVHeight0",5.0);
-  Control.addVariable("PModVHeight1",35.0);
+  Control.addVariable("PModVHeight0",3.0);
+  Control.addVariable("PModVHeight1",0.5);
   Control.addVariable("PModVHeight2",0.0);
 
-  Control.addVariable("PModVWidth0",5.0);
-  Control.addVariable("PModVWidth1",35.0);
+  Control.addVariable("PModVWidth0",3.0);
+  Control.addVariable("PModVWidth1",0.5);
   Control.addVariable("PModVWidth2",0.0);
 
-  Control.addVariable("PModMat0","Stainless304");
-  Control.addVariable("PModMat1","Stainless304");
+  Control.addVariable("PModMat0","Lead");
+  Control.addVariable("PModMat1","Lead");
   Control.addVariable("PModMat2","Poly");
 
+  Control.addVariable("TPlateYStep",22.0);
+  Control.addVariable("TPlateHeight",5.40);
+  Control.addVariable("TPlateWidth",5.40);
+  Control.addVariable("TPlateDepth",0.1);
+  Control.addVariable("TPlateDefMat","Void");
+
+
+  
+  
   return;
 }
 

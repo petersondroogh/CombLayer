@@ -65,19 +65,21 @@
 #include "ContainedGroup.h"
 #include "BaseMap.h"
 #include "CellMap.h"
-#include "LayerComp.h"
+#include "SurfMap.h"
+#include "insertPlate.h"
 #include "World.h"
 #include "AttachSupport.h"
 #include "PlateMod.h"
 #include "EQDetector.h"
+
 #include "makePhoton2.h"
 
 namespace photonSystem
 {
 
 makePhoton2::makePhoton2() :
-  PModObj(new photonSystem::PlateMod("PMod"))
-  
+  PModObj(new photonSystem::PlateMod("PMod")),
+  DetPlate(new constructSystem::insertPlate("TPlate"))
   /*!
     Constructor
   */
@@ -86,6 +88,7 @@ makePhoton2::makePhoton2() :
     ModelSupport::objectRegister::Instance();
 
   OR.addObject(PModObj);
+  OR.addObject(DetPlate);
 }
 
 
@@ -114,6 +117,10 @@ makePhoton2::build(Simulation* SimPtr,
   PModObj->addInsertCell(voidCell);
   PModObj->createAll(*SimPtr,World::masterOrigin(),0);
 
+  DetPlate->addInsertCell(voidCell);
+  DetPlate->createAll(*SimPtr,World::masterOrigin(),0);
+  
+  
   return;
 }
 

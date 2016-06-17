@@ -3,7 +3,7 @@
  
  * File:   photon/PlateMod.cxx
  *
- * Copyright (c) 2004-2015 by Stuart Ansell
+ * Copyright (c) 2004-2016 by Stuart Ansell
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -268,11 +268,11 @@ PlateMod::createObjects(Simulation& System)
 
     }
   Out=ModelSupport::getComposite(SMap,plateIndex,SI,
-                                 " 1 3 -4 5 -6 (-13:14:-15:16) -1M ");
+                                 " 101 3 -4 5 -6 (-13:14:-15:16) -1M ");
   System.addCell(MonteCarlo::Qhull(cellIndex++,outerMat,0.0,Out));
 
 
-  Out=ModelSupport::getComposite(SMap,plateIndex,SI," 1 3 -4 5 -6 -1M ");
+  Out=ModelSupport::getComposite(SMap,plateIndex,SI," 101 3 -4 5 -6 -1M ");
   addOuterSurf(Out);
   return; 
 }
