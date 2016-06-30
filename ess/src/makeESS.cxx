@@ -454,6 +454,52 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
     return vmat;
   }
 
+  void
+  makeESS::dumpMaterialMesh(Simulation& SimPtr, const std::vector<double> vx, const std::vector<double> vy, const std::vector<double> vz, const char *fname) const
+  {
+    ELog::RegMethod RControl("makeESS","getMaterials(vx, vy, vz)");
+
+    const size_t nX = vx.size()-1;
+    const size_t nY = vy.size()-1;
+    const size_t nZ = vz.size()-1;
+
+    MonteCarlo::Object *ObjPtr(0);
+
+    std::ofstream fmesh;
+    fmesh.open(fname);
+    int mat = 0;
+    vector<int> vmat;
+    double xmin, ymin, zmin, xmax, ymax, zmax;
+    double  stepXYZ[3];
+
+    for (size_t k=0; k<nZ; k++) {
+      std::cout << k << "/" << nZ << std::endl;
+      for (size_t j=0; j<nY; j++) {
+	for (size_t i=0; i<nX; i++) {
+
+	  const Geometry::Vec3D Pt((vx[i+1]+vx[i])/2.0, (vy[j+1]+vy[j])/2.0, (vz[k+1]+vz[k])/2.0);
+	  ObjPtr = SimPtr.findCell(Pt, ObjPtr);
+	  if (ObjPtr)
+	    mat = ObjPtr->getMat();
+	  else
+	    mat = -1;
+	  //	  fmesh << Pt[0] << " " << Pt[1] << " " << Pt[2] << "\t" << mat << std::endl;
+	  xmin = vx[i];	  xmax = vx[i+1];
+	  ymin = vy[j];	  ymax = vy[j+1];
+	  zmin = vz[k];	  zmax = vz[k+1];
+	  stepXYZ[0] = xmax-xmin;
+	  stepXYZ[1] = ymax-ymin;
+	  stepXYZ[2] = zmax-zmin;
+	  vmat = getMaterials(SimPtr, Pt, stepXYZ, 1000);
+	  fmesh << xmin << " " << xmax << " " << ymin << " " << ymax << " " << zmin << " " << zmax << "\t";
+	  //	  for (size_t imat=0; imat<vmat.size(); imat++) fmesh << vmat[imat] << " ";
+	  fmesh << "\t" << getMaterialString(vmat) << std::endl;;
+	}
+      }
+    }
+    fmesh.close();
+  }
+
   void 
   makeESS::dumpMaterialMesh(Simulation& SimPtr, const Geometry::Vec3D &startPt, const Geometry::Vec3D &endPt,
 			    const size_t nX, const size_t nY, const size_t nZ,
@@ -469,7 +515,7 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
       \param fname :: output file name
     */
     
-    //    nPts
+    ELog::RegMethod RControl("makeESS","getMaterials(start, end, nx, ny, nz)");
 
     Geometry::Vec3D Origin = startPt; // start corner (x,y,z=min)
     Geometry::Vec3D XYZ = endPt-Origin;
@@ -829,7 +875,7 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
       }
     else if (matmesh==2)
       {
-        Geometry::Vec3D ptStart(-70, -70, 20);
+        Geometry::Vec3D ptStart(-70, -70, -20);
         Geometry::Vec3D ptEnd(70, 70, -6);
         dumpMaterialMesh(*SimPtr, ptStart, ptEnd, 280, 280, 70, "mesh2.dat");
       }
@@ -850,6 +896,17 @@ makeESS::makeTarget(Simulation& System, const mainSystem::inputParam& IParam)
         Geometry::Vec3D ptStart(-70, -70, 20);
         Geometry::Vec3D ptEnd(70, 70, 80);
         dumpMaterialMesh(*SimPtr, ptStart, ptEnd, 280, 280, 30, "mesh5.dat");
+      }
+    else if (matmesh==6) // test
+      {
+        // Geometry::Vec3D ptStart(-70, -70, 20);
+        // Geometry::Vec3D ptEnd(70, 70, 80);
+        // dumpMaterialMesh(*SimPtr, ptStart, ptEnd, 3, 4, 5, "mesh6.dat");
+
+	std::vector<double> vx {-70, -23.333, 23.3333, 70};
+	std::vector<double> vy {-70, -35, 0, 35, 70};
+	std::vector<double> vz {20, 32, 44, 56, 68, 80};
+	dumpMaterialMesh(*SimPtr, vx, vy, vz, "mesh6.dat");
       }
       
   }
