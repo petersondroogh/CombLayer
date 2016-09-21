@@ -39,3 +39,12 @@ It is possible to add a vector of link points to check as a parameter.
 \subsubsection{addToInsertLineCtrl}
 Imagine we have a (big) contained component~(Mug) and some (small) object which clips it~(Spoon). The link points are {\bf not} in the Mug~(therefore {\bf addToInsertControl} can not be used), but the lines which connect them are in the Mug.
 The method checks the lines connecting the link points and sorts out the intersections.
+
+\subsection{Void cell number}
+When SA first arrived at ISIS, he took some input files from other people, and from their numbering system the supervoid cell had this number.
+You would not allowed to put anything in that cell. In CombLayer no cells can have a number in 74xxx range (before renumbering).
+
+\subsection{DBCN card}
+He set it manually because he wants random sequence starting with a very small number, and the 2nd number to be very large.
+He printed 10-20 random sequences and the one which fitted this idea was the one with that seed.
+He wants it because in this way you can get source points which are ``averaged'' conditions.
