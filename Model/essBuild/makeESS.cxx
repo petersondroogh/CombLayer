@@ -105,6 +105,7 @@
 // F5 collimators:
 #include "F5Calc.h"
 #include "F5Collimator.h"
+#include "Chicane.h"
 
 #include "makeESS.h"
 
@@ -139,7 +140,9 @@ makeESS::makeESS() :
   DBunker(new Bunker("DBunker")),
   ABunkerPillars(new RoofPillars("ABunkerPillars")),
   BBunkerPillars(new RoofPillars("BBunkerPillars")),
-  TopCurtain(new Curtain("Curtain"))
+  TopCurtain(new Curtain("Curtain")),
+
+  chicane(new Chicane("Chicane"))
   
  /*!
     Constructor
@@ -174,6 +177,7 @@ makeESS::makeESS() :
   OR.addObject(ABunkerPillars);
   OR.addObject(BBunkerPillars);
   OR.addObject(TopCurtain);
+  OR.addObject(chicane);
 }
 
 
@@ -718,6 +722,7 @@ makeESS::build(Simulation& System,
   makeBeamLine(System,IParam);
   buildF5Collimator(System, nF5);
 
+  chicane->createAll(System, *ABunker);
 
   return;
 }

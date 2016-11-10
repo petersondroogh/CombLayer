@@ -74,6 +74,7 @@ namespace essSystem
   class LOKI;
   class VOR;
   class BunkerFeed;
+  class Chicane;
   /*!
     \class makeESS
     \version 1.0
@@ -125,12 +126,14 @@ class makeESS
   std::shared_ptr<Bunker> DBunker;  ///< Opposite bunker [B unit]
   /// A bunker freed thorugh
   std::vector<std::shared_ptr<BunkerFeed> > bFeedArray;
-
+  
   ///< Right bunker Pillars [A]
   std::shared_ptr<RoofPillars> ABunkerPillars;
   ///< Right bunker Pillars [B]
   std::shared_ptr<RoofPillars> BBunkerPillars; 
   std::shared_ptr<Curtain> TopCurtain;  ///< Conc-curtain
+
+  std::shared_ptr<Chicane> chicane;
 
   /// collimators for F5 tallies
   std::vector<std::shared_ptr<F5Collimator>> F5array; 
