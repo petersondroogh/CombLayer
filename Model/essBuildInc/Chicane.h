@@ -44,8 +44,6 @@ class Chicane : public attachSystem::ContainedComp,
   const int surfIndex;             ///< Index of surface offset
   int cellIndex;                ///< Cell index
 
-  int engActive;                ///< Engineering active flag
-
   double length;                ///< Total length including void
   double width;                 ///< Width
   double height;                ///< height
@@ -60,7 +58,7 @@ class Chicane : public attachSystem::ContainedComp,
   
   void createSurfaces();
   void createLinks();
-  void createObjects(Simulation&);
+  void createObjects(Simulation&, const std::string&, const std::string&);
 
   
  public:
@@ -70,7 +68,8 @@ class Chicane : public attachSystem::ContainedComp,
   Chicane& operator=(const Chicane&);
   virtual ~Chicane();
   
-  void createAll(Simulation&,const attachSystem::FixedComp&);
+  void createAll(Simulation&,const attachSystem::FixedComp&,
+		 const attachSystem::FixedComp&,const size_t&, const size_t&);
 
 };
 

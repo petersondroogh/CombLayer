@@ -722,7 +722,8 @@ makeESS::build(Simulation& System,
   makeBeamLine(System,IParam);
   buildF5Collimator(System, nF5);
 
-  chicane->createAll(System, *ABunker);
+  chicane->createAll(System, World::masterOrigin(), *ABunker, 1, 2);
+  attachSystem::addToInsertForced(System,*ABunker,*chicane); ELog::EM << "Forced = inefficient!!!" << ELog::endCrit;
 
   return;
 }

@@ -102,7 +102,6 @@ Chicane::Chicane(const Chicane& A) :
   attachSystem::ContainedComp(A),
   attachSystem::FixedOffset(A),
   surfIndex(A.surfIndex),cellIndex(A.cellIndex),
-  engActive(A.engActive),
   length(A.length),width(A.width),height(A.height),
   wallThick(A.wallThick),
   mainMat(A.mainMat),wallMat(A.wallMat)
@@ -125,12 +124,6 @@ Chicane::operator=(const Chicane& A)
       attachSystem::ContainedComp::operator=(A);
       attachSystem::FixedOffset::operator=(A);
       cellIndex=A.cellIndex;
-      engActive=A.engActive;
-      xStep=A.xStep;
-      yStep=A.yStep;
-      zStep=A.zStep;
-      xyAngle=A.xyAngle;
-      zAngle=A.zAngle;
       length=A.length;
       width=A.width;
       height=A.height;
@@ -157,7 +150,6 @@ Chicane::populate(const FuncDataBase& Control)
   ELog::RegMethod RegA("Chicane","populate");
 
   FixedOffset::populate(Control);
-  engActive=Control.EvalPair<int>(keyName,"","EngineeringActive");
 
   length=Control.EvalVar<double>(keyName+"Length");
   width=Control.EvalVar<double>(keyName+"Width");
@@ -207,7 +199,8 @@ Chicane::createSurfaces()
 }
   
 void
-Chicane::createObjects(Simulation& System)
+Chicane::createObjects(Simulation& System,
+		       const std::string& innerSurf, const std::string& outerSurf)
   /*!
     Adds the all the components
     \param System :: Simulation to create objects in
@@ -216,7 +209,8 @@ Chicane::createObjects(Simulation& System)
   ELog::RegMethod RegA("Chicane","createObjects");
 
   std::string Out;
-  Out=ModelSupport::getComposite(SMap,surfIndex," 1 -2 3 -4 5 -6 ");
+  Out=ModelSupport::getComposite(SMap,surfIndex," 3 -4 5 -6 ")
+    + " " + innerSurf + " " + outerSurf;
   System.addCell(MonteCarlo::Qhull(cellIndex++,mainMat,0.0,Out));
 
   addOuterSurf(Out);
@@ -244,20 +238,30 @@ Chicane::createLinks()
   
 void
 Chicane::createAll(Simulation& System,
-		   const attachSystem::FixedComp& FC)
+		   const attachSystem::FixedComp& origFC,
+		   const attachSystem::FixedComp& FC,
+		   const size_t& innerLP,
+		   const size_t& outerLP)
   /*!
     Generic function to create everything
     \param System :: Simulation item
-    \param FC :: Central origin
+    \param origFC :: Central origin
+    \param FC :: Bunker
+    \param innerLP :: inner link ponit of Bunker
+    \param outerLP :: outer link ponit of Bunker
   */
 {
   ELog::RegMethod RegA("Chicane","createAll");
 
   populate(System.getDataBase());
-  createUnitVector(FC);
+  createUnitVector(origFC);
   createSurfaces();
   createLinks();
-  createObjects(System);
+
+  const std::string innerSurf = FC.getLinkComplement(static_cast<size_t>(innerLP-1));
+  const std::string outerSurf = FC.getLinkComplement(static_cast<size_t>(outerLP-1));
+
+  createObjects(System, innerSurf, outerSurf);
   insertObjects(System);              
 
   return;
