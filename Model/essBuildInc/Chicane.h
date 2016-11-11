@@ -44,21 +44,21 @@ class Chicane : public attachSystem::ContainedComp,
   const int surfIndex;             ///< Index of surface offset
   int cellIndex;                ///< Cell index
 
-  double length;                ///< Total length including void
+  size_t nSegments;             ///< Number of segments
+  std::vector<double> length;   ///< Lengths of all segments
   double width;                 ///< Width
-  double height;                ///< height
+  double height;                ///< Height
 
-  double wallThick;             ///< Thickness of wall
-
-  int mainMat;                   ///< main material
-  int wallMat;                   ///< wall material  
+  int mat;                   ///< main material
   
   void populate(const FuncDataBase&);
   void createUnitVector(const attachSystem::FixedComp&);
   
-  void createSurfaces();
+  void createSurfaces(const attachSystem::FixedComp&,
+		      const size_t&,const size_t&,const size_t&);
   void createLinks();
-  void createObjects(Simulation&, const std::string&, const std::string&);
+  void createObjects(Simulation&,const attachSystem::FixedComp&,
+		     const size_t&,const size_t&,const size_t&);
 
   
  public:
@@ -69,7 +69,8 @@ class Chicane : public attachSystem::ContainedComp,
   virtual ~Chicane();
   
   void createAll(Simulation&,const attachSystem::FixedComp&,
-		 const attachSystem::FixedComp&,const size_t&, const size_t&);
+		 const attachSystem::FixedComp&,
+		 const size_t&,const size_t&,const size_t&);
 
 };
 

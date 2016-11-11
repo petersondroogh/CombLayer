@@ -102,9 +102,9 @@ Chicane::Chicane(const Chicane& A) :
   attachSystem::ContainedComp(A),
   attachSystem::FixedOffset(A),
   surfIndex(A.surfIndex),cellIndex(A.cellIndex),
+  nSegments(A.nSegments),
   length(A.length),width(A.width),height(A.height),
-  wallThick(A.wallThick),
-  mainMat(A.mainMat),wallMat(A.wallMat)
+  mat(A.mat)
   /*!
     Copy constructor
     \param A :: Chicane to copy
@@ -124,12 +124,11 @@ Chicane::operator=(const Chicane& A)
       attachSystem::ContainedComp::operator=(A);
       attachSystem::FixedOffset::operator=(A);
       cellIndex=A.cellIndex;
+      nSegments=A.nSegments;
       length=A.length;
       width=A.width;
       height=A.height;
-      wallThick=A.wallThick;
-      mainMat=A.mainMat;
-      wallMat=A.wallMat;
+      mat=A.mat;
     }
   return *this;
 }
@@ -151,13 +150,17 @@ Chicane::populate(const FuncDataBase& Control)
 
   FixedOffset::populate(Control);
 
-  length=Control.EvalVar<double>(keyName+"Length");
+  nSegments=Control.EvalVar<int>(keyName+"NSegments");
+  for (size_t i=0; i<nSegments; i++)
+    {
+      const double l=Control.EvalVar<double>(StrFunc::makeString(keyName+"Length", i+1));
+      length.push_back(l);
+    }
+  
   width=Control.EvalVar<double>(keyName+"Width");
   height=Control.EvalVar<double>(keyName+"Height");
-  wallThick=Control.EvalVar<double>(keyName+"WallThick");
 
-  mainMat=ModelSupport::EvalMat<int>(Control,keyName+"MainMat");
-  wallMat=ModelSupport::EvalMat<int>(Control,keyName+"WallMat");
+  mat=ModelSupport::EvalMat<int>(Control,keyName+"Mat");
 
   return;
 }
@@ -179,39 +182,63 @@ Chicane::createUnitVector(const attachSystem::FixedComp& FC)
 }
   
 void
-Chicane::createSurfaces()
+Chicane::createSurfaces(const attachSystem::FixedComp& FC,
+			const size_t& innerLP,
+			const size_t& outerLP,
+			const size_t& roofLP)
   /*!
     Create All the surfaces
+    \param FC :: Bunker
+    \param innerLP :: inner link ponit of Bunker
+    \param outerLP :: outer link ponit of Bunker
+    \param roofLP  :: link point to the inner roof of Bunker
   */
 {
   ELog::RegMethod RegA("Chicane","createSurfaces");
 
-  ModelSupport::buildPlane(SMap,surfIndex+1,Origin-Y*(length/2.0),Y);
-  ModelSupport::buildPlane(SMap,surfIndex+2,Origin+Y*(length/2.0),Y);
+  const Geometry::Plane *pRoof = SMap.realPtr<Geometry::Plane>(FC.getLinkSurf(roofLP));
+  pRoof->print();
+    
+  ModelSupport::buildPlane(SMap,surfIndex+1,Origin-Y*(length[0]/2.0),Y);
+  ModelSupport::buildPlane(SMap,surfIndex+2,Origin+Y*(length[0]/2.0),Y);
 
   ModelSupport::buildPlane(SMap,surfIndex+3,Origin-X*(width/2.0),X);
   ModelSupport::buildPlane(SMap,surfIndex+4,Origin+X*(width/2.0),X);
 
-  ModelSupport::buildPlane(SMap,surfIndex+5,Origin-Z*(height/2.0),Z);
-  ModelSupport::buildPlane(SMap,surfIndex+6,Origin+Z*(height/2.0),Z);
-
+  SMap.addMatch(surfIndex+5,-FC.getLinkSurf(roofLP));
+  ModelSupport::buildShiftedPlane(SMap,surfIndex+6,pRoof,height);
+  ModelSupport::buildShiftedPlane(SMap,surfIndex+16,pRoof,height*2.0);
+  
   return;
 }
   
 void
 Chicane::createObjects(Simulation& System,
-		       const std::string& innerSurf, const std::string& outerSurf)
+		       const attachSystem::FixedComp& FC,
+		       const size_t& innerLP,
+		       const size_t& outerLP,
+		       const size_t& roofLP)
   /*!
     Adds the all the components
     \param System :: Simulation to create objects in
+    \param FC :: Bunker
+    \param innerLP :: inner link ponit of Bunker
+    \param outerLP :: outer link ponit of Bunker
+    \param roofLP  :: link point to the inner roof of Bunker
   */
 {
   ELog::RegMethod RegA("Chicane","createObjects");
 
+  const std::string innerSurf = FC.getLinkComplement(innerLP);
+  const std::string outerSurf = FC.getLinkComplement(outerLP);
+  const std::string roofSurf = FC.getLinkComplement(roofLP);
+
+  ELog::EM << FC.getLinkSurf(roofLP) << " " << roofSurf << ELog::endDiag;
+  
   std::string Out;
   Out=ModelSupport::getComposite(SMap,surfIndex," 3 -4 5 -6 ")
     + " " + innerSurf + " " + outerSurf;
-  System.addCell(MonteCarlo::Qhull(cellIndex++,mainMat,0.0,Out));
+  System.addCell(MonteCarlo::Qhull(cellIndex++,mat,0.0,Out));
 
   addOuterSurf(Out);
 
@@ -241,7 +268,8 @@ Chicane::createAll(Simulation& System,
 		   const attachSystem::FixedComp& origFC,
 		   const attachSystem::FixedComp& FC,
 		   const size_t& innerLP,
-		   const size_t& outerLP)
+		   const size_t& outerLP,
+		   const size_t& roofLP)
   /*!
     Generic function to create everything
     \param System :: Simulation item
@@ -249,19 +277,17 @@ Chicane::createAll(Simulation& System,
     \param FC :: Bunker
     \param innerLP :: inner link ponit of Bunker
     \param outerLP :: outer link ponit of Bunker
+    \param roofLP  :: link point to the inner roof of Bunker
   */
 {
   ELog::RegMethod RegA("Chicane","createAll");
 
   populate(System.getDataBase());
   createUnitVector(origFC);
-  createSurfaces();
+  createSurfaces(FC, innerLP, outerLP, roofLP);
   createLinks();
 
-  const std::string innerSurf = FC.getLinkComplement(static_cast<size_t>(innerLP-1));
-  const std::string outerSurf = FC.getLinkComplement(static_cast<size_t>(outerLP-1));
-
-  createObjects(System, innerSurf, outerSurf);
+  createObjects(System, FC, innerLP, outerLP, roofLP);
   insertObjects(System);              
 
   return;
