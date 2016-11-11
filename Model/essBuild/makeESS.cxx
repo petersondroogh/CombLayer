@@ -727,6 +727,7 @@ makeESS::build(Simulation& System,
   attachSystem::addToInsertSurfCtrl(System,*ABunker,*chicane);
   //  attachSystem::addToInsertControl(System,*ABunker,*chicane);
   //attachSystem::addToInsertLineCtrl(System,*ABunker,*chicane);
+  ELog::EM << "Why addToInsertLineCtrl does not work with Chicane?" << ELog::endCrit;
 
   return;
 }
