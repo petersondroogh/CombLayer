@@ -150,7 +150,7 @@ Chicane::populate(const FuncDataBase& Control)
 
   FixedOffset::populate(Control);
 
-  nSegments=Control.EvalVar<int>(keyName+"NSegments");
+  nSegments=Control.EvalVar<size_t>(keyName+"NSegments");
   for (size_t i=0; i<nSegments; i++)
     {
       const double l=Control.EvalVar<double>(StrFunc::makeString(keyName+"Length", i+1));
@@ -200,9 +200,23 @@ Chicane::createSurfaces(const attachSystem::FixedComp& FC,
   const Geometry::Cylinder *cylInner = SMap.realPtr<Geometry::Cylinder>(FC.getLinkSurf(innerLP));
   cylInner->print();
 
-  ModelSupport::buildCylinder(SMap,surfIndex+7,cylInner->getCentre(),
+  ModelSupport::buildCylinder(SMap,surfIndex+7,
+			      cylInner->getCentre(),
 			      cylInner->getNormal(),
 			      cylInner->getRadius()-length[0]);
+
+  int SI(surfIndex+10);
+  double L(0.0);
+  for (size_t i=1; i<=4; i++)
+    {
+      L += length[i];
+      ModelSupport::buildCylinder(SMap,SI+7,
+				  cylInner->getCentre(),
+				  cylInner->getNormal(),
+				  cylInner->getRadius()+L);
+      SI += 10;
+    }
+  SMap.addMatch(surfIndex+57,FC.getLinkSurf(outerLP));
 
   ModelSupport::buildPlane(SMap,surfIndex+3,Origin-X*(width/2.0),X);
   ModelSupport::buildPlane(SMap,surfIndex+4,Origin+X*(width/2.0),X);
@@ -238,12 +252,19 @@ Chicane::createObjects(Simulation& System,
   ELog::EM << FC.getLinkSurf(roofLP) << " " << roofSurf << ELog::endDiag;
   
   std::string Out;
-  Out=ModelSupport::getComposite(SMap,surfIndex," 3 -4 5 -6 ")
-    + " " + innerSurf + " " + outerSurf;
-  Out=ModelSupport::getComposite(SMap,surfIndex," 3 -4 5 -6 7 ")
-    + " " + " " + outerSurf;
+  const std::string side=ModelSupport::getComposite(SMap,surfIndex," 3 -4 ");
+  
+  Out=ModelSupport::getComposite(SMap,surfIndex," 5 -6 7 -27 ") + side;
   System.addCell(MonteCarlo::Qhull(cellIndex++,mat,0.0,Out));
 
+  Out=ModelSupport::getComposite(SMap,surfIndex," 6 -16 17 -47 ") + side;
+  System.addCell(MonteCarlo::Qhull(cellIndex++,mat,0.0,Out));
+
+  Out=ModelSupport::getComposite(SMap,surfIndex," 5 -6 37 -57 ") + side;
+  System.addCell(MonteCarlo::Qhull(cellIndex++,mat,0.0,Out));
+
+  Out=ModelSupport::getComposite(SMap,surfIndex,
+				 " ((5 -6 7 -27) : (6 -16 17 -47) : (5 -6 37 -57)) ") + side;
   addOuterSurf(Out);
 
   return;

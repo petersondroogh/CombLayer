@@ -239,13 +239,12 @@ EssBunkerVariables(FuncDataBase& Control)
   Control.addVariable("ChicaneZStep", 0);
   Control.addVariable("ChicaneXYAngle", -45);
   Control.addVariable("ChicaneZangle", 0);
-  Control.addVariable("ChicaneNSegments", 6);
+  Control.addVariable("ChicaneNSegments", 5);
   Control.addVariable("ChicaneLength1", 20);
-  Control.addVariable("ChicaneLength2", 10);
-  Control.addVariable("ChicaneLength3", 10);
-  Control.addVariable("ChicaneLength4", 10);
-  Control.addVariable("ChicaneLength5", 10);
-  Control.addVariable("ChicaneLength6", 10);
+  Control.addVariable("ChicaneLength2", 60);
+  Control.addVariable("ChicaneLength3", 40);
+  Control.addVariable("ChicaneLength4", 40);
+  Control.addVariable("ChicaneLength5", 40);
   Control.addVariable("ChicaneWidth", 20);
   Control.addVariable("ChicaneHeight", 30);
   Control.addVariable("ChicaneMat", "Void");
