@@ -198,7 +198,9 @@ Chicane::createSurfaces(const attachSystem::FixedComp& FC,
 
   const Geometry::Plane *pRoof = SMap.realPtr<Geometry::Plane>(FC.getLinkSurf(roofLP));
   const Geometry::Cylinder *cylInner = SMap.realPtr<Geometry::Cylinder>(FC.getLinkSurf(innerLP));
-  cylInner->print();
+
+  // bridge surface for createLinks:
+  ModelSupport::buildPlane(SMap,surfIndex+1,Origin,Y);
 
   ModelSupport::buildCylinder(SMap,surfIndex+7,
 			      cylInner->getCentre(),
@@ -249,10 +251,8 @@ Chicane::createObjects(Simulation& System,
   const std::string outerSurf = FC.getLinkComplement(outerLP);
   const std::string roofSurf = FC.getLinkComplement(roofLP);
 
-  ELog::EM << FC.getLinkSurf(roofLP) << " " << roofSurf << ELog::endDiag;
-  
   std::string Out;
-  const std::string side=ModelSupport::getComposite(SMap,surfIndex," 3 -4 ");
+  const std::string side=ModelSupport::getComposite(SMap,surfIndex," 1 3 -4 ");
   
   Out=ModelSupport::getComposite(SMap,surfIndex," 5 -6 7 -27 ") + side;
   System.addCell(MonteCarlo::Qhull(cellIndex++,mat,0.0,Out));
@@ -272,16 +272,47 @@ Chicane::createObjects(Simulation& System,
 
   
 void
-Chicane::createLinks()
+Chicane::createLinks(const attachSystem::FixedComp& FC,
+		     const size_t& innerLP,
+		     const size_t& outerLP,
+		     const size_t& roofLP)
   /*!
-    Create all the linkes
+    Create all the links
+    \param FC :: Bunker
+    \param innerLP :: inner link ponit of Bunker
+    \param outerLP :: outer link ponit of Bunker
+    \param roofLP  :: link point to the inner roof of Bunker
   */
 {
   ELog::RegMethod RegA("Chicane","createLinks");
 
-  //  FixedComp::setConnect(0,Origin,-Y);
-  //  FixedComp::setLinkSurf(0,-SMap.realSurf(surfIndex+1));
-  
+  const Geometry::Plane *pRoof = SMap.realPtr
+    <Geometry::Plane>(FC.getLinkSurf(roofLP));
+  const Geometry::Cylinder *cylInner = SMap.realPtr
+    <Geometry::Cylinder>(FC.getLinkSurf(innerLP));
+  const Geometry::Cylinder *cylOuter = SMap.realPtr
+    <Geometry::Cylinder>(FC.getLinkSurf(outerLP));
+
+  FixedComp::setConnect(0,Origin+Z*pRoof->getDistance(),Z);
+  FixedComp::setLinkSurf(0,-FC.getLinkSurf(roofLP));
+
+  FixedComp::setConnect(1,Origin+Z*(pRoof->getDistance()+height*2.0),Z);
+  FixedComp::setLinkSurf(1,SMap.realSurf(surfIndex+16));
+
+  FixedComp::setConnect(2,Origin-X*(width/2.0),-X);
+  FixedComp::setLinkSurf(2,-SMap.realSurf(surfIndex+3));
+
+  FixedComp::setConnect(3,Origin+X*(width/2.0),X);
+  FixedComp::setLinkSurf(3,SMap.realSurf(surfIndex+3));
+
+  FixedComp::setConnect(4,Origin+Y*(cylInner->getRadius()-length[0]),-Y);
+  FixedComp::setLinkSurf(4,-SMap.realSurf(surfIndex+7));
+  FixedComp::setBridgeSurf(4,SMap.realSurf(surfIndex+1));
+
+  FixedComp::setConnect(5,Origin+Y*(cylOuter->getRadius()),Y);
+  FixedComp::setLinkSurf(5,SMap.realSurf(cylOuter->getName()));
+  FixedComp::setBridgeSurf(5,SMap.realSurf(surfIndex+1));
+
   return;
 }
   
@@ -310,7 +341,7 @@ Chicane::createAll(Simulation& System,
   populate(System.getDataBase());
   createUnitVector(origFC);
   createSurfaces(FC, innerLP, outerLP, roofLP);
-  createLinks();
+  createLinks(FC, innerLP, outerLP, roofLP);
 
   createObjects(System, FC, innerLP, outerLP, roofLP);
   insertObjects(System);              

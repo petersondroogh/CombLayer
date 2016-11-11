@@ -723,7 +723,10 @@ makeESS::build(Simulation& System,
   buildF5Collimator(System, nF5);
 
   chicane->createAll(System, World::masterOrigin(), *ABunker, 0, 1, 11);
-  attachSystem::addToInsertForced(System,*ABunker,*chicane); ELog::EM << "Forced = inefficient!!!" << ELog::endCrit;
+  //  attachSystem::addToInsertForced(System,*ABunker,*chicane); ELog::EM << "Forced = inefficient!!!" << ELog::endCrit;
+  attachSystem::addToInsertSurfCtrl(System,*ABunker,*chicane);
+  //  attachSystem::addToInsertControl(System,*ABunker,*chicane);
+  //attachSystem::addToInsertLineCtrl(System,*ABunker,*chicane);
 
   return;
 }

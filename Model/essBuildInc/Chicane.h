@@ -56,7 +56,8 @@ class Chicane : public attachSystem::ContainedComp,
   
   void createSurfaces(const attachSystem::FixedComp&,
 		      const size_t&,const size_t&,const size_t&);
-  void createLinks();
+  void createLinks(const attachSystem::FixedComp&,
+		   const size_t&,const size_t&,const size_t&);
   void createObjects(Simulation&,const attachSystem::FixedComp&,
 		     const size_t&,const size_t&,const size_t&);
 
