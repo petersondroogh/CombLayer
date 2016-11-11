@@ -197,10 +197,12 @@ Chicane::createSurfaces(const attachSystem::FixedComp& FC,
   ELog::RegMethod RegA("Chicane","createSurfaces");
 
   const Geometry::Plane *pRoof = SMap.realPtr<Geometry::Plane>(FC.getLinkSurf(roofLP));
-  pRoof->print();
-    
-  ModelSupport::buildPlane(SMap,surfIndex+1,Origin-Y*(length[0]/2.0),Y);
-  ModelSupport::buildPlane(SMap,surfIndex+2,Origin+Y*(length[0]/2.0),Y);
+  const Geometry::Cylinder *cylInner = SMap.realPtr<Geometry::Cylinder>(FC.getLinkSurf(innerLP));
+  cylInner->print();
+
+  ModelSupport::buildCylinder(SMap,surfIndex+7,cylInner->getCentre(),
+			      cylInner->getNormal(),
+			      cylInner->getRadius()-length[0]);
 
   ModelSupport::buildPlane(SMap,surfIndex+3,Origin-X*(width/2.0),X);
   ModelSupport::buildPlane(SMap,surfIndex+4,Origin+X*(width/2.0),X);
@@ -238,6 +240,8 @@ Chicane::createObjects(Simulation& System,
   std::string Out;
   Out=ModelSupport::getComposite(SMap,surfIndex," 3 -4 5 -6 ")
     + " " + innerSurf + " " + outerSurf;
+  Out=ModelSupport::getComposite(SMap,surfIndex," 3 -4 5 -6 7 ")
+    + " " + " " + outerSurf;
   System.addCell(MonteCarlo::Qhull(cellIndex++,mat,0.0,Out));
 
   addOuterSurf(Out);
