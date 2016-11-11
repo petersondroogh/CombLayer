@@ -234,20 +234,20 @@ EssBunkerVariables(FuncDataBase& Control)
   Control.addVariable("BunkerFeedTrack1",Geometry::Vec3D(0,0,-10));
   Control.addVariable("BunkerFeedTrack2",Geometry::Vec3D(0,100,-10));
 
-  Control.addVariable("ChicaneXStep", 0);
-  Control.addVariable("ChicaneYStep", 0);
-  Control.addVariable("ChicaneZStep", 0);
-  Control.addVariable("ChicaneXYAngle", -45);
-  Control.addVariable("ChicaneZangle", 0);
-  Control.addVariable("ChicaneNSegments", 5);
-  Control.addVariable("ChicaneLength1", 20);
-  Control.addVariable("ChicaneLength2", 60);
-  Control.addVariable("ChicaneLength3", 40);
-  Control.addVariable("ChicaneLength4", 40);
-  Control.addVariable("ChicaneLength5", 40);
-  Control.addVariable("ChicaneWidth", 20);
-  Control.addVariable("ChicaneHeight", 30);
-  Control.addVariable("ChicaneMat", "Void");
+  Control.addVariable("Chicane1XStep", 0);
+  Control.addVariable("Chicane1YStep", 0);
+  Control.addVariable("Chicane1ZStep", 0);
+  Control.addVariable("Chicane1XYAngle", -45);
+  Control.addVariable("Chicane1Zangle", 0);
+  Control.addVariable("Chicane1NSegments", 5);
+  Control.addVariable("Chicane1Length1", 20);
+  Control.addVariable("Chicane1Length2", 60);
+  Control.addVariable("Chicane1Length3", 40);
+  Control.addVariable("Chicane1Length4", 40);
+  Control.addVariable("Chicane1Length5", 40);
+  Control.addVariable("Chicane1Width", 20);
+  Control.addVariable("Chicane1Height", 30);
+  Control.addVariable("Chicane1Mat", "Void");
 
   return;
 }

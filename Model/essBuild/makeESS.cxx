@@ -142,7 +142,7 @@ makeESS::makeESS() :
   BBunkerPillars(new RoofPillars("BBunkerPillars")),
   TopCurtain(new Curtain("Curtain")),
 
-  chicane(new Chicane("Chicane"))
+  chicane(new Chicane("Chicane", 1))
   
  /*!
     Constructor

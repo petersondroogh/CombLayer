@@ -86,11 +86,11 @@
 namespace essSystem
 {
 
-Chicane::Chicane(const std::string& Key)  :
+  Chicane::Chicane(const std::string& Key, const int& N)  :
   attachSystem::ContainedComp(),
-  attachSystem::FixedOffset(Key,6),
-  keyName(Key),
-  surfIndex(ModelSupport::objectRegister::Instance().cell(Key)),
+  attachSystem::FixedOffset(Key+StrFunc::makeString(N),6),
+  keyName(Key+StrFunc::makeString(N)),
+  surfIndex(ModelSupport::objectRegister::Instance().cell(keyName)),
   cellIndex(surfIndex+1)
   /*!
     Constructor BUT ALL variable are left unpopulated.

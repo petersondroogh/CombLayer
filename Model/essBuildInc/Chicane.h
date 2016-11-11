@@ -63,7 +63,7 @@ class Chicane : public attachSystem::ContainedComp,
   
  public:
 
-  Chicane(const std::string&);
+  Chicane(const std::string&,const int&);
   Chicane(const Chicane&);
   Chicane& operator=(const Chicane&);
   virtual ~Chicane();
