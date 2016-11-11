@@ -234,11 +234,7 @@ EssBunkerVariables(FuncDataBase& Control)
   Control.addVariable("BunkerFeedTrack1",Geometry::Vec3D(0,0,-10));
   Control.addVariable("BunkerFeedTrack2",Geometry::Vec3D(0,100,-10));
 
-  Control.addVariable("Chicane1XStep", 0);
-  Control.addVariable("Chicane1YStep", 0);
-  Control.addVariable("Chicane1ZStep", 0);
   Control.addVariable("Chicane1XYAngle", -45);
-  Control.addVariable("Chicane1Zangle", 0);
   Control.addVariable("Chicane1NSegments", 5);
   Control.addVariable("Chicane1Length1", 20);
   Control.addVariable("Chicane1Length2", 60);
