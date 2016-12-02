@@ -3,6 +3,61 @@
 \item Get real surface number by its relative number: SMap.realSurf(divIndex+103) (see createLinks methods)
 \end{itemize}
 
+\subsection{How to use FrontBackCut}
+{\tt FrontBackCut} is an object which joins things together, i.e. fills space between two links (front and back).
+For instance, the pillars of the bunker are FrontBackCut.
+It's not always the whole object, it can be a part of an object.
+
+If you have a front-back cut, you can do setFront and setBack. There are two ways to use it:
+\begin{enumerate}
+\item when you want to define your own surface. Normally you would use it like FC+LinkPoint, or even + BridgeSurface.
+  You can give him surface number or even string, or link point. The method sorts all out.
+  It does the link points by going to the origin and projects the axis back until it intersects the object.
+\item easyActive: sometimes you do not really know if you will have a front-back cutting device. So, it can build the cut depending if it is needed.
+  You need to set the active flag appropriately.
+\end{enumerate}
+There are plenty examples in the CL source code. You can also set only front or only back.
+If it can be joint, you add it, if you do not use it~--- not a big deal.
+
+
+\subsection{Activation}
+Old way: {\tt -cinder}. But you have to worry about individual cells, which is inconvenient.
+
+New (and significantly improved) way: {\tt -activation}.
+You need to run the cinder script two times: once to get a flux; and once you have a flux, you can run {\tt activation} to make the gamma source for you.
+
+\subsubsection{Flux}
+To run flux is easy:
+\begin{lstlisting}[language=bash]{Name=essBuild}{floatplacement=H}
+ess -r -T flux n AllNonVoid BeRef a
+\end{lstlisting}
+material can be material name, ``All'' or ``AllNonVoid'' (flux for activation in a void cell is pointless).
+It adds the {\tt f4} tally with energy binning for CINDER:
+
+\begin{lstlisting}[language=bash]{Name=essBuild}{floatplacement=H}
+f4:n ( 3 4 5 6 7 )
+fq4   e f
+fc4 tally: 4 mat : -2:BeRef
+e4    1e-11 5e-09 5i 3.5e-08 4.2e-08 5e-08 5.8e-08 6.7e-08 8e-08 1e-07
+        1.52e-07 2.51e-07 4.14e-07 6.83e-07 1.125e-06 1.855e-06
+        3.059e-06 5.043e-06 8.315e-06 1.371e-05 2.26e-05 3.727e-05
+        6.144e-05 0.0001013 0.000167 0.0002754 0.000454 0.0007485
+        0.001234 0.002035 0.002404 0.00284 0.003355 0.005531 0.009119
+        0.01503 0.01989 0.02554 0.04087 0.06738 0.1111 0.1832 0.302
+        0.3887 0.4979 0.639279 0.82085 1.10803 1.35335 1.73774 2.2313
+        2.86505 3.67879 4.96585 6.065 10 14.9182 16.9046 20 25
+\end{lstlisting}
+
+If you {\em really} having a bad day, you can write
+\begin{lstlisting}[language=bash]{Name=essBuild}{floatplacement=H}
+ess -r -T flux n AllNonVoid All a
+\end{lstlisting}
+to get flux in all non-void cells of the model.
+
+When we are running \cinder in a normal way, we calculate flux in the given material (but not in all non-void cells).
+That's because we have to go through the \cinder system, while with CombLayer you do not have this limitation.
+
+
 \subsection{How to put one object into another}
 
 Suppose, we are inserting Spoon into Mug.
