@@ -28,13 +28,13 @@ You need to run the cinder script two times: once to get a flux; and once you ha
 
 \subsubsection{Flux}
 To run flux is easy:
-\begin{lstlisting}[language=bash]{Name=essBuild}{floatplacement=H}
-ess -r -T flux n AllNonVoid BeRef a
-\end{lstlisting}
+\begin{bash}
+./prog -r -T flux n AllNonVoid BeRef Output
+\end{bash}
 material can be material name, ``All'' or ``AllNonVoid'' (flux for activation in a void cell is pointless).
-It adds the {\tt f4} tally with energy binning for CINDER:
+It adds the {\tt f4} tally with energy binning for \cinder:
 
-\begin{lstlisting}[language=bash]{Name=essBuild}{floatplacement=H}
+\begin{mcnp}
 f4:n ( 3 4 5 6 7 )
 fq4   e f
 fc4 tally: 4 mat : -2:BeRef
@@ -46,12 +46,12 @@ e4    1e-11 5e-09 5i 3.5e-08 4.2e-08 5e-08 5.8e-08 6.7e-08 8e-08 1e-07
         0.01503 0.01989 0.02554 0.04087 0.06738 0.1111 0.1832 0.302
         0.3887 0.4979 0.639279 0.82085 1.10803 1.35335 1.73774 2.2313
         2.86505 3.67879 4.96585 6.065 10 14.9182 16.9046 20 25
-\end{lstlisting}
+\end{mcnp}
 
-If you {\em really} having a bad day, you can write
-\begin{lstlisting}[language=bash]{Name=essBuild}{floatplacement=H}
-ess -r -T flux n AllNonVoid All a
-\end{lstlisting}
+If you {\em really} having a bad day, you can write:
+\begin{bash}
+./prog -r -T flux n AllNonVoid All Output
+\end{bash}
 to get flux in all non-void cells of the model.
 
 When we are running \cinder in a normal way, we calculate flux in the given material (but not in all non-void cells).
