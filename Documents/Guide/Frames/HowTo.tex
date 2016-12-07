@@ -48,7 +48,7 @@ e4    1e-11 5e-09 5i 3.5e-08 4.2e-08 5e-08 5.8e-08 6.7e-08 8e-08 1e-07
         2.86505 3.67879 4.96585 6.065 10 14.9182 16.9046 20 25
 \end{mcnp}
 
-If you {\em really} having a bad day, you can write:
+If you are {\em really} having a bad day, you can write:
 \begin{bash}
 ./prog -r -T flux n AllNonVoid All Output
 \end{bash}
@@ -56,6 +56,72 @@ to get flux in all non-void cells of the model.
 
 When we are running \cinder in a normal way, we calculate flux in the given material (but not in all non-void cells).
 That's because we have to go through the \cinder system, while with CombLayer you do not have this limitation.
+
+\paragraph{Limitations of standard CINDER}
+Here the problem is that \cinder, which does not differentiate different materials in different cells.
+It only has one volume of cells. For example, imagine that you have fluxes calculated in two cells, 4 and 5.
+If they have different materials, this is fine. When they both made from the same material, \cinder does not care about 4 and 5, it only cares about
+their union.
+
+CombLayer coupled with Stuart-modified \cinder does not have this limitation. Every time you run \cinder with CL, you perform a different run of \cinder for each individual cell.
+Once you have done this, you run the {\tt activation} script. It takes an input file, which is almost the same as the input file which exists in \cinder itself.
+
+So, you have your initial {\tt MCNP} run which gives you the fluxes and the {\tt outp} files. Now you need the input file for the {\tt activation} script.
+This is a copy of the input file which comes out of \cinder itself. You do not specify the cells there, but you have to specify the tally\footnote{If you run standard \cinder,
+it can only read {\tt f4} (i.e. it can't read {\tt f14}). With CL you can have several tallies, that's why you need to specify the tally number.}.
+Second, \cinder can only read one output file, while the modified \cinder can read multiple output files.
+In the file list you can use wildcards to specify several files, i.e. {\tt *.o}.
+
+Standard \cinder allows only one {\tt htape} file, while the modified one supports as many as you like. Therefore you also have to specify them in the input file.
+
+You run that and it produces many folders. Now we go back go CombLayer and we forget {\tt -cinder} and {\tt -T flux}, but we have to write {\tt --activation}.
+Now we have lots of these lines, and they are going to set things.
+First of all, you need to set the bounding box - a 3 dimensional box which says that we are only interested in $\gamma$'s in this box:
+\alert{exact arguments???}
+\begin{bash}
+./prog -activation box
+\end{bash}
+You give the lower and the upper coordinates. Your cells can be outside or (partially) inside that box, but you will have gammas only inside the bounding box.
+
+You can also set other parameters, like how many points you want ({\tt nps}); we might be interested only in the specified material ({\tt mat});
+we might be interested in, say, photons with a certain weight ({\tt weight}) (when you only want the bright ones).
+
+\subsubsection{Gamma source}
+We need to specify all of this in order to generate the SSW file which will be used as source for gammas.
+This is a volumetric SSW card (generates just a point and direction),
+not standard surface card. Of course, it is also modified. It has a flag in it: if the number of points in the card is negative, that means that {\tt MCNP} will still simulate that many points,
+but their direction is randomly sampled. The gamma source is random.
+In this case I randomly choose the direction. With negative run the {\tt MCNP} run will choose the random direction, not the one which is specified in the SSW file.
+This can be useful because oversampling some initial points is sensible. Suppose you are running 10 runs, and what you want to do is change the random numbers seed for each of these runs, but you want to use the same SSW card without having to regenerate it. To do it, you need a small modification of {\tt MCNP}.
+
+You can also have energy cut. The trouble is that photons can't be run below 1\,keV. There is no way in {\tt MCNP} to run them below that threshold. But \cinder does not know that, so it
+produces photons below that energy. If that's the case, we can call them out with the energy threshold argument ``{\tt -c}''\footnote{This threshold can be arbitrary, not only 1\,keV.}.
+
+\subsubsection{Cell volumes}
+When you run regular cinder, you need to know the volume of every single cell you are interested in.
+BUT you actually do not need to know it.
+For instance, when you run this and set the volume to, say, 1.0, the flux is also normalised to this volume.
+When you specify bounding box, you sample random points, so effectively you have a pre-corrected volume!
+
+Let's put an object into a (bigger) sampling volume. Let's consider what really happens.
+For the sake of an argument, let's pretend that the sampling volume is 500, and since it's a box, CombLayer can easily calculate it.
+The volume of you cell (which sits inside the bounding box) we do not know, but let's pretend it was 20.
+But we set it to 1.0. Therefore the flux it gets is immediately 20 times too high.
+Now what we do, we sample in the bounding box volume. So, for every 500 random points, we get 20 in our cell.
+So, we take 20 and we basically scale it by the proportion ratio.
+
+Imagine we have chosen our random number seed really badly, and we only got 10 in our cell. That means we undersampled number of points by the factor of two.
+But when we scale it up we will multiply back by the factor of two, so the scaling will in any case be right.
+In other words, it absolutely does not matter how many points we have chosen to sample in the bounding box volume, it just must be above zero.
+
+To sum up: in the standard \cinder you have to specify the volume, but in the modified \cinder you have to set all volumes to 1.0.
+
+\subsubsection{FMESH}
+With {\tt MCNP6} you can also use {\tt fmesh}, which allows to have energy binning in the mesh. However, SA is not sure it correctly deals with the void volumes:
+\begin{bash}
+./prog -T fmesh
+\end{bash}
+It works really nicely if you do not have void volumes. It is still under development.
 
 
 \subsection{How to put one object into another}
