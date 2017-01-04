@@ -779,6 +779,10 @@ makeESS::buildPreWings(Simulation& System, const std::string& lowModType)
 
 void
 makeESS::buildTwister(Simulation& System)
+  /*!
+    Adds a twister to the main system
+    \param System :: Simulation 
+   */
 {
   ELog::RegMethod RegA("makeESS","buildTwister");
 
