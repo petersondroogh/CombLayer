@@ -31,7 +31,7 @@ To run flux is easy:
 \begin{bash}
 ./prog -r -T flux n AllNonVoid BeRef Output
 \end{bash}
-material can be material name, ``All'' or ``AllNonVoid'' (flux for activation in a void cell is pointless).
+material can be material name \alert{material does not currently work}, ``All'' or ``AllNonVoid'' (flux for activation in a void cell is pointless).
 It adds the {\tt f4} tally with energy binning for \cinder:
 
 \begin{mcnp}
@@ -47,6 +47,7 @@ e4    1e-11 5e-09 5i 3.5e-08 4.2e-08 5e-08 5.8e-08 6.7e-08 8e-08 1e-07
         0.3887 0.4979 0.639279 0.82085 1.10803 1.35335 1.73774 2.2313
         2.86505 3.67879 4.96585 6.065 10 14.9182 16.9046 20 25
 \end{mcnp}
+\alert{Last bin, 25 MeV must be removed, read the Activation scrip user manual, page 8-9.}
 
 If you are {\em really} having a bad day, you can write:
 \begin{bash}
