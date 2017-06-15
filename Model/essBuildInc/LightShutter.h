@@ -1,6 +1,6 @@
-/********************************************************************* 
+/*********************************************************************
   CombLayer : MCNP(X) Input builder
- 
+
  * File:   essBuildInc/LightShutter.h
  *
  * Copyright (c) 2004-2017 by Stuart Ansell
@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>. 
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  ****************************************************************************/
 #ifndef essSystem_LightShutter_h
@@ -40,9 +40,10 @@ class LightShutter : public attachSystem::ContainedComp,
   public attachSystem::CellMap
 {
  private:
-   
-  const int lightIndex;           ///< Index of surface offset
-  int cellIndex;                ///< Cell index  
+
+  const int lightIndex;         ///< Index of surface offset
+  int cellIndex;                ///< Cell index
+  int active;                   ///< on/off flag
 
   double length;                ///< Total length including void
   double width;                 ///< Width
@@ -50,18 +51,18 @@ class LightShutter : public attachSystem::ContainedComp,
 
   double wallThick;             ///< Thickness of wall
 
-  int mainMat;                   ///< main material
-  int wallMat;                   ///< wall material  
-  
+  int mainMat;                  ///< main material
+  int wallMat;                  ///< wall material
+
   void populate(const FuncDataBase&);
   void createUnitVector(const attachSystem::FixedComp&,
 			const long int);
-  
+
   void createSurfaces();
   void createLinks();
   void createObjects(Simulation&);
 
-  
+
  public:
 
   LightShutter(const std::string&);
@@ -69,7 +70,7 @@ class LightShutter : public attachSystem::ContainedComp,
   LightShutter& operator=(const LightShutter&);
   virtual LightShutter* clone() const;
   virtual ~LightShutter();
-  
+
   void createAll(Simulation&,const attachSystem::FixedComp&,
 		 const long int);
 
@@ -78,5 +79,5 @@ class LightShutter : public attachSystem::ContainedComp,
 }
 
 #endif
- 
+
 

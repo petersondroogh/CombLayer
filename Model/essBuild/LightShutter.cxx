@@ -1,6 +1,6 @@
-/********************************************************************* 
+/*********************************************************************
   CombLayer : MCNP(X) Input builder
- 
+
  * File:   essBuild/LightShutter.cxx
  *
  * Copyright (c) 2004-2017 by Stuart Ansell
@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>. 
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  ****************************************************************************/
 #include <fstream>
@@ -98,10 +98,11 @@ LightShutter::LightShutter(const std::string& Key)  :
   */
 {}
 
-LightShutter::LightShutter(const LightShutter& A) : 
+LightShutter::LightShutter(const LightShutter& A) :
   attachSystem::ContainedComp(A),attachSystem::FixedOffset(A),
   attachSystem::CellMap(A),
   lightIndex(A.lightIndex),cellIndex(A.cellIndex),
+  active(A.active),
   length(A.length),width(A.width),height(A.height),
   wallThick(A.wallThick),mainMat(A.mainMat),wallMat(A.wallMat)
   /*!
@@ -124,6 +125,7 @@ LightShutter::operator=(const LightShutter& A)
       attachSystem::FixedOffset::operator=(A);
       attachSystem::CellMap::operator=(A);
       cellIndex=A.cellIndex;
+      active=A.active;
       length=A.length;
       width=A.width;
       height=A.height;
@@ -144,7 +146,7 @@ LightShutter::clone() const
   return new LightShutter(*this);
 }
 
-LightShutter::~LightShutter() 
+LightShutter::~LightShutter()
   /*!
     Destructor
   */
@@ -160,7 +162,10 @@ LightShutter::populate(const FuncDataBase& Control)
   ELog::RegMethod RegA("LightShutter","populate");
 
   FixedOffset::populate(Control);
-  
+
+  active=Control.EvalDefVar<int>(keyName+"Active", 0);
+  if (!active) return;
+
   height=Control.EvalVar<double>(keyName+"Height");
   width=Control.EvalVar<double>(keyName+"Width");
   length=Control.EvalVar<double>(keyName+"Length");
@@ -171,7 +176,7 @@ LightShutter::populate(const FuncDataBase& Control)
 
   return;
 }
-  
+
 void
 LightShutter::createUnitVector(const attachSystem::FixedComp& FC,
 			       const long int sideIndex)
@@ -187,7 +192,7 @@ LightShutter::createUnitVector(const attachSystem::FixedComp& FC,
   applyOffset();
   return;
 }
-  
+
 void
 LightShutter::createSurfaces()
   /*!
@@ -212,11 +217,11 @@ LightShutter::createSurfaces()
 			   Origin-Z*(height/2.0+wallThick),Z);
   ModelSupport::buildPlane(SMap,lightIndex+16,
 			   Origin+Z*(height/2.0+wallThick),Z);
-  
+
   return;
 }
 
-  
+
 void
 LightShutter::createObjects(Simulation& System)
   /*!
@@ -225,6 +230,8 @@ LightShutter::createObjects(Simulation& System)
   */
 {
   ELog::RegMethod RegA("LightShutter","createObjects");
+
+  if (!active) return;
 
   std::string Out;
   // Tugnsten middle
@@ -244,7 +251,7 @@ LightShutter::createObjects(Simulation& System)
   return;
 }
 
-  
+
 void
 LightShutter::createLinks()
   /*!
@@ -259,7 +266,7 @@ LightShutter::createLinks()
   FixedComp::setConnect(3,Origin+X*(wallThick+width/2.0),X);
   FixedComp::setConnect(3,Origin-Z*(wallThick+height/2.0),-Z);
   FixedComp::setConnect(3,Origin+Z*(wallThick+height/2.0),Z);
-	   
+
 
   FixedComp::setLinkSurf(0,-SMap.realSurf(lightIndex+1));
   FixedComp::setLinkSurf(1,SMap.realSurf(lightIndex+2));
@@ -267,10 +274,10 @@ LightShutter::createLinks()
   FixedComp::setLinkSurf(3,SMap.realSurf(lightIndex+4));
   FixedComp::setLinkSurf(4,-SMap.realSurf(lightIndex+5));
   FixedComp::setLinkSurf(5,SMap.realSurf(lightIndex+6));
-  
+
   return;
 }
-    
+
 void
 LightShutter::createAll(Simulation& System,
 		   const attachSystem::FixedComp& FC,
@@ -289,7 +296,7 @@ LightShutter::createAll(Simulation& System,
   createSurfaces();
   createLinks();
   createObjects(System);
-  insertObjects(System);              
+  insertObjects(System);
 
   return;
 }
