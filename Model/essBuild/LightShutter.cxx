@@ -134,6 +134,15 @@ LightShutter::operator=(const LightShutter& A)
   return *this;
 }
 
+LightShutter*
+LightShutter::clone() const
+  /*!
+    virtual copy constructor
+    \return new LightShutter(*this)
+  */
+{
+  return new LightShutter(*this);
+}
 
 LightShutter::~LightShutter() 
   /*!

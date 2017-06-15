@@ -67,6 +67,7 @@ class LightShutter : public attachSystem::ContainedComp,
   LightShutter(const std::string&);
   LightShutter(const LightShutter&);
   LightShutter& operator=(const LightShutter&);
+  virtual LightShutter* clone() const;
   virtual ~LightShutter();
   
   void createAll(Simulation&,const attachSystem::FixedComp&,
