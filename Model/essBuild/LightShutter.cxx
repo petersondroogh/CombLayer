@@ -209,14 +209,10 @@ LightShutter::createSurfaces()
   ModelSupport::buildPlane(SMap,lightIndex+5,Origin-Z*(height/2.0),Z);
   ModelSupport::buildPlane(SMap,lightIndex+6,Origin+Z*(height/2.0),Z);
 
-  ModelSupport::buildPlane(SMap,lightIndex+13,
-			   Origin-X*(width/2.0+wallThick),X);
-  ModelSupport::buildPlane(SMap,lightIndex+14,
-			   Origin+X*(width/2.0+wallThick),X);
+  ModelSupport::buildPlane(SMap,lightIndex+12,
+  			   Origin+Y*(length+wallThick),Y);
   ModelSupport::buildPlane(SMap,lightIndex+15,
 			   Origin-Z*(height/2.0+wallThick),Z);
-  ModelSupport::buildPlane(SMap,lightIndex+16,
-			   Origin+Z*(height/2.0+wallThick),Z);
 
   return;
 }
@@ -239,13 +235,16 @@ LightShutter::createObjects(Simulation& System)
   System.addCell(MonteCarlo::Qhull(cellIndex++,mainMat,0.0,Out));
   setCell("main",cellIndex-1);
 
-  // Steel wrapper
-  Out=ModelSupport::getComposite(SMap,lightIndex,
-				 " 1 -2 13 -14 15 -16 (-3:4:-5:6) ");
+  // HDPE boron sheets
+  Out=ModelSupport::getComposite(SMap,lightIndex," 2 -12 3 -4 5 -6 ");
   System.addCell(MonteCarlo::Qhull(cellIndex++,wallMat,0.0,Out));
-  setCell("wall",cellIndex-1);
+  setCell("wallBack",cellIndex-1);
 
-  Out=ModelSupport::getComposite(SMap,lightIndex," 1 -2 13 -14 15 -16");
+  Out=ModelSupport::getComposite(SMap,lightIndex," 1 -12 3 -4 15 -5 ");
+  System.addCell(MonteCarlo::Qhull(cellIndex++,wallMat,0.0,Out));
+  setCell("wallBottom",cellIndex-1);
+
+  Out=ModelSupport::getComposite(SMap,lightIndex," 1 -12 3 -4 15 -6");
   addOuterSurf(Out);
 
   return;
@@ -261,18 +260,18 @@ LightShutter::createLinks()
   ELog::RegMethod RegA("LightShutter","createLinks");
 
   FixedComp::setConnect(0,Origin,-Y);
-  FixedComp::setConnect(1,Origin+Y*length,Y);
-  FixedComp::setConnect(2,Origin-X*(wallThick+width/2.0),-X);
-  FixedComp::setConnect(3,Origin+X*(wallThick+width/2.0),X);
+  FixedComp::setConnect(1,Origin+Y*(length+wallThick),Y);
+  FixedComp::setConnect(2,Origin-X*(width/2.0),-X);
+  FixedComp::setConnect(3,Origin+X*(width/2.0),X);
   FixedComp::setConnect(3,Origin-Z*(wallThick+height/2.0),-Z);
-  FixedComp::setConnect(3,Origin+Z*(wallThick+height/2.0),Z);
+  FixedComp::setConnect(3,Origin+Z*(height/2.0),Z);
 
 
   FixedComp::setLinkSurf(0,-SMap.realSurf(lightIndex+1));
-  FixedComp::setLinkSurf(1,SMap.realSurf(lightIndex+2));
+  FixedComp::setLinkSurf(1,SMap.realSurf(lightIndex+12));
   FixedComp::setLinkSurf(2,-SMap.realSurf(lightIndex+3));
   FixedComp::setLinkSurf(3,SMap.realSurf(lightIndex+4));
-  FixedComp::setLinkSurf(4,-SMap.realSurf(lightIndex+5));
+  FixedComp::setLinkSurf(4,-SMap.realSurf(lightIndex+15));
   FixedComp::setLinkSurf(5,SMap.realSurf(lightIndex+6));
 
   return;
