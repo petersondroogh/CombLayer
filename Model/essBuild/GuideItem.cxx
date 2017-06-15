@@ -94,7 +94,7 @@ GuideItem::GuideItem(const std::string& Key,const size_t Index)  :
   attachSystem::CellMap(),baseName(Key),
   guideIndex(ModelSupport::objectRegister::Instance().cell(keyName)),
   cellIndex(guideIndex+1),active(1),innerCyl(0),outerCyl(0),
-  LShutter(new LightShutter(Key+"LightShutter"))
+  LShutter(new LightShutter(Key+std::to_string(Index)+"LightShutter"))
   /*!
     Constructor BUT ALL variable are left unpopulated.
     \param Key :: Name for item in search
