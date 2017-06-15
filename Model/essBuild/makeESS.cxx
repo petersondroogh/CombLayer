@@ -937,7 +937,11 @@ makeESS::build(Simulation& System,
   attachSystem::ContainedComp* shutter=
     OR.getObject<attachSystem::ContainedComp>("G1BLineTop1LightShutter");
   attachSystem::addToInsertSurfCtrl(System,*ABunker,*shutter);
-  
+  ELog::EM << "Ugly fix. How to do it appripriately for all guide items?"  << ELog::endCrit;
+  attachSystem::FixedComp* guide=
+    OR.getObject<attachSystem::FixedComp>("G1BLineTop1");
+  attachSystem::addToInsertForced(System,*guide, Target->getCC("Wheel"));
+
 
   // PROTON BEAMLINE
   
