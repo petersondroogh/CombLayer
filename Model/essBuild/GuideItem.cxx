@@ -81,6 +81,7 @@
 #include "BaseMap.h"
 #include "CellMap.h"
 #include "World.h"
+#include "LightShutter.h"
 #include "GuideItem.h"
 
 namespace essSystem
@@ -92,13 +93,19 @@ GuideItem::GuideItem(const std::string& Key,const size_t Index)  :
                                  "Main",6,"Beam",6),
   attachSystem::CellMap(),baseName(Key),
   guideIndex(ModelSupport::objectRegister::Instance().cell(keyName)),
-  cellIndex(guideIndex+1),active(1),innerCyl(0),outerCyl(0)
+  cellIndex(guideIndex+1),active(1),innerCyl(0),outerCyl(0),
+  LShutter(new LightShutter(Key+"LightShutter"))
   /*!
     Constructor BUT ALL variable are left unpopulated.
     \param Key :: Name for item in search
     \param Index :: Index of guide unit
   */
-{}
+{
+  ModelSupport::objectRegister& OR=
+    ModelSupport::objectRegister::Instance();
+  
+  OR.addObject(LShutter);
+}
 
 GuideItem::GuideItem(const GuideItem& A) : 
   attachSystem::ContainedGroup(A),
@@ -111,7 +118,8 @@ GuideItem::GuideItem(const GuideItem& A) :
   beamHeight(A.beamHeight),nSegment(A.nSegment),
   height(A.height),depth(A.depth),width(A.width),length(A.length),
   mat(A.mat),innerCyl(A.innerCyl),outerCyl(A.outerCyl),
-  RInner(A.RInner),ROuter(A.ROuter)
+  RInner(A.RInner),ROuter(A.ROuter),
+  LShutter(A.LShutter->clone())
   /*!
     Copy constructor
     \param A :: GuideItem to copy
@@ -149,6 +157,7 @@ GuideItem::operator=(const GuideItem& A)
       outerCyl=A.outerCyl;
       RInner=A.RInner;
       ROuter=A.ROuter;
+      *LShutter=*A.LShutter;
     }
   return *this;
 }
@@ -529,7 +538,6 @@ GuideItem::createLinks()
   mainFC.setConnect(1,beamExit-Geometry::Vec3D(0,0,beamExit[2]),bY);
   mainFC.setLinkSurf(1,SMap.realSurf(GI+7));
   mainFC.addBridgeSurf(1,SMap.realSurf(guideIndex+1));
-    
 
   return;
 }
@@ -554,7 +562,10 @@ GuideItem::createAll(Simulation& System,
   createSurfaces();
   createObjects(System,GPtr);
   createLinks();
-  insertObjects(System);              
+  insertObjects(System);
+
+  attachSystem::FixedComp& beamFC=FixedGroup::getKey("Beam");
+  LShutter->createAll(System, beamFC, 1);
 
   return;
 }

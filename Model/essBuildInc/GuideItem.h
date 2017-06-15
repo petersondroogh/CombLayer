@@ -35,6 +35,8 @@ namespace essSystem
   \brief Simple Guide element Housing + void
 */
 
+class LightShutter;
+
 class GuideItem : public attachSystem::ContainedGroup,
   public attachSystem::FixedOffsetGroup,
   public attachSystem::CellMap
@@ -69,7 +71,10 @@ class GuideItem : public attachSystem::ContainedGroup,
   int innerCyl;        ///< Inner Cylinder
   int outerCyl;        ///< Outer Cylinder 
   double RInner;       ///< Inner cylinder radius 
-  double ROuter;       ///< Outer cylinder radius 
+  double ROuter;       ///< Outer cylinder radius
+
+  std::shared_ptr<LightShutter> LShutter;   ///< light shutter
+
 
   void populate(const FuncDataBase&);
   void createUnitVector(const attachSystem::FixedComp&,
