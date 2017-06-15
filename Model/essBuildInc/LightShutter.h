@@ -71,6 +71,8 @@ class LightShutter : public attachSystem::ContainedComp,
   virtual LightShutter* clone() const;
   virtual ~LightShutter();
 
+  int isActive() const {return active;}
+
   void createAll(Simulation&,const attachSystem::FixedComp&,
 		 const long int);
 

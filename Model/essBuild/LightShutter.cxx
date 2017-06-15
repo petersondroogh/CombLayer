@@ -243,7 +243,7 @@ LightShutter::createObjects(Simulation& System)
   Out=ModelSupport::getComposite(SMap,lightIndex,
 				 " 1 -2 13 -14 15 -16 (-3:4:-5:6) ");
   System.addCell(MonteCarlo::Qhull(cellIndex++,wallMat,0.0,Out));
-  setCell("main",cellIndex-1);
+  setCell("wall",cellIndex-1);
 
   Out=ModelSupport::getComposite(SMap,lightIndex," 1 -2 13 -14 15 -16");
   addOuterSurf(Out);
