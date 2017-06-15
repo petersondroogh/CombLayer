@@ -82,6 +82,7 @@
 #include "CellMap.h"
 #include "World.h"
 #include "LightShutter.h"
+#include "AttachSupport.h"
 #include "GuideItem.h"
 
 namespace essSystem
@@ -566,6 +567,19 @@ GuideItem::createAll(Simulation& System,
 
   attachSystem::FixedComp& beamFC=FixedGroup::getKey("Beam");
   LShutter->createAll(System, beamFC, 2);
+
+  if (!LShutter->isActive()) return;
+
+  ModelSupport::objectRegister& OR=
+    ModelSupport::objectRegister::Instance();
+
+  const attachSystem::FixedComp* sb=
+    OR.getObject<attachSystem::FixedComp>("ShutterBay");
+  attachSystem::addToInsertSurfCtrl(System,*sb,*LShutter);
+
+  const attachSystem::FixedComp* bunker=
+    OR.getObject<attachSystem::FixedComp>("ABunker");
+  //  attachSystem::addToInsertControl(System,*bunker,*LShutter); -- Bunker not yet built
 
   return;
 }

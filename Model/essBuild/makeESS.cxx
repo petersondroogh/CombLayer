@@ -930,6 +930,15 @@ makeESS::build(Simulation& System,
   createGuides(System);
   makeBunker(System,IParam);
 
+  ELog::EM << "Ugly fix. How to do it in GuideItem::createAll before making bunker?"
+	   << ELog::endCrit;
+  ModelSupport::objectRegister& OR=
+    ModelSupport::objectRegister::Instance();
+  attachSystem::ContainedComp* shutter=
+    OR.getObject<attachSystem::ContainedComp>("G1BLineTop1LightShutter");
+  attachSystem::addToInsertSurfCtrl(System,*ABunker,*shutter);
+  
+
   // PROTON BEAMLINE
   
 
