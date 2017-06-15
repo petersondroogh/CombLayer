@@ -565,7 +565,7 @@ GuideItem::createAll(Simulation& System,
   insertObjects(System);
 
   attachSystem::FixedComp& beamFC=FixedGroup::getKey("Beam");
-  LShutter->createAll(System, beamFC, 1);
+  LShutter->createAll(System, beamFC, 2);
 
   return;
 }
