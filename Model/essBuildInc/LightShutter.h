@@ -48,11 +48,15 @@ class LightShutter : public attachSystem::ContainedComp,
   double length;                ///< Total length including void
   double width;                 ///< Width
   double height;                ///< height
+  int nLayers;                  ///< number of layers along the y-axis
 
   double wallThick;             ///< Thickness of wall
 
   int mainMat;                  ///< main material
   int wallMat;                  ///< wall material
+
+  void layerProcess(Simulation& System, const std::string& cellName,
+		    const size_t& lpS, const size_t& lsS, const int&, const int&);
 
   void populate(const FuncDataBase&);
   void createUnitVector(const attachSystem::FixedComp&,

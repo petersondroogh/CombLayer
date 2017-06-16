@@ -88,7 +88,7 @@ namespace essSystem
 
 LightShutter::LightShutter(const std::string& Key)  :
   attachSystem::ContainedComp(),
-  attachSystem::FixedOffset(Key,6),
+  attachSystem::FixedOffset(Key,8),
   attachSystem::CellMap(),
   lightIndex(ModelSupport::objectRegister::Instance().cell(Key)),
   cellIndex(lightIndex+1)
@@ -104,6 +104,7 @@ LightShutter::LightShutter(const LightShutter& A) :
   lightIndex(A.lightIndex),cellIndex(A.cellIndex),
   active(A.active),
   length(A.length),width(A.width),height(A.height),
+  nLayers(A.nLayers),
   wallThick(A.wallThick),mainMat(A.mainMat),wallMat(A.wallMat)
   /*!
     Copy constructor
@@ -129,6 +130,7 @@ LightShutter::operator=(const LightShutter& A)
       length=A.length;
       width=A.width;
       height=A.height;
+      nLayers=A.nLayers;
       wallThick=A.wallThick;
       mainMat=A.mainMat;
       wallMat=A.wallMat;
@@ -152,6 +154,73 @@ LightShutter::~LightShutter()
   */
 {}
 
+  void
+  LightShutter::layerProcess(Simulation& System, const std::string& cellName,
+			     const size_t& lpS, const size_t& lsS,
+			     const int& nLayers, const int& mat)
+  /*!
+    Processes the splitting of the surfaces into a multilayer system
+    \param System :: Simulation to work on
+    \param cellName :: Name of the cell to split
+    \param lpS :: link pont of primary surface
+    \param lsS :: link point of secondary surface
+    \param nLayers :: number of layers to divide to
+    \param mat :: material
+  */
+  {
+    ELog::RegMethod RegA("LightShutter","layerProcess");
+    if (nLayers>1)
+      {
+	const int pS = getLinkSurf(lpS);
+	const int sS = getLinkSurf(lsS);
+
+	const attachSystem::CellMap* CM = dynamic_cast<const attachSystem::CellMap*>(this);
+	MonteCarlo::Object* wallObj(0);
+	int wallCell(0);
+
+	if (CM)
+	  {
+	    wallCell=CM->getCell(cellName);
+	    wallObj=System.findQhull(wallCell);
+	  }
+
+	if (!wallObj)
+	  throw ColErr::InContainerError<int>(wallCell,
+					      "Cell '" + cellName + "' not found");
+
+	double baseFrac = 1.0/nLayers;
+	ModelSupport::surfDivide DA;
+	for(int i=1;i<nLayers;i++)
+	  {
+	    DA.addFrac(baseFrac);
+	    DA.addMaterial(mat);
+	    baseFrac += 1.0/nLayers;
+	  }
+	DA.addMaterial(mat);
+
+	DA.setCellN(wallCell);
+	DA.setOutNum(cellIndex, lightIndex+10000);
+
+	ModelSupport::mergeTemplate<Geometry::Plane,
+				    Geometry::Plane> surroundRule;
+
+	surroundRule.setSurfPair(SMap.realSurf(pS),
+				 SMap.realSurf(sS));
+
+	std::string OutA = getLinkString(lpS);
+	std::string OutB = getLinkComplement(lsS);
+
+	surroundRule.setInnerRule(OutA);
+	surroundRule.setOuterRule(OutB);
+
+	DA.addRule(&surroundRule);
+	DA.activeDivideTemplate(System);
+
+	cellIndex=DA.getCellNum();
+      }
+  }
+
+  
 void
 LightShutter::populate(const FuncDataBase& Control)
   /*!
@@ -167,6 +236,7 @@ LightShutter::populate(const FuncDataBase& Control)
   if (!active) return;
 
   height=Control.EvalVar<double>(keyName+"Height");
+  nLayers=Control.EvalVar<int>(keyName+"NLayers");
   width=Control.EvalVar<double>(keyName+"Width");
   length=Control.EvalVar<double>(keyName+"Length");
   wallThick=Control.EvalVar<double>(keyName+"WallThick");
@@ -235,6 +305,8 @@ LightShutter::createObjects(Simulation& System)
   System.addCell(MonteCarlo::Qhull(cellIndex++,mainMat,0.0,Out));
   setCell("main",cellIndex-1);
 
+  layerProcess(System, "main", 6,7, nLayers, mainMat);
+
   // HDPE boron sheets
   Out=ModelSupport::getComposite(SMap,lightIndex," 2 -12 3 -4 5 -6 ");
   System.addCell(MonteCarlo::Qhull(cellIndex++,wallMat,0.0,Out));
@@ -263,9 +335,10 @@ LightShutter::createLinks()
   FixedComp::setConnect(1,Origin+Y*(length+wallThick),Y);
   FixedComp::setConnect(2,Origin-X*(width/2.0),-X);
   FixedComp::setConnect(3,Origin+X*(width/2.0),X);
-  FixedComp::setConnect(3,Origin-Z*(wallThick+height/2.0),-Z);
-  FixedComp::setConnect(3,Origin+Z*(height/2.0),Z);
-
+  FixedComp::setConnect(4,Origin-Z*(wallThick+height/2.0),-Z);
+  FixedComp::setConnect(5,Origin+Z*(height/2.0),Z);
+  FixedComp::setConnect(6,Origin,Y); // for layerProcess
+  FixedComp::setConnect(7,Origin+Y*length,Y); // for layerProcess
 
   FixedComp::setLinkSurf(0,-SMap.realSurf(lightIndex+1));
   FixedComp::setLinkSurf(1,SMap.realSurf(lightIndex+12));
@@ -273,6 +346,8 @@ LightShutter::createLinks()
   FixedComp::setLinkSurf(3,SMap.realSurf(lightIndex+4));
   FixedComp::setLinkSurf(4,-SMap.realSurf(lightIndex+15));
   FixedComp::setLinkSurf(5,SMap.realSurf(lightIndex+6));
+  FixedComp::setLinkSurf(6,SMap.realSurf(lightIndex+1)); // for layerProcess
+  FixedComp::setLinkSurf(7,SMap.realSurf(lightIndex+2)); // for layerProcess
 
   return;
 }

@@ -675,6 +675,7 @@ EssInstrumentVariables(const std::set<std::string>& BL,
   Control.addVariable("nmxPipeAYStep",51);
   Control.addVariable("ABunkerPillarsR0",620);
   Control.addVariable("G1BLineTop1LightShutterLength",49.1);
+  Control.addVariable("G1BLineTop1LightShutterNLayers",10);
   
   return;
 }  
