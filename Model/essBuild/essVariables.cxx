@@ -646,6 +646,36 @@ EssInstrumentVariables(const std::set<std::string>& BL,
   shortNMXvariables(Control);
   shortODINvariables(Control);
 
+
+  // NMX light shutter variables
+  // NMX beam port insert dimensions are adjusted according to eLog:Target/6
+  Control.addVariable("nmxFA0HeightStart",5);
+  Control.addVariable("nmxFALayerThick2",3);
+  Control.addVariable("nmxFA0WidthEnd",3);
+  Control.addVariable("nmxFA0HeightEnd",13);
+  Control.addVariable("nmxFAZStep",1.5);
+  Control.addVariable("G1BLineTopHeight1",15);
+  Control.addVariable("G1BLineTopTopGap",0);
+  Control.addVariable("G1BLineTopSideGap",0);
+  Control.addVariable("G1BLineTopBaseGap",0);
+  Control.addVariable("TopAFlightAngleZBase",1.7);
+  Control.addVariable("TopAFlightAngleZTop",0.9);
+
+  Control.addVariable("BilbaoWheelInnerStructureNSectors",1);
+  Control.addVariable("nmxFALayerMat1","Void");
+
+  Control.addVariable("G1BLineTop1LightShutterActive",1);
+  Control.addVariable("G1BLineTop1LightShutterHeight",83.1);
+  Control.addVariable("G1BLineTop1LightShutterWidth",38.6);
+  Control.addVariable("G1BLineTop1LightShutterWallThick",0.4);
+  Control.addVariable("G1BLineTop1LightShutterMainMat","Steel71");
+  Control.addVariable("G1BLineTop1LightShutterWallMat","B-Poly");
+
+  Control.addVariable("G1BLineTop1LightShutterYStep",0.1);
+  Control.addVariable("nmxPipeAYStep",51);
+  Control.addVariable("ABunkerPillarsR0",620);
+  Control.addVariable("G1BLineTop1LightShutterLength",49.1);
+  
   return;
 }  
   
