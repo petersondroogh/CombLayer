@@ -568,6 +568,8 @@ GuideItem::createAll(Simulation& System,
   attachSystem::FixedComp& beamFC=FixedGroup::getKey("Beam");
   LShutter->createAll(System, beamFC, 2);
 
+
+  // this is to intersect LShutter and the objects it cuts
   if (!LShutter->isActive()) return;
 
   ModelSupport::objectRegister& OR=
@@ -577,8 +579,8 @@ GuideItem::createAll(Simulation& System,
     OR.getObject<attachSystem::FixedComp>("ShutterBay");
   attachSystem::addToInsertSurfCtrl(System,*sb,*LShutter);
 
-  const attachSystem::FixedComp* bunker=
-    OR.getObject<attachSystem::FixedComp>("ABunker");
+  //  const attachSystem::FixedComp* bunker=
+  //    OR.getObject<attachSystem::FixedComp>("ABunker");
   //  attachSystem::addToInsertControl(System,*bunker,*LShutter); -- Bunker not yet built
 
   return;
