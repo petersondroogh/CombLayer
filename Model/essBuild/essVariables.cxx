@@ -655,9 +655,9 @@ EssInstrumentVariables(const std::set<std::string>& BL,
   Control.addVariable("nmxFA0HeightEnd",13);
   Control.addVariable("nmxFAZStep",1.5);
   Control.addVariable("G1BLineTopHeight1",15);
-  Control.addVariable("G1BLineTopTopGap",0);
-  Control.addVariable("G1BLineTopSideGap",0);
-  Control.addVariable("G1BLineTopBaseGap",0);
+  Control.addVariable("G1BLineTopTopGap",0.5);
+  Control.addVariable("G1BLineTopSideGap",0.5);
+  Control.addVariable("G1BLineTopBaseGap",0.5);
   Control.addVariable("TopAFlightAngleZBase",1.7);
   Control.addVariable("TopAFlightAngleZTop",0.9);
 
