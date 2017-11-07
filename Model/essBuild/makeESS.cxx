@@ -91,6 +91,7 @@
 #include "ProtonTube.h"
 #include "PBIP.h"
 #include "ModBase.h"
+#include "EssModBase.h"
 #include "ConicInfo.h"
 #include "CylMod.h"
 #include "H2Wing.h"
@@ -360,10 +361,12 @@ makeESS::buildLowButterfly(Simulation& System)
 
   std::shared_ptr<ButterflyModerator> BM
     (new essSystem::ButterflyModerator("LowFly"));
+  
   BM->setRadiusX(Reflector->getRadius());
-  LowMod=std::shared_ptr<constructSystem::ModBase>(BM);
+
+  LowMod=std::shared_ptr<EssModBase>(BM);
   OR.addObject(LowMod);
-  LowMod->createAll(System,*Reflector,LowPreMod.get(),6);
+  LowMod->createAll(System,*LowPreMod,6,*Reflector,0);
   return;
 }
 
@@ -382,10 +385,10 @@ makeESS::buildTopButterfly(Simulation& System)
   std::shared_ptr<ButterflyModerator> BM
     (new essSystem::ButterflyModerator("TopFly"));
   BM->setRadiusX(Reflector->getRadius());
-  TopMod=std::shared_ptr<constructSystem::ModBase>(BM);
+  TopMod=std::shared_ptr<EssModBase>(BM);
   OR.addObject(TopMod);
 
-  TopMod->createAll(System,*Reflector,TopPreMod.get(),6);
+  BM->createAll(System,*TopPreMod.get(),6,*Reflector,0);
   return;
 }
 
@@ -404,9 +407,9 @@ makeESS::buildLowPancake(Simulation& System)
   std::shared_ptr<PancakeModerator> BM
     (new essSystem::PancakeModerator("LowCake"));
   BM->setRadiusX(Reflector->getRadius());
-  LowMod=std::shared_ptr<constructSystem::ModBase>(BM);
+  LowMod=std::shared_ptr<EssModBase>(BM);
   OR.addObject(LowMod);
-  LowMod->createAll(System,*Reflector,LowPreMod.get(),6);
+  LowMod->createAll(System,*LowPreMod,6,*Reflector,0);
   return;
 }
 
@@ -426,10 +429,10 @@ makeESS::buildTopPancake(Simulation& System)
   std::shared_ptr<PancakeModerator> BM
     (new essSystem::PancakeModerator("TopCake"));
   BM->setRadiusX(Reflector->getRadius());
-  TopMod=std::shared_ptr<constructSystem::ModBase>(BM);
+  TopMod=std::shared_ptr<EssModBase>(BM);
   OR.addObject(TopMod);
   
-  TopMod->createAll(System,*Reflector,TopPreMod.get(),6);
+  TopMod->createAll(System,*TopPreMod,6,*Reflector,0);
   return;
 }
 
@@ -448,9 +451,9 @@ makeESS::buildLowBox(Simulation& System)
   std::shared_ptr<BoxModerator> BM
     (new essSystem::BoxModerator("LowBox"));
   BM->setRadiusX(Reflector->getRadius());
-  LowMod=std::shared_ptr<constructSystem::ModBase>(BM);
+  LowMod=std::shared_ptr<EssModBase>(BM);
   OR.addObject(LowMod);
-  LowMod->createAll(System,*Reflector,LowPreMod.get(),6);
+  LowMod->createAll(System,*LowPreMod,6,*Reflector,0);
   return;
 }
 
@@ -470,10 +473,10 @@ makeESS::buildTopBox(Simulation& System)
   std::shared_ptr<BoxModerator> BM
     (new essSystem::BoxModerator("TopBox"));
   BM->setRadiusX(Reflector->getRadius());
-  TopMod=std::shared_ptr<constructSystem::ModBase>(BM);
+  TopMod=std::shared_ptr<EssModBase>(BM);
   OR.addObject(TopMod);
   
-  TopMod->createAll(System,*Reflector,TopPreMod.get(),6);
+  TopMod->createAll(System,*TopPreMod,6,*Reflector,0);
   return;
 }
 
@@ -1103,6 +1106,7 @@ makeESS::build(Simulation& System,
       optionSummary(System);
       throw ColErr::ExitAbort("Help system exit");
     }
+
   
   buildFocusPoints(System);
   makeTarget(System,targetType);
@@ -1117,7 +1121,7 @@ makeESS::build(Simulation& System,
   TopPreMod->createAll(System,World::masterOrigin(),0,false,
 		       Target->wheelHeight()/2.0,
 		       Reflector->getRadius(),true);
-
+  ELog::EM<<"Low Mod type == "<<lowModType<<ELog::endDiag;
   if (lowModType != "None")
     {
       if (lowModType == "Butterfly")
@@ -1126,8 +1130,10 @@ makeESS::build(Simulation& System,
 	  buildLowPancake(System);
       else if (lowModType == "Box")
 	  buildLowBox(System);
+      else
+	throw ColErr::InContainerError<std::string>(lowModType,"Low Mod Type");
     }
-  
+
   if (topModType == "Butterfly")
     buildTopButterfly(System);
   else if (topModType == "Pancake")
@@ -1136,7 +1142,9 @@ makeESS::build(Simulation& System,
     buildTopBox(System);
 
   const double LMHeight=(lowModType == "None") ? 0.0 : attachSystem::calcLinkDistance(*LowMod,5,6);
+
   const double TMHeight=attachSystem::calcLinkDistance(*TopMod,5,6);
+
 
   // Cap moderator DOES not span whole unit
   TopCapMod->createAll(System,*TopMod,6,false,

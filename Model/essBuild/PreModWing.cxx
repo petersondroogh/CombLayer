@@ -32,6 +32,7 @@
 #include <string>
 #include <algorithm>
 #include <memory>
+#include <typeinfo>
 
 #include "Exception.h"
 #include "FileReport.h"
@@ -66,6 +67,7 @@
 #include "stringCombine.h"
 #include "LinkUnit.h"
 #include "FixedComp.h"
+#include "FixedOffset.h"
 #include "BaseMap.h"
 #include "CellMap.h"
 #include "ContainedComp.h"
@@ -76,9 +78,8 @@
 #include "Cylinder.h"
 // for Butterfly
 #include "LayerComp.h"
-#include "ModBase.h"
+#include "EssModBase.h"
 #include "H2Wing.h"
-#include <typeinfo>
 #include "ButterflyModerator.h"
 #include "PancakeModerator.h"
 #include "BoxModerator.h"

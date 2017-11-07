@@ -67,11 +67,12 @@
 #include "stringCombine.h"
 #include "LinkUnit.h"
 #include "FixedComp.h"
+#include "FixedOffset.h"
 #include "ContainedComp.h"
 #include "LayerComp.h"
 #include "BaseMap.h"
 #include "CellMap.h"
-#include "ModBase.h"
+#include "EssModBase.h"
 #include "H2Wing.h"
 #include "MidWaterDivider.h"
 #include "EdgeWater.h"
@@ -81,7 +82,7 @@ namespace essSystem
 {
 
 ButterflyModerator::ButterflyModerator(const std::string& Key) :
-  constructSystem::ModBase(Key,12),
+  EssModBase(Key,12),
   flyIndex(ModelSupport::objectRegister::Instance().cell(Key)),
   cellIndex(flyIndex+1),
   LeftUnit(new H2Wing(Key,"LeftLobe",90.0)),
@@ -105,7 +106,7 @@ ButterflyModerator::ButterflyModerator(const std::string& Key) :
 }
 
 ButterflyModerator::ButterflyModerator(const ButterflyModerator& A) : 
-  constructSystem::ModBase(A),
+  essSystem::EssModBase(A),
   flyIndex(A.flyIndex),cellIndex(A.cellIndex),
   bfType(A.bfType),
   LeftUnit(A.LeftUnit->clone()),
@@ -134,7 +135,7 @@ ButterflyModerator::operator=(const ButterflyModerator& A)
 {
   if (this!=&A)
     {
-      constructSystem::ModBase::operator=(A);
+      essSystem::EssModBase::operator=(A);
       cellIndex= A.cellIndex;
       bfType=A.bfType;
       *LeftUnit= *A.LeftUnit;
@@ -177,7 +178,8 @@ ButterflyModerator::populate(const FuncDataBase& Control)
 {
   ELog::RegMethod RegA("ButterflyModerator","populate");
 
-  ModBase::populate(Control);
+  EssModBase::populate(Control);
+  
   bfType=Control.EvalDefVar<int>(keyName+"Type", 2);
   if ((bfType != 1)  && (bfType != 2))
     throw ColErr::RangeError<double>(bfType, 1, 2, "bfType");
@@ -191,21 +193,23 @@ ButterflyModerator::populate(const FuncDataBase& Control)
 }
 
 void
-ButterflyModerator::createUnitVector(const attachSystem::FixedComp& axisFC,
-				     const attachSystem::FixedComp* orgFC,
-				     const long int sideIndex)
+ButterflyModerator::createUnitVector(const attachSystem::FixedComp& orgFC,
+				     const long int orgIndex,
+                                     const attachSystem::FixedComp& axisFC,
+                                     const long int axisIndex)
   /*!
     Create the unit vectors. This one uses axis from ther first FC
     but the origin for the second. Futher shifting the origin on the
     Z axis to the centre.
     \param axisFC :: FixedComp to get axis [origin if orgFC == 0]
     \param orgFC :: Extra origin point if required
-    \param sideIndex :: link point for origin if given
+    \param orgIndex :: link point for origin if given
+    \param axisIndex :: link point for origin if given
   */
 {
   ELog::RegMethod RegA("ButterflyModerator","createUnitVector");
 
-  ModBase::createUnitVector(axisFC,orgFC,sideIndex);
+  EssModBase::createUnitVector(orgFC,orgIndex,axisFC,axisIndex);
   applyShift(0,0,totalHeight/2.0);
   
   return;
@@ -449,9 +453,10 @@ ButterflyModerator::getLeftRightWaterSideRule() const
   
 void
 ButterflyModerator::createAll(Simulation& System,
+			      const attachSystem::FixedComp& orgFC,
+                              const long int orgIndex,
 			      const attachSystem::FixedComp& axisFC,
-			      const attachSystem::FixedComp* orgFC,
-			      const long int sideIndex)
+			      const long int axisIndex)
   /*!
     Construct the butterfly components
     \param System :: Simulation 
@@ -463,7 +468,7 @@ ButterflyModerator::createAll(Simulation& System,
   ELog::RegMethod RegA("ButterflyModerator","createAll");
 
   populate(System.getDataBase());
-  createUnitVector(axisFC,orgFC,sideIndex);
+  createUnitVector(orgFC,orgIndex,axisFC,axisIndex);
   createSurfaces();
   
   LeftUnit->createAll(System,*this);
@@ -477,7 +482,6 @@ ButterflyModerator::createAll(Simulation& System,
 
   Origin=MidWater->getCentre();
   createExternal();  // makes intermediate 
-
 
   createObjects(System);
   createLinks();

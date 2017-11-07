@@ -440,7 +440,7 @@ setMaterialsDataBase(const inputParam& IParam)
   ELog::RegMethod RegA("MainProcess","setMaterialsDataBase");
 
   const std::string materials=IParam.getValue<std::string>("matDB");
-  
+
   // Add extra materials to the DBMaterials
   if (materials=="neutronics")
     ModelSupport::addESSMaterial();
@@ -460,6 +460,8 @@ setMaterialsDataBase(const inputParam& IParam)
   else
     throw ColErr::InContainerError<std::string>(materials,
 						"Materials Data Base type");
+
+  ELog::EM<<"END ASDFSDAF"<<ELog::endDiag;
 }
   
 void

@@ -67,11 +67,12 @@
 #include "stringCombine.h"
 #include "LinkUnit.h"
 #include "FixedComp.h"
+#include "FixedOffset.h"
 #include "ContainedComp.h"
 #include "LayerComp.h"
 #include "BaseMap.h"
 #include "CellMap.h"
-#include "ModBase.h"
+#include "EssModBase.h"
 #include "FixedOffset.h"
 #include "Box.h"
 #include "EdgeWater.h"
@@ -81,7 +82,7 @@ namespace essSystem
 {
 
 BoxModerator::BoxModerator(const std::string& Key) :
-  constructSystem::ModBase(Key,12),
+  EssModBase(Key,12),
   flyIndex(ModelSupport::objectRegister::Instance().cell(Key)),
   cellIndex(flyIndex+1),
   MidH2(new Box(Key+"MidH2")),
@@ -101,7 +102,7 @@ BoxModerator::BoxModerator(const std::string& Key) :
 }
 
 BoxModerator::BoxModerator(const BoxModerator& A) : 
-  constructSystem::ModBase(A),
+  EssModBase(A),
   flyIndex(A.flyIndex),cellIndex(A.cellIndex),
   MidH2(A.MidH2->clone()),
   LeftWater(A.LeftWater->clone()),
@@ -127,7 +128,7 @@ BoxModerator::operator=(const BoxModerator& A)
 {
   if (this!=&A)
     {
-      constructSystem::ModBase::operator=(A);
+      EssModBase::operator=(A);
       cellIndex= A.cellIndex;
       *MidH2= *A.MidH2;
       *LeftWater= *A.LeftWater;
@@ -167,7 +168,7 @@ BoxModerator::populate(const FuncDataBase& Control)
 {
   ELog::RegMethod RegA("BoxModerator","populate");
 
-  ModBase::populate(Control);
+  EssModBase::populate(Control);
 
   totalHeight=Control.EvalVar<double>(keyName+"TotalHeight");
   wallMat=ModelSupport::EvalMat<int>(Control,keyName+"WallMat");
@@ -178,9 +179,10 @@ BoxModerator::populate(const FuncDataBase& Control)
 }
 
 void
-BoxModerator::createUnitVector(const attachSystem::FixedComp& axisFC,
-				     const attachSystem::FixedComp* orgFC,
-				     const long int sideIndex)
+BoxModerator::createUnitVector(const attachSystem::FixedComp& orgFC,
+                                   const long int orgIndex,
+                                   const attachSystem::FixedComp& axisFC,
+                                   const long int axisIndex)
   /*!
     Create the unit vectors. This one uses axis from ther first FC
     but the origin for the second. Futher shifting the origin on the
@@ -192,7 +194,7 @@ BoxModerator::createUnitVector(const attachSystem::FixedComp& axisFC,
 {
   ELog::RegMethod RegA("BoxModerator","createUnitVector");
 
-  ModBase::createUnitVector(axisFC,orgFC,sideIndex);
+  EssModBase::createUnitVector(orgFC,orgIndex,axisFC,axisIndex);
   applyShift(0,0,totalHeight/2.0);
   
   return;
@@ -428,10 +430,11 @@ BoxModerator::getLeftRightWaterSideRule() const
   
 void
 BoxModerator::createAll(Simulation& System,
-			      const attachSystem::FixedComp& axisFC,
-			      const attachSystem::FixedComp* orgFC,
-			      const long int sideIndex)
-  /*!
+                        const attachSystem::FixedComp& orgFC,
+                        const long int orgIndex,
+                        const attachSystem::FixedComp& axisFC,
+                        const long int axisIndex)
+/*!
     Construct the butterfly components
     \param System :: Simulation 
     \param axisFC :: FixedComp to get axis [origin if orgFC == 0]
@@ -442,7 +445,7 @@ BoxModerator::createAll(Simulation& System,
   ELog::RegMethod RegA("BoxModerator","createAll");
 
   populate(System.getDataBase());
-  createUnitVector(axisFC,orgFC,sideIndex);
+  createUnitVector(orgFC,orgIndex,axisFC,axisIndex);
   createSurfaces();
   
   MidH2->createAll(System,*this,0);

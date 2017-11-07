@@ -68,8 +68,8 @@ EssButterflyModerator(FuncDataBase& Control)
   Control.addVariable("LowFlyXStep",0.0);  
   Control.addVariable("LowFlyYStep",0.0);  
   Control.addVariable("LowFlyZStep",0.0);
-  Control.addVariable("LowFlyXYangle",90.0);
-  Control.addVariable("LowFlyZangle",180.0);
+  Control.addVariable("LowFlyXYAngle",90.0);
+  Control.addVariable("LowFlyZAngle",180.0);
   Control.addVariable("LowFlyTotalHeight",8.1); // 7.6
   Control.addVariable("LowFlyWallMat","Aluminium");
   Control.addVariable("LowFlyWallDepth",0.0);
@@ -162,8 +162,8 @@ EssButterflyModerator(FuncDataBase& Control)
   Control.addVariable("TopFlyXStep",0.0);  
   Control.addVariable("TopFlyYStep",0.0);  
   Control.addVariable("TopFlyZStep",0.0);
-  Control.addVariable("TopFlyXYangle",90.0);
-  Control.addVariable("TopFlyZangle",0.0);
+  Control.addVariable("TopFlyXYAngle",90.0);
+  Control.addVariable("TopFlyZAngle",0.0);
   Control.addVariable("TopFlyTotalHeight",4.9);
   Control.addVariable("TopFlyWallMat","Aluminium");
   Control.addVariable("TopFlyWallDepth",0.0);
@@ -283,8 +283,8 @@ EssButterflyModerator(FuncDataBase& Control)
   Control.addVariable("TopCakeXStep",0.0);  
   Control.addVariable("TopCakeYStep",0.0);  
   Control.addVariable("TopCakeZStep",0.0);
-  Control.addVariable("TopCakeZangle",0.0);
-  Control.addVariable("TopCakeXYangle",90.0);
+  Control.addVariable("TopCakeZAngle",0.0);
+  Control.addVariable("TopCakeXYAngle",90.0);
   Control.addVariable("TopCakeWallMat","Aluminium");
   Control.addVariable("TopCakeWallDepth",0.0);
   Control.addVariable("TopCakeWallHeight",0.3);
@@ -354,8 +354,8 @@ EssButterflyModerator(FuncDataBase& Control)
   Control.addVariable("TopBoxXStep",0.0);
   Control.addVariable("TopBoxYStep",0.0);
   Control.addVariable("TopBoxZStep",0.0);
-  Control.addVariable("TopBoxZangle",0.0);
-  Control.addVariable("TopBoxXYangle",90.0);
+  Control.addVariable("TopBoxZAngle",0.0);
+  Control.addVariable("TopBoxXYAngle",90.0);
   Control.addVariable("TopBoxWallMat","Aluminium");
   Control.addVariable("TopBoxWallDepth",0.0);
   Control.addVariable("TopBoxWallHeight",0.3);
