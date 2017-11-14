@@ -928,27 +928,6 @@ Simulation::setMaterialDensity(const int cellNum)
   return 0;
 }
 
-Geometry::Transform*
-Simulation::createSourceTransform() 
-  /*!
-    Create an unused transform for the source 
-    term in the case of non-orthoganal rotation
-    \return Transform ptr [never zero]
-   */
-{
-  ELog::RegMethod RegA("Simulation","createSourceTransform");
-
-  int index(1);
-  while(TList.find(index)!=TList.end())
-    index++;
-  std::pair<TransTYPE::iterator,bool> TX=
-    TList.insert(TransTYPE::value_type(index,Geometry::Transform()));
-
-  TX.first->second.setName(index);
-  return &TX.first->second;          //*(TX.first)
-}
-
-
 void
 Simulation::processCellsImp()
   /*!
@@ -1135,27 +1114,6 @@ Simulation::populateCells(const std::vector<int>& cellVec)
 	}
     }
   return 0;
-}
-
-void
-Simulation::populateWCells()
-  /*!
-    Once Qhull objects are build the Weight
-    system can be populated with density/temp
-    info etc. This does not do Energy or Weight
-    trace.
-  */
-{
-  ELog::RegMethod RegA("Simulation","populateWCells");
-  WeightSystem::weightManager& WM=
-    WeightSystem::weightManager::Instance();
-  
-  // char:WForm
-  WeightSystem::weightManager::CtrlTYPE::iterator mc;
-  for(mc=WM.WMap.begin();mc!=WM.WMap.end();mc++)
-    mc->second->populateCells(OList);
-	
-  return;
 }
 
 int
@@ -1432,6 +1390,17 @@ Simulation::addTally(const tallySystem::Tally& TRef)
   tallySystem::Tally* TX=TRef.clone();
   TItem.insert(TallyTYPE::value_type(keyNum,TX));
   return 0;
+}
+
+void
+Simulation::setSourceName(const std::string& S)
+ /*!
+   Set the source name from the database
+   \param S :: Source name
+  */
+{
+  sourceName=S;
+  return;
 }
 
 void
@@ -1769,6 +1738,7 @@ Simulation::writeSource(std::ostream& OX) const
   OX<<"c -------------------------------------------------------"<<std::endl;
   OX<<"c --------------- SOURCE CARDS --------------------------"<<std::endl;
   OX<<"c -------------------------------------------------------"<<std::endl;
+
   if (!sourceName.empty())
     {
       SDef::SourceBase* SPtr=
