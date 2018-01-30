@@ -1,4 +1,5 @@
 # test of travis ci for comblayer
+dist: trusty
 language: cpp
 matrix:
    include:
