@@ -72,6 +72,7 @@
 #include "CopiedComp.h"
 #include "World.h"
 #include "AttachSupport.h"
+#include "ExternalCut.h"
 
 #include "insertObject.h"
 #include "insertPlate.h"
@@ -87,6 +88,7 @@
 #include "MonoVessel.h"
 #include "MonoCrystals.h"
 #include "GateValve.h"
+#include "PipeShield.h"
 #include "JawUnit.h"
 #include "JawValve.h"
 #include "FlangeMount.h"
@@ -144,7 +146,13 @@ OpticsBeamline::OpticsBeamline(const std::string& Key) :
   pipeF(new constructSystem::Bellows(newName+"BellowF")),
   shutterPipe(new constructSystem::CrossPipe(newName+"ShutterPipe")),
   pipeG(new constructSystem::Bellows(newName+"BellowG")),
-  gateE(new constructSystem::GateValve(newName+"GateE"))
+  gateE(new constructSystem::GateValve(newName+"GateE")),
+  neutShield({
+      std::make_shared<xraySystem::PipeShield>(newName+"NShield0"),
+	std::make_shared<xraySystem::PipeShield>(newName+"NShield1"),
+	std::make_shared<xraySystem::PipeShield>(newName+"NShield2"),
+	std::make_shared<xraySystem::PipeShield>(newName+"NShield3")
+	})
   /*!
     Constructor
     \param Key :: Name of construction key
@@ -158,6 +166,8 @@ OpticsBeamline::OpticsBeamline(const std::string& Key) :
   for(const auto& FM : filters)
     OR.addObject(FM);
   for(const auto& FM : viewMount)
+    OR.addObject(FM);
+  for(const auto& FM : neutShield)
     OR.addObject(FM);
   
   OR.addObject(pipeInit);
@@ -204,6 +214,7 @@ OpticsBeamline::populate(const FuncDataBase& Control)
     Populate the intial values [movement]
    */
 {
+  ELog::RegMethod RegA("OpticsBeamline","populate");
   FixedOffset::populate(Control);
   return;
 }
@@ -320,7 +331,6 @@ OpticsBeamline::buildObjects(Simulation& System)
   driftB->addInsertCell(ContainedComp::getInsertCells());
   driftB->registerSpaceCut(1,2);
   driftB->createAll(System,*driftA,2);
-
   
   attachSystem::CSGroup UnitA(monoV,monoBellowA,monoBellowB);
   UnitA.setPrimaryCell(ContainedComp::getMainCell());

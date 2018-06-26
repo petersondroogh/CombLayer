@@ -31,7 +31,7 @@ namespace constructSystem
     \version 1.0
     \author S. Ansell
     \date June 2015
-    \brief Variable detemine hole type
+    \brief Collimator for inside an object (between inner/outer)
   */
   
 class PipeCollimator : public attachSystem::ContainedSpace,
